@@ -1,15 +1,22 @@
+import animate from "tailwindcss-animate";
+
 /** @type {import('tailwindcss').Config} */
 const config = {
   content: [
-    "./pages/**/*.{ts,tsx}",
-    "./components/**/*.{ts,tsx}",
-    "./app/**/*.{ts,tsx}",
-    "./src/**/*.{ts,tsx}",
+    "./pages/**/*.{js,ts,jsx,tsx}",
+    "./components/**/*.{js,ts,jsx,tsx}",
+    "./app/**/*.{js,ts,jsx,tsx}",
+    "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        sans: ["var(--font-inter)"],
+        heading: ["var(--font-poppins)"],
+      },
+    },
   },
-  plugins: [],
+  plugins: [animate],
 };
 
 export default config;
