@@ -12,14 +12,13 @@ import Link from "next/link";
 
 const Dropdown = ({ title, menuChildren, path }) => {
   return (
-    // We add 'relative' here to ensure the viewport anchors to this menu
     <NavigationMenu className="relative z-50">
       <NavigationMenuList>
         <NavigationMenuItem>
           <NavigationMenuTrigger className="group bg-transparent hover:bg-transparent data-[state=open]:text-primary">
             <Link
               href={path}
-              className="px-2 py-1 font-bold text-base text-textColor tracking-wider transition-colors flex items-center gap-1"
+              className="px-2 py-1 uppercase font-extrabold text-[13px] text-textColor transition-colors flex items-center gap-1"
             >
               {title}
             </Link>
