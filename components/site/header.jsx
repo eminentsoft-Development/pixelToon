@@ -37,7 +37,7 @@ const Navbar = () => {
             isScrolled ? "shadow-xl" : ""
           }`}
         >
-          <div className="h-24 px-4 lg:px-20 flex items-center justify-between">
+          <div className="h-24 px-4 lg:px-24 flex items-center justify-between">
             
             <Link href="/" className="w-[220px] md:w-[250px]">
               <Image
