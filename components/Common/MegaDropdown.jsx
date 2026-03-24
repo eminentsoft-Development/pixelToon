@@ -8,10 +8,10 @@ import {
 } from "@/components/ui/navigation-menu";
 import Link from "next/link";
 
-export function MegaDropdown({ title, menuChildren }) {
+export function MegaDropdown({ title, menuChildren, isScrolled }) {
   return (
     <NavigationMenuItem>
-      <NavigationMenuTrigger className="px-2 py-1 uppercase font-extrabold tracking-wide text-[13px] text-textColor bg-transparent hover:bg-transparent hover:text-primary">
+      <NavigationMenuTrigger className={`px-2 py-1 uppercase font-extrabold tracking-wide text-[13px] ${isScrolled ? "text-black" : "text-white"} bg-transparent hover:bg-transparent hover:text-primary`}>
         {title}
       </NavigationMenuTrigger>
 

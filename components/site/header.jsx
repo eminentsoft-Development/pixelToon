@@ -3,7 +3,14 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Facebook, Instagram, Linkedin, MenuIcon, Twitter, X } from "lucide-react";
+import {
+  Facebook,
+  Instagram,
+  Linkedin,
+  MenuIcon,
+  Twitter,
+  X,
+} from "lucide-react";
 import { usePathname } from "next/navigation";
 
 import {
@@ -22,10 +29,15 @@ const Navbar = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
+      // Using 20px or 50px usually feels smoother for the user
+      if (window.scrollY > 20) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -33,12 +45,16 @@ const Navbar = () => {
     <>
       <div className="fixed top-0 left-0 w-full z-50">
         <header
-          className={`w-full bg-white transition-shadow duration-300 ${
-            isScrolled ? "shadow-xl" : ""
+          className={`w-full flex justify-center items-center bg-transparent transition-shadow duration-300 ${
+            isScrolled
+              ? "bg-white/60 backdrop-blur-md border border-white/20 shadow-lg transition-all duration-300 h-24"
+              : " h-28"
           }`}
         >
-          <div className="h-24 px-4 lg:px-24 flex items-center justify-between">
-            
+          <div
+            className={`flex mx-2 lg:mx-20  py-1 items-center justify-between w-full 
+                ${isScrolled ? "bg-transparent px-0" : "bg-white/40 backdrop-blur-md border px-4 md:px-10 border-white/20 rounded-full shadow-lg transition-all duration-300"}`}
+          >
             <Link href="/" className="w-[220px] md:w-[250px]">
               <Image
                 src="/logo.png"
@@ -49,24 +65,22 @@ const Navbar = () => {
                 className="w-48"
               />
             </Link>
-
             {/* DESKTOP MENU */}
-
             <nav className="hidden lg:flex">
               <NavigationMenu>
                 <NavigationMenuList className="flex items-center gap-3 font-normal text-textColor text-sm">
-
                   {NavbarmenuData.map((item) => {
-
                     if (item.subMenu) {
                       return item.subMenuType === "mega" ? (
                         <MegaDropdown
+                          isScrolled={isScrolled}
                           key={item.id}
                           title={item.title}
                           menuChildren={item.children}
                         />
                       ) : (
                         <Dropdown
+                          isScrolled={isScrolled}
                           key={item.id}
                           title={item.title}
                           path={item.path}
@@ -78,12 +92,14 @@ const Navbar = () => {
                     return (
                       <li
                         key={item.id}
-                        className="px-2 py-1 rounded-md hover:bg-gray-100 hover:text-primary transition-colors text-[13px] uppercase font-extrabold tracking-wide"
+                        className={`px-2 py-1 rounded-md ${isScrolled ? "text-black" : "text-white"} hover:bg-gray-100  hover:text-primary transition-colors text-[13px] uppercase font-extrabold tracking-wide `}
                       >
                         <Link
                           href={item.path}
                           className={
-                            currentPath === item.path ? "text-primary/80 border-b-2 pb-1 border-b-primary" : ""
+                            currentPath === item.path
+                              ? "text-primary border-b-2 pb-1 border-b-primary"
+                              : ""
                           }
                         >
                           {item.title}
@@ -91,13 +107,10 @@ const Navbar = () => {
                       </li>
                     );
                   })}
-
                 </NavigationMenuList>
               </NavigationMenu>
             </nav>
-
             {/* SOCIAL ICONS */}
-
             <ul className="hidden lg:flex items-center gap-5">
               <li>
                 <a
@@ -135,15 +148,12 @@ const Navbar = () => {
                 </a>
               </li>
             </ul>
-
             {/* MOBILE MENU BUTTON */}
-
             <div className="lg:hidden">
               <button onClick={() => setMobileMenuOpen((prev) => !prev)}>
                 {mobileMenuOpen ? <X size={34} /> : <MenuIcon size={34} />}
               </button>
             </div>
-
           </div>
 
           {/* MOBILE MENU */}
@@ -156,9 +166,7 @@ const Navbar = () => {
             }`}
           >
             <nav className="px-4 pt-3 pb-5">
-
               <ul className="flex flex-col gap-1 text-black font-semibold">
-
                 {NavbarmenuData.map((item) => (
                   <li
                     key={item.id}
@@ -173,18 +181,11 @@ const Navbar = () => {
                     </Link>
                   </li>
                 ))}
-
               </ul>
-
             </nav>
           </div>
-
         </header>
       </div>
-
-      {/* SPACE BELOW HEADER */}
-
-      <div className="h-[80px] lg:h-[80px] w-full" aria-hidden="true" />
     </>
   );
 };

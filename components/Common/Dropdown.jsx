@@ -10,15 +10,15 @@ import {
 } from "@/components/ui/navigation-menu";
 import Link from "next/link";
 
-const Dropdown = ({ title, menuChildren, path }) => {
+const Dropdown = ({ title, menuChildren, path, isScrolled }) => {
   return (
     <NavigationMenu className="relative z-50">
       <NavigationMenuList>
         <NavigationMenuItem>
-          <NavigationMenuTrigger className="group bg-transparent hover:bg-transparent data-[state=open]:text-primary">
+          <NavigationMenuTrigger className="group bg-transparent text-white hover:bg-transparent data-[state=open]:text-primary">
             <Link
               href={path}
-              className="px-2 py-1 uppercase font-extrabold text-[13px] text-textColor transition-colors flex items-center gap-1"
+              className={`px-2 py-1 uppercase font-extrabold text-[13px] ${isScrolled ? "text-black" : "text-white"} transition-colors flex items-center gap-1`}
             >
               {title}
             </Link>
@@ -33,7 +33,7 @@ const Dropdown = ({ title, menuChildren, path }) => {
                     href={item.path}
                     className="block select-none rounded-lg px-4 py-3 no-underline outline-none transition-colors hover:bg-primary/5 group"
                   >
-                    <div className="text-sm font-bold text-textColor group-hover:text-primary transition-colors">
+                    <div className={`text-sm font-bold group-hover:text-primary transition-colors`}>
                       {item.title}
                     </div>
                     {item.description && (
