@@ -1,8 +1,12 @@
 import AboutSection from "@/components/site/AboutSection";
 import CourseSection from "@/components/site/CourseSection";
+import GetInTouch from "@/components/site/GetInTouch";
 import HeroSection from "@/components/site/heroSection";
+import LatestNews from "@/components/site/LatestNews";
 import LevelUpSection from "@/components/site/LevelUpSection";
 import SuccessStories from "@/components/site/SuccessStories";
+import Testimonials from "@/components/site/Testimonials";
+import WhyJoinPixeltoonz from "@/components/site/Whyjoinpixeltoonz";
 import React from "react";
 
 const Home = () => {
@@ -10,9 +14,13 @@ const Home = () => {
     <>
       <HeroSection />
       <AboutSection />
-      <LevelUpSection />
       <CourseSection />
-      <SuccessStories />
+      <LevelUpSection />
+      <WhyJoinPixeltoonz />
+      <Testimonials />
+      {/* <SuccessStories /> */}
+      <LatestNews />
+      <GetInTouch />
     </>
   );
 };

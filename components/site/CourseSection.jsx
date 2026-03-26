@@ -38,7 +38,7 @@ const courses = [
 
 const CourseSection = () => {
   return (
-    <section className="py-24 bg-[#fcfcfc]">
+    <section className="py-24 bg-[#fff0e7]">
       <div className="px-4 lg:px-28 mx-auto">
         
         {/* Header */}
