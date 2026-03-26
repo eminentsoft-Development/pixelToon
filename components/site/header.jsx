@@ -68,7 +68,7 @@ const Navbar = () => {
             {/* DESKTOP MENU */}
             <nav className="hidden lg:flex">
               <NavigationMenu>
-                <NavigationMenuList className="flex items-center gap-3 font-normal text-textColor text-sm">
+                <NavigationMenuList className="flex items-center gap-3 font-normal text-sm">
                   {NavbarmenuData.map((item) => {
                     if (item.subMenu) {
                       return item.subMenuType === "mega" ? (
@@ -76,6 +76,7 @@ const Navbar = () => {
                           isScrolled={isScrolled}
                           key={item.id}
                           title={item.title}
+                          path={item.path}
                           menuChildren={item.children}
                         />
                       ) : (

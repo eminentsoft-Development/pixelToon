@@ -1,0 +1,71 @@
+"use client";
+
+import React from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { ChevronRight, Home, LayoutGrid } from "lucide-react";
+import { motion } from "framer-motion";
+
+const Breadcrumbs = () => {
+  const pathname = usePathname();
+  
+  // Convert URL path (/courses/animation/2d) into an array: ["courses", "animation", "2d"]
+  const pathElements = pathname.split("/").filter((path) => path !== "");
+
+  return (
+    <div className="h-96 w-full bg-gradient-to-br from-[#F09410] to-[#BC430D] relative overflow-hidden">
+      
+      {/* Abstract Background Decoration */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+        <div className="absolute -top-24 -left-24 w-96 h-96 bg-white/10 rounded-full blur-3xl" />
+        <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-black/10 rounded-full blur-3xl" />
+      </div>
+
+      <div className="relative flex flex-col items-center justify-center pt-20 h-full z-10 text-center px-4">
+        {/* Dynamic Page Title */}
+        <motion.h1 
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-4xl md:text-6xl max-w-5xl font-black text-white mb-6 capitalize tracking-tight"
+        >
+          {pathElements.length > 0 
+            ? pathElements[pathElements.length - 1].replace(/-/g, " ") 
+            : "Welcome"}
+        </motion.h1>
+
+        {/* Glassmorphism Breadcrumb Container */}
+        <nav className="flex items-center justify-center space-x-2 bg-white/10 backdrop-blur-md border border-white/20 px-6 py-3 rounded-2xl shadow-xl">
+          <Link href="/" className="text-white/80 hover:text-white transition-colors flex items-center gap-2 text-sm font-medium">
+            <Home size={16} />
+            <span className="hidden sm:inline">Home</span>
+          </Link>
+
+          {pathElements.map((path, index) => {
+            const href = `/${pathElements.slice(0, index + 1).join("/")}`;
+            const isLast = index === pathElements.length - 1;
+
+            return (
+              <React.Fragment key={path}>
+                <ChevronRight size={14} className="text-white/40" />
+                {isLast ? (
+                  <span className="text-white font-bold text-sm capitalize">
+                    {path.replace(/-/g, " ")}
+                  </span>
+                ) : (
+                  <Link 
+                    href={href} 
+                    className="text-white/70 hover:text-white transition-colors text-sm capitalize font-medium"
+                  >
+                    {path.replace(/-/g, " ")}
+                  </Link>
+                )}
+              </React.Fragment>
+            );
+          })}
+        </nav>
+      </div>
+    </div>
+  );
+};
+
+export default Breadcrumbs;

@@ -10,6 +10,13 @@ const config = {
   ],
   theme: {
     extend: {
+      container: {
+        center: true,
+        padding: {
+          DEFAULT: "1rem", 
+          lg: "4rem", 
+        },
+      },
       colors: {
         primary: {
           DEFAULT: "#f07822",

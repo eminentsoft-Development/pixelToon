@@ -8,6 +8,11 @@ const nextConfig = {
       },
       {
         protocol: "https",
+        hostname: "www.stedcouncil.com",
+        pathname: "/**", 
+      },
+      {
+        protocol: "https",
         hostname: "i.pravatar.cc",
       },
     ],

@@ -9,7 +9,7 @@ export const NavbarmenuData = [
   {
     id: 2,
     title: "About",
-    path: "/about",
+    path: "/about-us",
     newTab: false,
     subMenu: false,
   },
@@ -91,7 +91,7 @@ export const NavbarmenuData = [
   {
     id: 4,
     title: "Gallery",
-    path: "",
+    path: "/gallery",
     newTab: false,
     subMenu: true,
     subMenuType: "normal",
@@ -124,7 +124,7 @@ export const NavbarmenuData = [
   {
     id: 6,
     title: "Contact",
-    path: "/contact",
+    path: "/contact-us",
     newTab: false,
     subMenu: false,
   },

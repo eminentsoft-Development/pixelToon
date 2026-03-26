@@ -9,16 +9,25 @@ import {
   NavigationMenuViewport,
 } from "@/components/ui/navigation-menu";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const Dropdown = ({ title, menuChildren, path, isScrolled }) => {
+  const currentPath = usePathname();
+    const isActive = currentPath === path;
+  
   return (
     <NavigationMenu className="relative z-50">
       <NavigationMenuList>
         <NavigationMenuItem>
-          <NavigationMenuTrigger className="group bg-transparent text-white hover:bg-transparent data-[state=open]:text-primary">
+          <NavigationMenuTrigger
+            className={`hover:bg-gray-100 h-fit uppercase font-extrabold tracking-wide text-[13px] ${isScrolled ? "text-black" : "text-white"} hover:text-primary`}
+          >
             <Link
-              href={path}
-              className={`px-2 py-1 uppercase font-extrabold text-[13px] ${isScrolled ? "text-black" : "text-white"} transition-colors flex items-center gap-1`}
+              href={path || ""}
+              className={` uppercase font-extrabold text-[13px] transition-colors flex items-center gap-1
+          ${isActive ? "text-primary" : isScrolled ? "text-black" : "text-white"}
+        hover:text-primary
+        `}
             >
               {title}
             </Link>
@@ -33,7 +42,7 @@ const Dropdown = ({ title, menuChildren, path, isScrolled }) => {
                     href={item.path}
                     className="block select-none rounded-lg px-4 py-3 no-underline outline-none transition-colors hover:bg-primary/5 group"
                   >
-                    <div className={`text-sm font-bold group-hover:text-primary transition-colors`}>
+                    <div className={`text-sm font-bold transition-colors`}>
                       {item.title}
                     </div>
                     {item.description && (
@@ -51,7 +60,19 @@ const Dropdown = ({ title, menuChildren, path, isScrolled }) => {
 
       {/* CRITICAL: The Viewport is what actually renders the dropdown 'box' */}
       <div className="absolute left-0 top-full flex justify-center">
-        <NavigationMenuViewport className="origin-top-center relative mt-1.5 h-[var(--radix-navigation-menu-viewport-height)] w-full overflow-hidden rounded-xl border bg-white shadow-lg data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-90 md:w-[var(--radix-navigation-menu-viewport-width)]" />
+        <NavigationMenuViewport
+          className="
+            origin-top-center relative mt-1.5
+            h-[var(--radix-navigation-menu-viewport-height)]
+            w-full overflow-hidden rounded-xl
+            bg-white shadow-lg
+            border-0 ring-0
+            data-[state=open]:animate-in
+            data-[state=closed]:animate-out
+            data-[state=closed]:zoom-out-95
+            data-[state=open]:zoom-in-90
+            md:w-[var(--radix-navigation-menu-viewport-width)]"
+        />
       </div>
     </NavigationMenu>
   );
