@@ -1,6 +1,6 @@
 "use client";
 
-import { LayoutDashboard, Package, LogOut, X, Layers } from "lucide-react";
+import { LayoutDashboard, Image as ImageIcon, Package, LogOut, X, Layers, FileText } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
@@ -12,6 +12,9 @@ const navItems = [
   { name: "Dashboard", icon: LayoutDashboard, href: "/admin" },
   { name: "Courses", icon: Package, href: "/admin/courses" },
   { name: "Category", icon: Layers, href: "/admin/category" },
+    { name: "Blogs", icon: FileText, href: "/admin/blogs" },
+  { name: "Gallery", icon: ImageIcon, href: "/admin/gallery" },
+
 ];
 
 export default function Sidebar({ isOpen, toggle }) {

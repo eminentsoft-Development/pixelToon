@@ -3,15 +3,11 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  Clock,
-  Users,
-  ArrowRight,
   ChevronLeft,
   ChevronRight,
-  PlayCircle,
 } from "lucide-react";
-import Image from "next/image";
 import Breadcrumbs from "@/components/site/Breadcrumbs";
+import CourseCard from "@/components/site/CourseCard";
 
 // Mock Data - In a real project, this would come from your WordPress API or a database
 const ALL_COURSES = [
@@ -19,8 +15,9 @@ const ALL_COURSES = [
     id: 1,
     title: "Diploma in Film Editing",
     category: "Film",
-    duration: "6 Months",
-    level: "Professional",
+    description:
+      "Master industry-standard tools like Premiere Pro and DaVinci Resolve.",
+
     image:
       "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?q=80&w=800",
   },
@@ -29,7 +26,8 @@ const ALL_COURSES = [
     title: "Graphic Design Masterclass",
     category: "Design",
     duration: "4 Months",
-    level: "Beginner",
+    description:
+      "Master industry-standard tools like Premiere Pro and DaVinci Resolve.",
     image:
       "https://images.unsplash.com/photo-1626785774573-4b799315345d?q=80&w=800",
   },
@@ -37,8 +35,9 @@ const ALL_COURSES = [
     id: 3,
     title: "VFX & 3D Animation",
     category: "Animation",
-    duration: "12 Months",
-    level: "Advanced",
+    description:
+      "Master industry-standard tools like Premiere Pro and DaVinci Resolve.",
+
     image:
       "https://images.unsplash.com/photo-1616469829581-73993eb86b02?q=80&w=800",
   },
@@ -46,8 +45,9 @@ const ALL_COURSES = [
     id: 4,
     title: "Digital Photography",
     category: "Media",
-    duration: "3 Months",
-    level: "Professional",
+    description:
+      "Master industry-standard tools like Premiere Pro and DaVinci Resolve.",
+
     image:
       "https://images.unsplash.com/photo-1542038784456-1ea8e935640e?q=80&w=800",
   },
@@ -55,8 +55,12 @@ const ALL_COURSES = [
     id: 5,
     title: "UI/UX Design Studio",
     category: "Design",
-    duration: "4 Months",
-    level: "Advanced",
+    description:
+      "Master industry-standard tools like Premiere Pro and DaVinci Resolve.",
+
+    description:
+      "Master industry-standard tools like Premiere Pro and DaVinci Resolve.",
+
     image:
       "https://images.unsplash.com/photo-1586717791821-3f44a563eb4c?q=80&w=800",
   },
@@ -64,8 +68,9 @@ const ALL_COURSES = [
     id: 6,
     title: "Cinematography Basics",
     category: "Film",
-    duration: "6 Months",
-    level: "Beginner",
+    description:
+      "Master industry-standard tools like Premiere Pro and DaVinci Resolve.",
+
     image:
       "https://images.unsplash.com/photo-1485846234645-a62644f84728?q=80&w=800",
   },
@@ -73,8 +78,9 @@ const ALL_COURSES = [
     id: 7,
     title: "Web Technologies",
     category: "Design",
-    duration: "5 Months",
-    level: "Professional",
+    description:
+      "Master industry-standard tools like Premiere Pro and DaVinci Resolve.",
+
     image:
       "https://images.unsplash.com/photo-1547658719-da2b51169166?q=80&w=800",
   },
@@ -82,8 +88,8 @@ const ALL_COURSES = [
     id: 8,
     title: "Interior Visualization",
     category: "Animation",
-    duration: "6 Months",
-    level: "Professional",
+    description:
+      "Master industry-standard tools like Premiere Pro and DaVinci Resolve.",
     image:
       "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?q=80&w=800",
   },
@@ -149,63 +155,11 @@ const CourseListing = () => {
         {/* Courses Grid */}
         <motion.div
           layout
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
         >
           <AnimatePresence mode="popLayout">
-            {displayedCourses.map((course) => (
-              <motion.div
-                key={course.id}
-                layout
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                whileHover={{ y: -10 }}
-                className="group relative bg-white rounded-[2.5rem] overflow-hidden shadow-xl border border-slate-100 h-[450px]"
-              >
-                {/* Course Image & Overlay */}
-                <div className="h-2/3 relative overflow-hidden">
-                  <div className="relative w-full h-full">
-                    <Image
-                      src={course.image}
-                      alt={course.title}
-                      fill
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      className="object-cover transition-transform duration-700 group-hover:scale-110"
-                    />
-                  </div>
-                  <div className="absolute top-6 left-6 flex gap-2">
-                    <span className="px-4 py-1.5 bg-white/90 backdrop-blur-md rounded-full text-[10px] font-black uppercase tracking-widest shadow-sm">
-                      {course.category}
-                    </span>
-                  </div>
-                  {/* Play Button Icon on Hover */}
-                  <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                    <PlayCircle className="text-white w-16 h-16" />
-                  </div>
-                </div>
-
-                {/* Content Section */}
-                <div className="p-8 relative">
-                  <div className="flex items-center gap-4 text-slate-400 text-[10px] font-bold uppercase tracking-widest mb-3">
-                    <div className="flex items-center gap-1">
-                      <Clock size={12} /> {course.duration}
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <Users size={12} /> Max 12 Seats
-                    </div>
-                  </div>
-                  <h3 className="text-xl font-black text-slate-900 leading-tight mb-4 group-hover:text-[#BC430D] transition-colors">
-                    {course.title}
-                  </h3>
-
-                  {/* Action Button (Slides in on hover) */}
-                  <div className="absolute bottom-8 right-8 overflow-hidden">
-                    <motion.button className="flex items-center gap-2 text-[#BC430D] font-black text-sm uppercase tracking-tighter">
-                      View Details <ArrowRight size={16} />
-                    </motion.button>
-                  </div>
-                </div>
-              </motion.div>
+            {displayedCourses.map((course, index) => (
+               <CourseCard key={index} {...course} index={index} />
             ))}
           </AnimatePresence>
         </motion.div>

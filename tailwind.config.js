@@ -23,6 +23,9 @@ const config = {
           light: "#f39a5d",
           dark: "#c85f1b",
         },
+        textColor: {
+          DEFAULT: "#131313",
+        },
       },
       fontFamily: {
         sans: ["var(--font-inter)"],

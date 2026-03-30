@@ -1,233 +1,211 @@
 "use client";
 
-import React from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { motion } from "framer-motion";
-import { CheckCircle2, Clock, Users, Award, BookOpen, Send } from "lucide-react";
+import { useState } from "react";
+import { EnquiryForm } from "./EnquiryForm";
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+const faqs = [
+  { q: "Who is this course designed for?", a: "This course is crafted for beginners, career-switchers, and professionals looking to deepen their expertise. No prior experience is required — just curiosity and commitment." },
+  { q: "How long do I have access to the course materials?", a: "Lifetime access. Once enrolled, all content — including future updates — is yours forever." },
+  { q: "Is there a certificate upon completion?", a: "Yes! You'll receive an industry-recognized certificate of completion that you can share on LinkedIn and your portfolio." },
+  { q: "What if I'm not satisfied with the course?", a: "We offer a 30-day money-back guarantee, no questions asked. Your satisfaction is our priority." },
+  { q: "Are there live sessions or is it fully self-paced?", a: "The course is fully self-paced with recorded sessions, but we host monthly live Q&A webinars for all enrolled students." },
+];
 
+const benefits = [
+  { icon: "◈", title: "Expert Instructors", desc: "Learn from practitioners with 10+ years of real-world experience." },
+  { icon: "◉", title: "Hands-On Projects", desc: "Build 6 portfolio-ready projects from day one." },
+  { icon: "◐", title: "Community Access", desc: "Join 12,000+ learners in our private Discord community." },
+  { icon: "◑", title: "Career Support", desc: "Resume reviews, mock interviews & job placement assistance." },
+];
 
+const whyItems = [
+  { title: "Curriculum Designed by CTOs", desc: "Syllabus co-created with engineering leaders from top-tier tech companies." },
+  { title: "Real Codebase, Not Toys", desc: "You work inside a production codebase — PRs, reviews, CI/CD and all." },
+  { title: "Outcome-First Approach", desc: "Every lesson maps to a skill that hiring managers actively look for." },
+  { title: "Ongoing Updates", desc: "Content refreshes every quarter to stay current with the industry." },
+];
 
-const CourseDetailsPage = ({ course }) => {
-  const form = useForm({
-    resolver: zodResolver(enquireSchema),
-    defaultValues: {
-      fullName: "",
-      email: "",
-      phone: "",
-      course: course.title,
-      message: "",
-    },
-  });
+const acquireItems = [
+  "Master core concepts from fundamentals to advanced patterns",
+  "Build production-ready applications with modern tooling",
+  "Understand industry best practices and scalable architecture",
+  "Deploy, monitor, and optimize real-world systems",
+  "Collaborate effectively in professional team environments",
+  "Craft a compelling portfolio that stands out to recruiters",
+];
 
-  const onSubmit = (data) => {
-    console.log("Enquiry Sent:", data);
-    // Add your API call here (e.g., to WordPress or Formspree)
-    alert("Enquiry submitted successfully!");
-  };
+export default function CourseOverview() {
+  const [openFaq, setOpenFaq] = useState(null);
 
   return (
-    <div className="bg-white min-h-screen">
-      {/* Cinematic Hero Header */}
-      <section className="relative h-[50vh] bg-slate-900 overflow-hidden">
-        <img 
-          src={course.image} 
-          className="w-full h-full object-cover opacity-50 transition-transform duration-1000 hover:scale-105" 
-          alt={course.title}
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-black/20" />
-        <div className="absolute bottom-12 left-0 w-full px-6">
-          <div className="max-w-7xl mx-auto">
-            <motion.h1 
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              className="text-4xl md:text-6xl font-black text-slate-900 tracking-tighter uppercase"
-            >
-              {course.title}
-            </motion.h1>
-          </div>
-        </div>
-      </section>
+    <div
+      className="min-h-screen text-black"
+      style={{ fontFamily: "'DM Serif Display', Georgia, serif" }}
+    >
 
-      <div className="max-w-7xl mx-auto px-6 py-16">
-        <div className="grid lg:grid-cols-3 gap-16">
-          
-          {/* LEFT CONTENT: Course Information */}
-          <div className="lg:col-span-2 space-y-12">
-            
-            {/* Quick Stats Grid */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {[
-                { label: "Duration", value: course.duration, icon: <Clock size={18}/> },
-                { label: "Batch Cap", value: course.batchSize, icon: <Users size={18}/> },
-                { label: "Format", value: "Production Oriented", icon: <BookOpen size={18}/> },
-                { label: "Accreditation", value: course.certification, icon: <Award size={18}/> },
-              ].map((stat, idx) => (
-                <div key={idx} className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                  <div className="text-[#BC430D] mb-2">{stat.icon}</div>
-                  <p className="text-[10px] uppercase font-bold text-slate-400 tracking-widest">{stat.label}</p>
-                  <p className="font-black text-sm text-slate-900">{stat.value}</p>
-                </div>
-              ))}
-            </div>
+      <div className="container mx-auto py-10">
+        <div className="page-layout">
 
-            {/* About Section */}
-            <div>
-              <h2 className="text-3xl font-black mb-6 uppercase">Course Overview</h2>
-              <p className="text-slate-600 leading-relaxed text-lg">
-                {course.description}
+          {/* ── MAIN COLUMN ── */}
+          <main className="main-col">
+
+            {/* HERO */}
+            <section className="relative pt-16 pb-12 border-b border-[#2a2a35] mb-16">
+              <p className="font-sans-dm text-[11px] font-semibold tracking-[3px] uppercase text-primary mb-5 flex items-center gap-3">
+                <span className="block w-8 h-px bg-primary" />
+                Professional Development
               </p>
-            </div>
+              <h1 className="text-[clamp(2.4rem,5vw,4rem)] italic leading-[1.1] text-[#131313] mb-6 tracking-tight">
+                Master the Art of<br />
+                <span className="text-primary not-italic">Full-Stack Engineering</span>
+              </h1>
+              <p className="font-sans-dm text-[1.05rem] leading-[1.8] text-textColor max-w-[600px] font-light">
+                A rigorous, career-defining program built for those who refuse to settle for ordinary.
+                From foundations to production — learn the way professionals actually build.
+              </p>
+              
+            </section>
 
-            {/* Syllabus Section */}
-            <div>
-              <h2 className="text-3xl font-black mb-8 uppercase">What you will learn</h2>
-              <div className="grid md:grid-cols-2 gap-4">
-                {course.syllabus.map((item, idx) => (
-                  <motion.div 
-                    whileHover={{ x: 5 }}
-                    key={idx} 
-                    className="flex items-center gap-3 p-4 bg-white border border-slate-100 rounded-2xl shadow-sm hover:shadow-md transition-shadow"
-                  >
-                    <CheckCircle2 className="text-[#F09410]" size={20} />
-                    <span className="font-bold text-slate-700">{item}</span>
-                  </motion.div>
+            {/* IMAGES */}
+            <section className="mb-[72px]">
+              <div className="grid grid-cols-[2fr_1fr] grid-rows-[220px_180px] gap-3">
+                <div className="row-span-2 rounded-sm overflow-hidden relative">
+                  <div className="w-full h-full flex items-center justify-center font-sans-dm text-[0.75rem] tracking-[2px] uppercase text-[#8a8578] border border-[#2a2a35] rounded-sm relative overflow-hidden" style={{ background: "linear-gradient(135deg,#13131a 0%,#1e1e2a 100%)" }}>
+                    <div className="absolute inset-0" style={{ background: "linear-gradient(to top,rgba(10,10,15,.6) 0%,transparent 60%)" }} />
+                    <span className="relative z-10">Course Preview</span>
+                    <span className="absolute bottom-4 left-4 font-sans-dm text-[0.7rem] tracking-[2px] uppercase text-[#c9a84c] z-20">Live Sessions</span>
+                  </div>
+                </div>
+                {[{ label: "Workspace", tag: "Projects" }, { label: "Community", tag: "Mentorship" }].map(({ label, tag }) => (
+                  <div key={label} className="rounded-sm overflow-hidden relative">
+                    <div className="w-full h-full flex items-center justify-center font-sans-dm text-[0.75rem] tracking-[2px] uppercase text-[#8a8578] border border-[#2a2a35] rounded-sm relative overflow-hidden" style={{ background: "linear-gradient(135deg,#13131a 0%,#1e1e2a 100%)" }}>
+                      <div className="absolute inset-0" style={{ background: "linear-gradient(to top,rgba(10,10,15,.6) 0%,transparent 60%)" }} />
+                      <span className="relative z-10">{label}</span>
+                      <span className="absolute bottom-4 left-4 font-sans-dm text-[0.7rem] tracking-[2px] uppercase text-[#c9a84c] z-20">{tag}</span>
+                    </div>
+                  </div>
                 ))}
               </div>
-            </div>
-          </div>
+            </section>
 
-          {/* RIGHT CONTENT: Sticky Enquire Form */}
-          <div className="relative">
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="sticky top-24 bg-white rounded-[2.5rem] p-8 shadow-[0_20px_50px_rgba(0,0,0,0.1)] border border-slate-100"
-            >
-              <h3 className="text-2xl font-black mb-2 uppercase italic text-[#BC430D]">Enquire Now</h3>
-              <p className="text-slate-400 text-xs font-bold uppercase tracking-widest mb-8">Limited Seats: Only 12 per batch</p>
-              
-              <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                  
-                  <FormField
-                    control={form.control}
-                    name="fullName"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="font-bold text-xs uppercase tracking-widest">Full Name</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Enter your name" className="rounded-xl bg-slate-50" {...field} />
-                        </FormControl>
-                        <FormMessage className="text-[10px]" />
-                      </FormItem>
-                    )}
-                  />
+            {/* DESCRIPTION */}
+            <section className="mb-[72px]">
+              <p className="font-sans-dm text-[10px] tracking-[4px] uppercase text-primary mb-3.5">About the Course</p>
+              <h2 className="text-[2rem] italic text-textColor mb-4 leading-[1.2]">Built different, by design</h2>
+              <p className="font-sans-dm text-[1rem] leading-[1.9] text-textColor font-light">
+                This isn&apos;t a surface-level tutorial. Every module is engineered around how software is
+                actually written in professional environments — with code reviews, architectural decisions,
+                and the hard tradeoffs that define great engineers.
+              </p>
+              <blockquote className="border-l-2 border-[#c9a84c] pl-7 py-5 my-5 bg-[rgba(201,168,76,0.04)]">
+                <p className="font-sans-dm text-[1.15rem] text-textColor font-extrabold italic">
+                  &quot;The gap between knowing and doing is where most courses fail. This one bridges it.&quot;
+                </p>
+              </blockquote>
+              <p className="font-sans-dm text-[1rem] leading-[1.9] text-textColor font-light mb-5">
+                Over 48 structured hours, you&apos;ll move from foundational concepts to deploying a full-scale
+                application — understanding not just the &apos;how&apos;, but the &apos;why&apos; behind every choice.
+              </p>
+              <div className="w-12 h-px bg-[#c9a84c] opacity-40 mt-8" />
+            </section>
 
-                  <div className="grid grid-cols-1 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="email"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="font-bold text-xs uppercase tracking-widest">Email</FormLabel>
-                          <FormControl>
-                            <Input placeholder="you@example.com" className="rounded-xl bg-slate-50" {...field} />
-                          </FormControl>
-                          <FormMessage className="text-[10px]" />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="phone"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="font-bold text-xs uppercase tracking-widest">Phone</FormLabel>
-                          <FormControl>
-                            <Input placeholder="+91" className="rounded-xl bg-slate-50" {...field} />
-                          </FormControl>
-                          <FormMessage className="text-[10px]" />
-                        </FormItem>
-                      )}
-                    />
+            {/* WHY THIS COURSE */}
+            <section className="mb-[72px] p-12 bg-[#13131a] border border-[#2a2a35] rounded-sm relative">
+              <span className="absolute right-8 -top-5 text-[200px] text-[#c9a84c] opacity-[0.04] italic leading-none pointer-events-none select-none" aria-hidden="true">&ldquo;</span>
+              <p className="font-sans-dm text-[10px] tracking-[4px] uppercase text-primary mb-3.5">Why This Course</p>
+              <h2 className="text-[2rem] italic text-[#f0ede6] mb-9 leading-[1.2]">Four reasons this changes everything</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-7">
+                {whyItems.map((item, i) => (
+                  <div key={i} className="flex gap-4 items-start">
+                    <div className="text-[2rem] italic text-primary opacity-40 leading-none shrink-0 w-8">0{i + 1}</div>
+                    <div>
+                      <h4 className="font-sans-dm text-[0.9rem] font-semibold text-[#f0ede6] mb-1.5">{item.title}</h4>
+                      <p className="font-sans-dm text-[0.83rem] leading-[1.7] text-[#8a8578] font-light">{item.desc}</p>
+                    </div>
                   </div>
+                ))}
+              </div>
+            </section>
 
-                  <FormField
-                    control={form.control}
-                    name="course"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="font-bold text-xs uppercase tracking-widest">Selected Program</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
-                          <FormControl>
-                            <SelectTrigger className="rounded-xl bg-slate-50">
-                              <SelectValue placeholder="Select a course" />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent className="rounded-xl">
-                            <SelectItem value="Film Editing">Film Editing</SelectItem>
-                            <SelectItem value="VFX & 3D">VFX & 3D Animation</SelectItem>
-                            <SelectItem value="Graphic Design">Graphic Design</SelectItem>
-                            <SelectItem value="Photography">Photography</SelectItem>
-                          </SelectContent>
-                        </Select>
-                        <FormMessage className="text-[10px]" />
-                      </FormItem>
-                    )}
-                  />
+            {/* ACQUIRE */}
+            <section className="mb-[72px]">
+              <p className="font-sans-dm text-[10px] tracking-[4px] uppercase text-primary mb-3.5">What You&apos;ll Gain</p>
+              <h2 className="text-[2rem] italic text-textColor mb-8 leading-[1.2]">Skills you&apos;ll take into the world</h2>
+              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4 list-none">
+                {acquireItems.map((item, i) => (
+                  <li key={i} className="flex gap-3 items-start font-sans-dm text-[0.88rem] leading-[1.6] text-textColor font-light p-4 border border-primary/50 rounded-sm transition-all duration-200 hover:border-[#c9a84c] hover:bg-[rgba(201,168,76,0.03)] hover:text-[#f0ede6] cursor-default">
+                    <span className="text-primary text-[0.9rem] shrink-0 mt-px">◆</span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </section>
 
-                  <FormField
-                    control={form.control}
-                    name="message"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="font-bold text-xs uppercase tracking-widest">Message (Optional)</FormLabel>
-                        <FormControl>
-                          <Textarea 
-                            placeholder="Tell us about your creative goals" 
-                            className="rounded-xl bg-slate-50 resize-none min-h-[100px]" 
-                            {...field} 
-                          />
-                        </FormControl>
-                        <FormMessage className="text-[10px]" />
-                      </FormItem>
-                    )}
-                  />
+            {/* BENEFITS */}
+            <section className="mb-[72px]">
+              <p className="font-sans-dm text-[10px] tracking-[4px] uppercase text-primary mb-3.5">Benefits</p>
+              <h2 className="text-[2rem] italic text-textColor mb-8 leading-[1.2]">Everything you get, day one</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                {benefits.map((b, i) => (
+                  <div key={i} className="p-8 bg-[#13131a] border border-[#2a2a35] rounded-sm transition-all duration-[250ms] hover:border-[#c9a84c] hover:-translate-y-1 cursor-default">
+                    <div className="text-[1.6rem] text-primary mb-4">{b.icon}</div>
+                    <h4 className="font-sans-dm text-[0.95rem] font-semibold text-[#f0ede6] mb-2">{b.title}</h4>
+                    <p className="font-sans-dm text-[0.83rem] leading-[1.7] text-[#8a8578] font-light">{b.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </section>
 
-                  <Button 
-                    type="submit" 
-                    className="w-full bg-[#BC430D] hover:bg-[#F09410] text-white font-black py-6 rounded-2xl shadow-lg transition-all transform active:scale-95 flex gap-2"
+            {/* CTA */}
+            <section
+              className="mb-[72px] py-16 px-12 border border-[rgba(201,168,76,0.2)] rounded-sm text-center relative"
+              style={{ background: "linear-gradient(135deg,#1a1508 0%,#0d1520 100%)" }}
+            >
+              <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-[300px] h-[300px] pointer-events-none" style={{ background: "radial-gradient(circle,rgba(201,168,76,.08) 0%,transparent 70%)" }} />
+              <h2 className="text-[2.2rem] text-primary italic mb-4 relative">Your future self starts here</h2>
+              <p className="font-sans-dm text-[#8a8578] text-[0.95rem] mb-9 font-light relative">
+                Enrolment closes on April 15th. Secure your seat before it&apos;s gone.
+              </p>
+              <div className="flex gap-4 justify-center flex-wrap relative">
+                <button className="px-12 py-3.5 bg-primary text-[#0a0a0f] font-sans-dm font-semibold text-[0.85rem] tracking-[1.5px] uppercase rounded-[2px] border-0 cursor-pointer transition-all duration-200 hover:bg-[#e8c97a] hover:-translate-y-0.5">Enrol Now</button>
+                {/* <button className="px-9 py-3.5 bg-transparent text-[#f0ede6] font-sans-dm font-medium text-[0.85rem] tracking-[1.5px] uppercase border border-primary rounded-[2px] cursor-pointer transition-all duration-200 hover:border-[#c9a84c] hover:text-[#c9a84c]">Download Syllabus</button> */}
+              </div>
+            </section>
+
+            {/* FAQ */}
+            <section className="mb-[72px]">
+              <p className="font-sans-dm text-[10px] tracking-[4px] uppercase text-primary mb-3.5">Frequently Asked</p>
+              <h2 className="text-[2rem] italic text-textColor mb-8 leading-[1.2]">Questions, answered</h2>
+              {faqs.map((faq, i) => (
+                <div key={i} className="border-b border-[#2a2a35]">
+                  <button
+                    className="w-full text-left py-6 bg-transparent border-0 cursor-pointer flex items-center justify-between gap-4 font-sans-dm text-[0.95rem] font-medium text-textColor transition-colors duration-200 hover:text-primary"
+                    onClick={() => setOpenFaq(openFaq === i ? null : i)}
                   >
-                    SEND ENQUIRY <Send size={18} />
-                  </Button>
-                </form>
-              </Form>
-            </motion.div>
-          </div>
+                    {faq.q}
+                    <span className={`faq-indicator text-primary text-[1.2rem] shrink-0 italic${openFaq === i ? " open" : ""}`}>+</span>
+                  </button>
+                  <div className={`faq-body${openFaq === i ? " open" : ""}`}>
+                    <p className="font-sans-dm text-[0.88rem] leading-[1.8] text-[#8a8578] font-light">{faq.a}</p>
+                  </div>
+                </div>
+              ))}
+            </section>
+
+            {/* Mobile form */}
+            <div className="mobile-form mb-16">
+              <EnquiryForm />
+            </div>
+
+          </main>
+
+          {/* ── STICKY SIDEBAR ── */}
+          <aside className="sidebar-col">
+            <EnquiryForm />
+          </aside>
+
         </div>
       </div>
     </div>
   );
-};
-
-export default CourseDetailsPage;
+}
