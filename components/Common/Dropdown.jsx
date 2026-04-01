@@ -20,11 +20,11 @@ const Dropdown = ({ title, menuChildren, path, isScrolled }) => {
       <NavigationMenuList>
         <NavigationMenuItem>
           <NavigationMenuTrigger
-            className={`hover:bg-gray-100 h-fit uppercase font-extrabold tracking-wide text-[13px] ${isScrolled ? "text-black" : "text-white"} hover:text-primary`}
+            className={`hover:bg-gray-100 h-fit px-2 py-1 uppercase font-extrabold tracking-wide text-[13px] ${isScrolled ? "text-black" : "text-white"} hover:text-primary`}
           >
             <Link
               href={path || ""}
-              className={` uppercase font-extrabold text-[13px] transition-colors flex items-center gap-1
+              className={` uppercase h-full w-full font-extrabold text-[13px] transition-colors flex items-center gap-1
           ${isActive ? "text-primary" : isScrolled ? "text-black" : "text-white"}
         hover:text-primary
         `}

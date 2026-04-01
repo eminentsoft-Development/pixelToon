@@ -1,6 +1,6 @@
 "use client";
 
-import { Menu, Bell, Search } from "lucide-react";
+import { Menu } from "lucide-react";
 import AdminProfile from "./AdminProfile";
 import { useTransition } from "react";
 import { handleLogout } from "@/app/action/auth";

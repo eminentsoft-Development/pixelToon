@@ -1,0 +1,288 @@
+"use client";
+
+import { useState } from "react";
+import Breadcrumbs from "@/components/site/Breadcrumbs";
+import { EnquiryForm } from "@/components/site/EnquiryForm";
+
+const contactInfo = [
+  {
+    icon: (
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" />
+        <circle cx="12" cy="9" r="2.5" />
+      </svg>
+    ),
+    label: "Our Location",
+    value:
+      "1st Floor 65, 3028-A, Azad Rd, near PC Road, Kaloor, Kochi, Ernakulam, Kerala 682017",
+    link: "https://www.google.com/maps/place/Pixeltoonz+Academy",
+    linkLabel: "Get Directions →",
+  },
+  {
+    icon: (
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.01 1.18 2 2 0 012 0h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 14z" />
+      </svg>
+    ),
+    label: "Phone",
+    value: "+91-97-456-78780",
+    link: "tel:+919745678780",
+    linkLabel: "Call Now →",
+  },
+  {
+    icon: (
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+        <polyline points="22,6 12,13 2,6" />
+      </svg>
+    ),
+    label: "Email",
+    value: "pixeltoonzacademy@gmail.com",
+    link: "mailto:pixeltoonzacademy@gmail.com",
+    linkLabel: "Send Email →",
+  },
+  {
+    icon: (
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <circle cx="12" cy="12" r="10" />
+        <polyline points="12,6 12,12 16,14" />
+      </svg>
+    ),
+    label: "Office Hours",
+    value: "Mon – Fri: 09:00 AM – 06:00 PM",
+    link: null,
+    linkLabel: null,
+  },
+];
+
+const courses = [
+  "Integrated Diploma in Graphics & 3D",
+  "Graphic Designing",
+  "Film Editing",
+  "Media Production",
+  "Photography",
+  "Multimedia",
+  "Diploma in UI/UX",
+  "AI Film Making",
+  "Graphics and Web Design",
+  "Interior Design Course",
+  "Digital Marketing with AI Tools",
+  "Short Term Courses",
+];
+
+const socials = [
+  {
+    label: "Facebook",
+    href: "https://www.facebook.com/pixeltoonz",
+    icon: (
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" />
+      </svg>
+    ),
+  },
+  {
+    label: "Instagram",
+    href: "https://www.instagram.com/pixeltoonz/",
+    icon: (
+      <svg
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+        <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z" />
+        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+      </svg>
+    ),
+  },
+  {
+    label: "YouTube",
+    href: "https://www.youtube.com/channel/UCIKz0ZYOA54p-86TL-eXkAg",
+    icon: (
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 00-1.95 1.96A29 29 0 001 12a29 29 0 00.46 5.58A2.78 2.78 0 003.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 001.95-1.95A29 29 0 0023 12a29 29 0 00-.46-5.58z" />
+        <polygon
+          points="9.75,15.02 15.5,12 9.75,8.98 9.75,15.02"
+          fill="white"
+        />
+      </svg>
+    ),
+  },
+];
+
+export default function ContactPage() {
+  const [form, setForm] = useState({
+    name: "",
+    phone: "",
+    email: "",
+    course: "",
+    message: "",
+  });
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleSubmit = () => {
+    if (form.name && form.phone) setSubmitted(true);
+  };
+
+  const inputClass =
+    "w-full px-4 py-3 bg-neutral-50 border border-neutral-200 rounded-lg text-sm text-neutral-900 placeholder:text-neutral-400 focus:outline-none focus:border-orange-400 focus:bg-white focus:ring-2 focus:ring-orange-100 transition-all";
+
+  return (
+    <div className="min-h-screen bg-neutral-50 text-neutral-900">
+      <Breadcrumbs />
+
+      {/* MAIN GRID */}
+      <div className="max-w-6xl mx-auto px-6 md:px-10 py-12 md:py-16 grid grid-cols-1 lg:grid-cols-[1fr_400px] gap-10 items-start">
+        {/* LEFT COLUMN */}
+        <div className="space-y-12">
+          {/* INFO CARDS */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {contactInfo.map((item, i) => (
+              <div
+                key={i}
+                className="bg-white border border-neutral-200 rounded-xl p-6 group hover:-translate-y-1 hover:border-orange-200 hover:shadow-lg hover:shadow-orange-50 transition-all duration-200 relative overflow-hidden"
+              >
+                <span className="absolute top-0 left-0 right-0 h-0.5 bg-orange-500 scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300" />
+                <div className="w-10 h-10 rounded-lg bg-orange-50 flex items-center justify-center text-orange-500 mb-4">
+                  {item.icon}
+                </div>
+                <p className="text-[10px] font-semibold tracking-[2px] uppercase text-neutral-400 mb-1.5">
+                  {item.label}
+                </p>
+                <p className="text-sm text-neutral-600 leading-relaxed mb-3 font-light">
+                  {item.value}
+                </p>
+                {item.link && (
+                  <a
+                    href={item.link}
+                    target={item.link.startsWith("http") ? "_blank" : undefined}
+                    rel="noreferrer"
+                    className="text-xs font-semibold text-orange-500 hover:text-orange-600 transition-colors"
+                  >
+                    {item.linkLabel}
+                  </a>
+                )}
+              </div>
+            ))}
+          </div>
+
+          {/* MAP */}
+          <div>
+            <div className="flex items-center gap-4 mb-5">
+              <h2 className="text-2xl font-bold text-neutral-900">Find Us</h2>
+              <span className="flex-1 h-px bg-neutral-200" />
+            </div>
+            <div className="rounded-xl overflow-hidden border border-neutral-200 shadow-sm relative">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3929.028!2d76.2936607!3d9.9925849!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b080d244f332165%3A0x27be842b6f8adb89!2sPixeltoonz%20Academy!5e0!3m2!1sen!2sin!4v1680000000000!5m2!1sen!2sin"
+                width="100%"
+                height="360"
+                style={{ border: 0, display: "block" }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="Pixeltoonz Academy Location"
+              />
+              <div className="absolute bottom-4 left-4 bg-neutral-900 text-white text-xs font-medium px-3 py-2 rounded-lg flex items-center gap-2 shadow-lg">
+                <span>📍</span>
+                Kaloor, Kochi · Kerala
+              </div>
+            </div>
+          </div>
+
+          {/* SOCIALS */}
+          <div>
+            <div className="flex items-center gap-4 mb-5">
+              <h2 className="text-2xl font-bold text-neutral-900">
+                Follow Along
+              </h2>
+              <span className="flex-1 h-px bg-neutral-200" />
+            </div>
+            <div className="flex flex-wrap gap-3">
+              {socials.map((s, i) => (
+                <a
+                  key={i}
+                  href={s.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-2.5 px-5 py-3 bg-white border border-neutral-200 rounded-lg text-sm font-medium text-neutral-700 hover:bg-neutral-900 hover:text-white hover:border-neutral-900 transition-all duration-200 hover:-translate-y-0.5"
+                >
+                  {s.icon}
+                  {s.label}
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* RIGHT — STICKY FORM */}
+        <div>
+          <EnquiryForm />
+        </div>
+      </div>
+
+      {/* BOTTOM STRIP */}
+      <div className="bg-neutral-900">
+        <div className="max-w-6xl mx-auto px-6 md:px-10 py-5 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p className="text-sm text-neutral-400 font-light text-center sm:text-left">
+            <span className="text-neutral-200 font-medium">
+              Mon – Fri, 9 AM – 6 PM.
+            </span>{" "}
+            Call us at{" "}
+            <span className="text-neutral-200 font-medium">
+              +91-97-456-78780
+            </span>{" "}
+            for immediate assistance.
+          </p>
+          <a
+            href="tel:+919745678780"
+            className="shrink-0 inline-flex items-center gap-2 px-5 py-2.5 bg-orange-500 hover:bg-orange-600 text-white text-xs font-bold tracking-[1.5px] uppercase rounded-lg transition-colors"
+          >
+            📞 Call Now
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+}

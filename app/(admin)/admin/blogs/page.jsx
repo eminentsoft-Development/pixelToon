@@ -1,9 +1,16 @@
+import Breadcrumbs from '@/components/admin/Breadcrumbs';
 import React from 'react'
 
-const page = () => {
+const Page = () => {
+  const breadcrumbData = [
+    { label: "Blogs" },
+  ];
   return (
-    <div>page</div>
+    <div>
+     <Breadcrumbs items={breadcrumbData} />
+      
+    </div>
   )
 }
 
-export default page
+export default Page

@@ -50,7 +50,7 @@ export default function AdminLayout({ children }) {
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="max-w-7xl mx-auto"
+            className="mx-auto"
           >
             {children}
           </motion.div>

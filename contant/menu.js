@@ -91,26 +91,26 @@ export const NavbarmenuData = [
   {
     id: 4,
     title: "Gallery",
-    path: "/gallery",
+    path: "",
     newTab: false,
     subMenu: true,
     subMenuType: "normal",
     children: [
       {
         title: "Students Work",
-        path: "students-work",
+        path: "/gallery/students-work",
       },
       {
         title: "Video Gallery",
-        path: "video-gallery",
+        path: "/gallery/video-gallery",
       },
       {
         title: "Student Life & Events",
-        path: "student-life-and-events",
+        path: "/gallery/students-life-events",
       },
       {
         title: "Latest Events",
-        path: "latest-events",
+        path: "/gallery/latest-events",
       },
     ],
   },
