@@ -3,10 +3,10 @@ import Footer from "@/components/site/footer";
 
 export default function SiteLayout({ children }) {
   return (
-    <>
+    <div>
       <Header />
       <main>{children}</main>
       <Footer />
-    </>
+    </div>
   );
 }

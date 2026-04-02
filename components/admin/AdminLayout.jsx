@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from "react";
 import Sidebar from "@/components/admin/Sidebar";
-import AdminHeader from "@/components/admin/Header";
 import { motion, AnimatePresence } from "framer-motion";
 import { Toaster } from "sonner";
+import AdminHeader from "./Header";
 
 export default function AdminLayout({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(true);

@@ -26,6 +26,9 @@ const config = {
         textColor: {
           DEFAULT: "#131313",
         },
+        bgColor: {
+          DEFAULT: "#080808",
+        },
       },
       fontFamily: {
         sans: ["var(--font-inter)"],

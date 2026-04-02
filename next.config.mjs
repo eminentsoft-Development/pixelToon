@@ -19,6 +19,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "www.pixeltoonzacademy.com",
       },
+      {
+        protocol: "https",
+        hostname: "utfs.io",
+      },
     ],
   },
 };
