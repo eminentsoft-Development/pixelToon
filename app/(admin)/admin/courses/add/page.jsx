@@ -1,22 +1,21 @@
 "use client";
 
 import React, { useState } from "react";
-import BlogForm from "@/components/admin/BlogForm";
 import { useRouter } from "next/navigation";
-import { BookPlus, ChevronLeft } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import { toast } from "sonner";
+import { BookPlus, ChevronLeft } from "lucide-react";
+import Link from "next/link";
+import CourseForm from "@/components/admin/CourseForm";
+import { Button } from "@/components/ui/button";
 
-export default function AddBlogPage() {
+const AddCoursePage = () => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const onSubmit = async (data) => {
-    console.log(data)
     setLoading(true);
     try {
-      const response = await fetch("/api/blogs", {
+      const response = await fetch("/api/course", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
@@ -24,11 +23,11 @@ export default function AddBlogPage() {
 
       if (!response.ok) {
         const err = await response.json().catch(() => ({}));
-        throw new Error(err?.message || "Failed to blog course");
+        throw new Error(err?.message || "Failed to create course");
       }
 
-      toast.success("Blog created successfully!", {
-        description: "The blog is now saved and ready to publish.",
+      toast.success("Course created successfully!", {
+        description: "The course is now saved and ready to publish.",
       });
 
       // router.push("/admin/courses");
@@ -44,11 +43,11 @@ export default function AddBlogPage() {
   };
 
   return (
-    <div className="min-h-screen">
-      {/* Header */}
+    <div className="min-h-screen bg-slate-50/50">
+      {/* ── Page Header ── */}
       <div className="bg-white border-b border-slate-200">
-        <div className="mx-auto py-4 flex items-center gap-4">
-          <Link href="/admin/blogs">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center gap-4">
+          <Link href="/admin/courses">
             <Button
               variant="ghost"
               size="icon"
@@ -63,7 +62,7 @@ export default function AddBlogPage() {
             </div>
             <div>
               <h1 className="text-lg font-bold text-slate-900 leading-tight">
-                Create New Blog
+                Create New Course
               </h1>
               <p className="text-xs text-slate-400">
                 Fill in all required fields and save when ready.
@@ -73,9 +72,12 @@ export default function AddBlogPage() {
         </div>
       </div>
 
+      {/* ── Form ── */}
       <div className="mt-10">
-        <BlogForm onSubmit={onSubmit} loading={loading} />
+        <CourseForm onSubmit={onSubmit} loading={loading} />
       </div>
     </div>
   );
-}
+};
+
+export default AddCoursePage;

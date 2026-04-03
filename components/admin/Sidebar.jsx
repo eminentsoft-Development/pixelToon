@@ -19,8 +19,15 @@ import { handleLogout } from "@/app/action/auth";
 
 const navItems = [
   { name: "Dashboard", icon: LayoutDashboard, href: "/admin" },
-  { name: "Courses", icon: Package, href: "/admin/courses" },
-  { name: "Category", icon: Layers, href: "/admin/category" },
+  {
+    name: "Courses",
+    icon: FileText,
+    href: "",
+    submenu: [
+      { name: "All Courses", href: "/admin/courses" },
+      { name: "Add Course", href: "/admin/courses/add" },
+    ],
+  },
   {
     name: "Blogs",
     icon: FileText,
