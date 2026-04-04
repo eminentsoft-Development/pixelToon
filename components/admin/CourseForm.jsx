@@ -34,13 +34,8 @@ const formSchema = z.object({
     .array(z.object({ url: z.string(), alt: z.string() }))
     .min(1, "At least one course image is required"),
   content: z.string().min(20, "Detailed curriculum must be at least 20 characters"),
-  whyThisCourse: z.array(z.object({ value: z.string().min(1, "Reason cannot be empty") })),
-  acquireItems: z.array(z.object({ value: z.string().min(1, "Skill cannot be empty") })),
-  benefits: z.array(z.object({ value: z.string().min(1, "Benefit cannot be empty") })),
-  faqs: z.array(z.object({
-    question: z.string().min(5, "Question must be at least 5 characters"),
-    answer: z.string().min(5, "Answer must be at least 5 characters"),
-  })),
+  whyThisCourse: z.array(z.object({ value: z.string().optional() })),
+  acquireItems: z.array(z.object({ value: z.string().optional() })),
   isPublished: z.boolean().default(false),
   isFeatured: z.boolean().default(false),
   metaTitle: z.string().min(5, "Meta title must be at least 5 characters"),
@@ -128,7 +123,6 @@ const CourseForm = ({ onSubmit, loading, initialData }) => {
     defaultValues: initialData || {
       title: "", slug: "", description: "", images: [], content: "",
       whyThisCourse: [{ value: "" }], acquireItems: [{ value: "" }],
-      benefits: [{ value: "" }], faqs: [{ question: "", answer: "" }],
       isPublished: false, isFeatured: false,
       metaTitle: "", metaDescription: "",
       canonicalUrl: "https://pixeltoonzacademy.com/courses/",
@@ -140,10 +134,7 @@ const CourseForm = ({ onSubmit, loading, initialData }) => {
     useFieldArray({ control: form.control, name: "whyThisCourse" });
   const { fields: acquireFields, append: appendAcquire, remove: removeAcquire } =
     useFieldArray({ control: form.control, name: "acquireItems" });
-  const { fields: benefitsFields, append: appendBenefits, remove: removeBenefits } =
-    useFieldArray({ control: form.control, name: "benefits" });
-  const { fields: faqFields, append: appendFaq, remove: removeFaq } =
-    useFieldArray({ control: form.control, name: "faqs" });
+  
 
   const generateSlug = () => {
     const title = form.getValues("title");
@@ -320,88 +311,6 @@ const CourseForm = ({ onSubmit, loading, initialData }) => {
                   placeholder="e.g. Mastery of Adobe Creative Suite"
                   onRemove={() => removeAcquire(index)}
                 />
-              ))}
-            </CardContent>
-          </Card>
-
-          {/* ── Benefits ── */}
-          <Card className="border border-slate-200 shadow-none rounded-xl overflow-hidden">
-            <SectionHeader
-              icon={Layers} iconColor="text-purple-600" title="Benefits"
-              action={<AddButton onClick={() => appendBenefits({ value: "" })} label="Add Benefit" />}
-            />
-            <CardContent className="space-y-3 pt-0">
-              {benefitsFields.length === 0 && <p className="text-xs text-slate-400 text-center py-3">No benefits added yet.</p>}
-              {benefitsFields.map((field, index) => (
-                <DynamicFieldRow
-                  key={field.id} control={form.control}
-                  name={`benefits.${index}.value`}
-                  placeholder="e.g. Lifetime access to course materials"
-                  onRemove={() => removeBenefits(index)}
-                />
-              ))}
-            </CardContent>
-          </Card>
-
-          {/* ── FAQs ── */}
-          <Card className="border border-slate-200 shadow-none rounded-xl overflow-hidden">
-            <SectionHeader
-              icon={HelpCircle} iconColor="text-orange-500" title="Questions & Answers"
-              action={<AddButton onClick={() => appendFaq({ question: "", answer: "" })} label="Add FAQ" />}
-            />
-            <CardContent className="space-y-4 pt-0">
-              {faqFields.length === 0 && <p className="text-xs text-slate-400 text-center py-3">No FAQs added yet.</p>}
-              {faqFields.map((field, index) => (
-                <div key={field.id} className="relative p-4 border border-slate-200 rounded-lg bg-slate-50/60 space-y-3">
-                  <div className="flex items-center justify-between mb-1">
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">FAQ #{index + 1}</span>
-                    <Button type="button" variant="ghost" size="icon" onClick={() => removeFaq(index)}
-                      className="h-7 w-7 text-slate-300 hover:text-red-500 hover:bg-red-50 transition-colors">
-                      <Trash2 size={14} />
-                    </Button>
-                  </div>
-
-                  <FormField
-                    control={form.control}
-                    name={`faqs.${index}.question`}
-                    render={({ field, fieldState }) => (
-                      <FormItem>
-                        <FormLabel className={cn("text-xs font-semibold", fieldState.error ? "text-red-500" : "text-slate-600")}>
-                          Question<Req />
-                        </FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder="e.g. Is there a certification upon completion?"
-                            className={inputCn(fieldState.error, "h-9 text-sm bg-white")}
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage className="text-xs" />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name={`faqs.${index}.answer`}
-                    render={({ field, fieldState }) => (
-                      <FormItem>
-                        <FormLabel className={cn("text-xs font-semibold", fieldState.error ? "text-red-500" : "text-slate-600")}>
-                          Answer<Req />
-                        </FormLabel>
-                        <FormControl>
-                          <Textarea
-                            placeholder="Yes, you receive a diploma upon completion..."
-                            rows={3}
-                            className={inputCn(fieldState.error, "text-sm resize-none bg-white")}
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage className="text-xs" />
-                      </FormItem>
-                    )}
-                  />
-                </div>
               ))}
             </CardContent>
           </Card>

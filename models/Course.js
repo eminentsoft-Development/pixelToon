@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 const CourseSchema = new mongoose.Schema(
   {
     title: { type: String, required: true },
+    slug: { type: String, required: true, unique: true, index: true },
     description: { type: String, required: true },
     content: { type: String, required: true },
     images: [
@@ -14,13 +15,6 @@ const CourseSchema = new mongoose.Schema(
     // Arrays for dynamic fields
     whyThisCourse: [{ value: { type: String } }],
     acquireItems: [{ value: { type: String } }],
-    benefits: [{ value: { type: String } }],
-    faqs: [
-      {
-        question: { type: String },
-        answer: { type: String },
-      },
-    ],
     // Status
     isPublished: { type: Boolean, default: false },
     isFeatured: { type: Boolean, default: false },
@@ -30,7 +24,7 @@ const CourseSchema = new mongoose.Schema(
     metaKeywords: { type: String },
     canonicalUrl: { type: String },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 export default mongoose.models.Course || mongoose.model("Course", CourseSchema);

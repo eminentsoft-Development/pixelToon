@@ -1,15 +1,20 @@
 import { NextResponse } from "next/server";
 import dbConnect from "@/lib/mongodb";
 import Course from "@/models/Course";
+import mongoose from "mongoose";
 
 // ── GET — Single Course ───────────────────────────────────────────────────────
 export async function GET(req, { params }) {
   try {
     await dbConnect();
-    const { id } = await params;
+    const { id } = await params; // This 'id' variable can now be a slug OR an ID
 
-    const course = await Course.findById(id)
-      .lean(); // plain JS object — no Mongoose document overhead
+    // 1. Determine if we are searching by MongoDB ID or Slug
+    const isObjectId = mongoose.Types.ObjectId.isValid(id);
+    const query = isObjectId ? { _id: id } : { slug: id };
+
+    // 2. Fetch the course
+    const course = await Course.findOne(query).lean();
 
     if (!course) {
       return NextResponse.json({ error: "Course not found" }, { status: 404 });
@@ -17,7 +22,7 @@ export async function GET(req, { params }) {
 
     const response = NextResponse.json(course);
 
-    // Published courses can be edge-cached; drafts must not be cached
+    // 3. Cache Logic (Same as before)
     if (course.isPublished) {
       response.headers.set(
         "Cache-Control",

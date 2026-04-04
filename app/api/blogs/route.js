@@ -31,13 +31,38 @@ export async function POST(request) {
   }
 }
 
-// Simple GET all for the dashboard
-export async function GET() {
+export async function GET(request) {
   try {
     await connectDB();
-    const blogs = await Blog.find().sort({ createdAt: -1 }).lean();
-    return NextResponse.json(blogs);
+
+    // 1. Extract query parameters from the URL
+    const { searchParams } = new URL(request.url);
+    const page = parseInt(searchParams.get("page")) || 1;
+    const limit = parseInt(searchParams.get("limit")) || 10;
+    const skip = (page - 1) * limit;
+
+    // 2. Fetch blogs and total count in parallel for better performance
+    const [blogs, totalBlogs] = await Promise.all([
+      Blog.find()
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(limit)
+        .lean(),
+      Blog.countDocuments(),
+    ]);
+
+    // 3. Return the data along with pagination metadata
+    return NextResponse.json({
+      blogs,
+      totalPages: Math.ceil(totalBlogs / limit),
+      currentPage: page,
+      totalItems: totalBlogs,
+    });
   } catch (err) {
-    return NextResponse.json({ message: "Failed to fetch blogs" }, { status: 500 });
+    console.error("BLOG_GET_ERROR:", err);
+    return NextResponse.json(
+      { message: "Failed to fetch blogs" }, 
+      { status: 500 }
+    );
   }
 }

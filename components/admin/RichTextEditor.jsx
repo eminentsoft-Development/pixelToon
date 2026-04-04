@@ -1,5 +1,42 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 
+
+
+
+const FONT_SIZES = [
+  { label: 'Tiny', value: '1' },     // ~10px
+  { label: 'Small', value: '2' },    // ~13px
+  { label: 'Normal', value: '3' },   // ~16px (Browser Default)
+  { label: 'Medium', value: '4' },   // ~18px
+  { label: 'Large', value: '5' },    // ~24px
+  { label: 'X-Large', value: '6' },  // ~32px
+  { label: 'Huge', value: '7' },     // ~48px
+];
+
+const FontSizePicker = ({ onSelect }) => {
+  return (
+    <select
+      onChange={(e) => onSelect(e.target.value)}
+      defaultValue="3"
+      style={{
+        background: 'transparent',
+        color: '#4b5563',
+        border: '1px solid #374151',
+        borderRadius: 6,
+        fontSize: 12,
+        padding: '2px 4px',
+        cursor: 'pointer',
+        outline: 'none',
+        marginRight: 4
+      }}
+    >
+      {FONT_SIZES.map(size => (
+        <option key={size.value} value={size.value}>{size.label}</option>
+      ))}
+    </select>
+  );
+};
+
 // ── Toolbar Button ────────────────────────────────────────────────────────────
 const ToolbarButton = ({ onClick, isActive, children, title }) => (
   <button
@@ -336,6 +373,8 @@ const RichTextEditor = ({
     }
   }, []);
 
+  
+
   const restoreSelection = useCallback(() => {
     if (!savedRangeRef.current) return;
     const sel = window.getSelection();
@@ -421,6 +460,13 @@ const RichTextEditor = ({
     editorRef.current?.focus();
     exec('backColor', '#fef08a');
   };
+
+  const applyFontSize = (size) => {
+  editorRef.current?.focus();
+  // execCommand 'fontSize' takes values 1-7
+  document.execCommand('fontSize', false, size);
+  refreshActiveStates();
+};
 
   // ── Image insertion ───────────────────────────────────────────────────────
   const openImageDialog = () => {
@@ -526,6 +572,8 @@ const RichTextEditor = ({
           <Sep />
 
           <ToolbarButton onClick={handleHighlight} title="Highlight"><IconHighlight /></ToolbarButton>
+
+          <FontSizePicker onSelect={applyFontSize} />
 
           <ColorPicker currentColor={activeColor} onSelect={applyColor} />
 

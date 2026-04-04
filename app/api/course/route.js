@@ -27,18 +27,40 @@ export async function POST(req) {
   }
 }
 
+
 export async function GET(req) {
   try {
     await dbConnect();
     const { searchParams } = new URL(req.url);
     
-    // Simple Filters
+    // Pagination parameters
+    const page = parseInt(searchParams.get("page")) || 1;
+    const limit = parseInt(searchParams.get("limit")) || 10;
+    const skip = (page - 1) * limit;
+
+    // Filters
     const query = {};
     if (searchParams.get("published") === "true") query.isPublished = true;
-    if (searchParams.get("q")) query.title = { $regex: searchParams.get("q"), $options: "i" };
+    if (searchParams.get("q")) {
+      query.title = { $regex: searchParams.get("q"), $options: "i" };
+    }
 
-    const courses = await Course.find(query).sort({ createdAt: -1 }).lean();
-    return NextResponse.json(courses);
+    // Execute count and find in parallel
+    const [courses, totalCourses] = await Promise.all([
+      Course.find(query)
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(limit)
+        .lean(),
+      Course.countDocuments(query),
+    ]);
+
+    return NextResponse.json({
+      courses,
+      totalPages: Math.ceil(totalCourses / limit),
+      currentPage: page,
+      totalItems: totalCourses,
+    });
   } catch (error) {
     return NextResponse.json({ error: "Fetch failed" }, { status: 500 });
   }
