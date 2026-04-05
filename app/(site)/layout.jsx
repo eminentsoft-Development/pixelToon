@@ -3,9 +3,9 @@ import Footer from "@/components/site/footer";
 
 export default function SiteLayout({ children }) {
   return (
-    <div>
+    <div className="flex-1 h-screen overflow-y-auto">
       <Header />
-      <main>{children}</main>
+      <main >{children}</main>
       <Footer />
     </div>
   );
