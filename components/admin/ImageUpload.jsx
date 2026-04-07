@@ -34,7 +34,7 @@ export default function ImageUpload({
   value = [], // Expected: Array of { url: string, alt: string }
   onChange,
   multiple = false,
-  maxImages = 5,
+  maxImages = 4,
 }) {
   const [isUploading, setIsUploading] = useState(false);
   const [mounted, setMounted] = useState(false);

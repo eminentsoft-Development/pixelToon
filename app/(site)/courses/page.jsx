@@ -1,119 +1,27 @@
-"use client";
-
-import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import {
-  ChevronLeft,
-  ChevronRight,
-} from "lucide-react";
+import React from "react";
 import Breadcrumbs from "@/components/site/Breadcrumbs";
 import CourseCard from "@/components/site/CourseCard";
+import { DynamicPagination } from "@/components/site/Pagination";
 
-// Mock Data - In a real project, this would come from your WordPress API or a database
-const ALL_COURSES = [
-  {
-    id: 1,
-    title: "Diploma in Film Editing",
-    category: "Film",
-    description:
-      "Master industry-standard tools like Premiere Pro and DaVinci Resolve.",
-
-    image:
-      "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?q=80&w=800",
-  },
-  {
-    id: 2,
-    title: "Graphic Design Masterclass",
-    category: "Design",
-    duration: "4 Months",
-    description:
-      "Master industry-standard tools like Premiere Pro and DaVinci Resolve.",
-    image:
-      "https://images.unsplash.com/photo-1626785774573-4b799315345d?q=80&w=800",
-  },
-  {
-    id: 3,
-    title: "VFX & 3D Animation",
-    category: "Animation",
-    description:
-      "Master industry-standard tools like Premiere Pro and DaVinci Resolve.",
-
-    image:
-      "https://images.unsplash.com/photo-1616469829581-73993eb86b02?q=80&w=800",
-  },
-  {
-    id: 4,
-    title: "Digital Photography",
-    category: "Media",
-    description:
-      "Master industry-standard tools like Premiere Pro and DaVinci Resolve.",
-
-    image:
-      "https://images.unsplash.com/photo-1542038784456-1ea8e935640e?q=80&w=800",
-  },
-  {
-    id: 5,
-    title: "UI/UX Design Studio",
-    category: "Design",
-    description:
-      "Master industry-standard tools like Premiere Pro and DaVinci Resolve.",
-
-    description:
-      "Master industry-standard tools like Premiere Pro and DaVinci Resolve.",
-
-    image:
-      "https://images.unsplash.com/photo-1586717791821-3f44a563eb4c?q=80&w=800",
-  },
-  {
-    id: 6,
-    title: "Cinematography Basics",
-    category: "Film",
-    description:
-      "Master industry-standard tools like Premiere Pro and DaVinci Resolve.",
-
-    image:
-      "https://images.unsplash.com/photo-1485846234645-a62644f84728?q=80&w=800",
-  },
-  {
-    id: 7,
-    title: "Web Technologies",
-    category: "Design",
-    description:
-      "Master industry-standard tools like Premiere Pro and DaVinci Resolve.",
-
-    image:
-      "https://images.unsplash.com/photo-1547658719-da2b51169166?q=80&w=800",
-  },
-  {
-    id: 8,
-    title: "Interior Visualization",
-    category: "Animation",
-    description:
-      "Master industry-standard tools like Premiere Pro and DaVinci Resolve.",
-    image:
-      "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?q=80&w=800",
-  },
-];
 
 const ITEMS_PER_PAGE = 6;
 
-const CourseListing = () => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [filter, setFilter] = useState("All");
-
-  const categories = ["All", "Film", "Design", "Animation", "Media"];
-
-  const filteredCourses =
-    filter === "All"
-      ? ALL_COURSES
-      : ALL_COURSES.filter((c) => c.category === filter);
-
-  const totalPages = Math.ceil(filteredCourses.length / ITEMS_PER_PAGE);
-  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-  const displayedCourses = filteredCourses.slice(
-    startIndex,
-    startIndex + ITEMS_PER_PAGE,
+export async function getCourses(page = 1, limit = 9) {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_SITE_URL}/api/course?page=${page}&limit=${limit}`,
+    {
+      next: { revalidate: 60 }, // Cache for 1 min, or use 'no-store' for real-time
+    },
   );
+
+  if (!res.ok) throw new Error("Failed to fetch news");
+  return res.json();
+}
+
+const CourseListing = async ({ searchParams }) => {
+  const currentPage = Number(searchParams.page) || 1;
+
+  const { courses, totalPages } = await getCourses(currentPage, ITEMS_PER_PAGE);
 
   return (
     <div className="min-h-screen bg-slate-50">
@@ -130,78 +38,17 @@ const CourseListing = () => {
               Personalized attention with only 12 students per batch.
             </p>
           </div>
-
-          {/* Dynamic Filter Tabs */}
-          <div className="flex flex-wrap gap-2 bg-white p-1.5 rounded-2xl shadow-sm border border-slate-200">
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => {
-                  setFilter(cat);
-                  setCurrentPage(1);
-                }}
-                className={`px-6 py-2.5 rounded-xl text-sm font-bold transition-all ${
-                  filter === cat
-                    ? "bg-[#BC430D] text-white shadow-lg"
-                    : "text-slate-500 hover:bg-slate-50"
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
         </div>
 
         {/* Courses Grid */}
-        <motion.div
-          layout
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
-        >
-          <AnimatePresence mode="popLayout">
-            {displayedCourses.map((course, index) => (
-               <CourseCard key={index} {...course} index={index} />
-            ))}
-          </AnimatePresence>
-        </motion.div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {courses.map((course, index) => (
+            <CourseCard key={index} {...course} index={index} />
+          ))}
+        </div>
 
         {/* Pagination Controls */}
-        {totalPages > 1 && (
-          <div className="mt-20 flex items-center justify-center gap-4">
-            <button
-              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-              disabled={currentPage === 1}
-              className="w-12 h-12 rounded-full border border-slate-200 flex items-center justify-center text-slate-400 hover:border-[#BC430D] hover:text-[#BC430D] disabled:opacity-30 transition-all"
-            >
-              <ChevronLeft size={20} />
-            </button>
-
-            <div className="flex gap-2">
-              {[...Array(totalPages)].map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => setCurrentPage(i + 1)}
-                  className={`w-12 h-12 rounded-full font-black text-sm transition-all ${
-                    currentPage === i + 1
-                      ? "bg-slate-900 text-white shadow-xl"
-                      : "text-slate-400 hover:bg-slate-100"
-                  }`}
-                >
-                  {i + 1}
-                </button>
-              ))}
-            </div>
-
-            <button
-              onClick={() =>
-                setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-              }
-              disabled={currentPage === totalPages}
-              className="w-12 h-12 rounded-full border border-slate-200 flex items-center justify-center text-slate-400 hover:border-[#BC430D] hover:text-[#BC430D] disabled:opacity-30 transition-all"
-            >
-              <ChevronRight size={20} />
-            </button>
-          </div>
-        )}
+        <DynamicPagination totalPages={totalPages} />
       </div>
     </div>
   );

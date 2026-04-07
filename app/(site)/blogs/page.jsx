@@ -1,108 +1,25 @@
-"use client";
-
 import Breadcrumbs from "@/components/site/Breadcrumbs";
-import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React from "react";
 import BlogCard from "@/components/site/BlogCard";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-
-const news = [
-  {
-    category: "Placement",
-    title: "15 Students Placed at Top VFX Studios This Month",
-    description:
-      "Our latest batch has seen record-breaking placements in international studios across Bangalore and Hyderabad.",
-    date: "March 24, 2026",
-    image:
-      "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=800",
-  },
-  {
-    category: "Campus",
-    title: "New Digital Art Lab Opens at Pixeltoonz Cochin",
-    description:
-      "Equipped with the latest Wacom Cintiqs and RTX 4090 workstations to fuel your creative fire.",
-    date: "March 22, 2026",
-    image:
-      "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=800",
-  },
-  {
-    category: "Awards",
-    title: "Winner: Best Multimedia Institute of the Year",
-    description:
-      "Pixeltoonz takes home the gold at the National Education Excellence Awards 2026.",
-    date: "March 18, 2026",
-    image:
-      "https://images.unsplash.com/photo-1567427017947-545c5f8d16ad?auto=format&fit=crop&w=800",
-  },
-  {
-    category: "Placement",
-    title: "15 Students Placed at Top VFX Studios This Month",
-    description:
-      "Our latest batch has seen record-breaking placements in international studios across Bangalore and Hyderabad.",
-    date: "March 24, 2026",
-    image:
-      "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=800",
-  },
-  {
-    category: "Campus",
-    title: "New Digital Art Lab Opens at Pixeltoonz Cochin",
-    description:
-      "Equipped with the latest Wacom Cintiqs and RTX 4090 workstations to fuel your creative fire.",
-    date: "March 22, 2026",
-    image:
-      "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=800",
-  },
-  {
-    category: "Awards",
-    title: "Winner: Best Multimedia Institute of the Year",
-    description:
-      "Pixeltoonz takes home the gold at the National Education Excellence Awards 2026.",
-    date: "March 18, 2026",
-    image:
-      "https://images.unsplash.com/photo-1567427017947-545c5f8d16ad?auto=format&fit=crop&w=800",
-  },
-  {
-    category: "Placement",
-    title: "15 Students Placed at Top VFX Studios This Month",
-    description:
-      "Our latest batch has seen record-breaking placements in international studios across Bangalore and Hyderabad.",
-    date: "March 24, 2026",
-    image:
-      "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=800",
-  },
-  {
-    category: "Campus",
-    title: "New Digital Art Lab Opens at Pixeltoonz Cochin",
-    description:
-      "Equipped with the latest Wacom Cintiqs and RTX 4090 workstations to fuel your creative fire.",
-    date: "March 22, 2026",
-    image:
-      "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=800",
-  },
-  {
-    category: "Awards",
-    title: "Winner: Best Multimedia Institute of the Year",
-    description:
-      "Pixeltoonz takes home the gold at the National Education Excellence Awards 2026.",
-    date: "March 18, 2026",
-    image:
-      "https://images.unsplash.com/photo-1567427017947-545c5f8d16ad?auto=format&fit=crop&w=800",
-  },
-];
-
-const ITEMS_PER_PAGE = 6;
-
-const Page = () => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = Math.ceil(news.length / ITEMS_PER_PAGE);
-  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-
-    const displayedNews = news.slice(
-    startIndex,
-    startIndex + ITEMS_PER_PAGE,
-  );
+import { DynamicPagination } from "@/components/site/Pagination";
 
 
+const ITEMS_PER_PAGE = 9;
+
+export async function getBlogs(page = 1, limit = 6) {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/blogs?page=${page}&limit=${limit}`, {
+    next: { revalidate: 60 } // Cache for 1 min, or use 'no-store' for real-time
+  });
+  
+  if (!res.ok) throw new Error("Failed to fetch news");
+  return res.json();
+}
+
+const Page = async ({ searchParams }) => {
+const currentPage = Number(searchParams.page) || 1;
+
+const { blogs, totalPages } = await getBlogs(currentPage, ITEMS_PER_PAGE);
+ 
   return (
     <div className="min-h-screen">
       <Breadcrumbs />
@@ -119,77 +36,20 @@ const Page = () => {
             </p>
           </div>
 
-          {/* Dynamic Filter Tabs */}
-          <div className="flex flex-wrap gap-2 bg-white p-1.5 rounded-2xl shadow-sm border border-slate-200">
-            {/* {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => {
-                  setFilter(cat);
-                  setCurrentPage(1);
-                }}
-                className={`px-6 py-2.5 rounded-xl text-sm font-bold transition-all ${
-                  filter === cat
-                    ? "bg-[#BC430D] text-white shadow-lg"
-                    : "text-slate-500 hover:bg-slate-50"
-                }`}
-              >
-                {cat}
-              </button>
-            ))} */}
-          </div>
+         
         </div>
 
         {/* Courses Grid */}
-        <motion.div
-          layout
+        <div
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
         >
-          <AnimatePresence mode="popLayout">
-            {displayedNews.map((blog, index) => (
+            {blogs.map((blog, index) => (
               <BlogCard key={index} {...blog} index={index} />
             ))}
-          </AnimatePresence>
-        </motion.div>
+        </div>
 
         {/* Pagination Controls */}
-        {totalPages > 1 && (
-          <div className="mt-20 flex items-center justify-center gap-4">
-            <button
-              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-              disabled={currentPage === 1}
-              className="w-12 h-12 rounded-full border border-slate-200 flex items-center justify-center text-slate-400 hover:border-[#BC430D] hover:text-[#BC430D] disabled:opacity-30 transition-all"
-            >
-              <ChevronLeft size={20} />
-            </button>
-
-            <div className="flex gap-2">
-              {[...Array(totalPages)].map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => setCurrentPage(i + 1)}
-                  className={`w-12 h-12 rounded-full font-black text-sm transition-all ${
-                    currentPage === i + 1
-                      ? "bg-[#131313] text-white shadow-xl"
-                      : "text-slate-400 hover:bg-slate-100"
-                  }`}
-                >
-                  {i + 1}
-                </button>
-              ))}
-            </div>
-
-            <button
-              onClick={() =>
-                setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-              }
-              disabled={currentPage === totalPages}
-              className="w-12 h-12 rounded-full border border-slate-200 flex items-center justify-center text-slate-400 hover:border-[#BC430D] hover:text-[#BC430D] disabled:opacity-30 transition-all"
-            >
-              <ChevronRight size={20} />
-            </button>
-          </div>
-        )}
+        <DynamicPagination totalPages={totalPages} />
       </div>
     </div>
   );

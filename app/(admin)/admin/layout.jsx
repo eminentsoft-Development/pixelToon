@@ -21,7 +21,7 @@ export default function AdminLayout({ children }) {
   }, []);
 
   return (
-    <div className="flex h-screen overflow-hidden">
+    <div className="admin-layout-container flex h-screen overflow-hidden">
       <Toaster position="top-right" richColors />
 
       {/* Sidebar Component handles its own internal responsiveness */}

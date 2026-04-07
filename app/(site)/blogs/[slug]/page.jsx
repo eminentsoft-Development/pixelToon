@@ -3,8 +3,8 @@ import connectDB from "@/lib/mongodb";
 import { EnquiryForm } from "@/components/site/EnquiryForm";
 import Breadcrumbs from "@/components/site/Breadcrumbs";
 import Blog from "@/models/Blog";
-import BlogContentRenderer from "@/components/site/BlogContentRenderer";
 import Image from "next/image";
+import ContentRenderer from "@/components/site/ContentRenderer";
 
 
 
@@ -55,7 +55,7 @@ export default async function SingleBlogPost({ params }) {
         <div className="page-layout px-6">
           <main className="main-col">
 
-            <section className="relative w-full aspect-video overflow-hidden rounded-sm border border-[#2a2a35]">
+            <section className="relative w-full aspect-video overflow-hidden rounded-xl border border-gray-300">
               <Image 
                 src={post.images?.[0]?.url || "/default-blog-image.jpg"} 
                 alt={post.images?.[0]?.alt || post.title}
@@ -74,7 +74,7 @@ export default async function SingleBlogPost({ params }) {
             </section>
             
             <section className="mb-[72px]">
-               <BlogContentRenderer content={post.content} />
+               <ContentRenderer content={post.content} />
             </section>
             <div className="mobile-form mb-16">
               <EnquiryForm />

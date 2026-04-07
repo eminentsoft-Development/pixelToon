@@ -12,6 +12,11 @@ body {
   font-family: 'DM Sans', sans-serif;
 }
 
+body:has(.admin-layout-container) {
+  overflow: hidden;
+  height: 100vh;
+}
+
 @layer components {
   .font-sans-dm {
     font-family: 'DM Sans', sans-serif;

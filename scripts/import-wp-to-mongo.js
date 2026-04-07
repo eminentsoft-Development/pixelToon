@@ -302,55 +302,231 @@
 // importSinglePost();
 
 
+// import dotenv from 'dotenv';
+// dotenv.config();
+// import mongoose from "mongoose";
+// import connectDB from "../lib/mongodb.js";
+// import Blog from "../models/Blog.js";
+// import { UTApi } from "uploadthing/server";
+
+// const utapi = new UTApi();
+// const WP_URL = "https://www.pixeltoonzacademy.com";
+
+// // Helper to prevent rate limiting (waits 500ms between uploads)
+// const delay = (ms) => new Promise(res => setTimeout(res, ms));
+
+
+
+// async function importAllPosts() {
+//   await connectDB();
+
+//   const cleanText = (str) => {
+//     if (!str) return "";
+//     return str
+//       .replace(/&nbsp;/g, " ")
+//       .replace(/\[&hellip;\]/g, "...")
+//       .replace(/<[^>]*>?/gm, "")
+//       .trim();
+//   };
+
+//   try {
+//     let page = 1;
+//     let hasMore = true;
+//     let totalImported = 0;
+
+//     console.log("🚀 Starting Full Migration (Oldest to Newest)...");
+
+//     while (hasMore) {
+//       console.log(`\n📄 Fetching Page ${page}...`);
+      
+//       // ADDED: orderby=date&order=asc 
+//       // This ensures newest blogs are at the end of the process
+//       const res = await fetch(
+//         `${WP_URL}/wp-json/wp/v2/posts?_embed&per_page=100&page=${page}&status=publish&orderby=date&order=asc`
+//       );
+
+//       if (!res.ok) {
+//         if (res.status === 400) {
+//           hasMore = false;
+//           break;
+//         }
+//         throw new Error(`WordPress API status: ${res.status}`);
+//       }
+
+//       const wpPosts = await res.json();
+      
+//       if (wpPosts.length === 0) {
+//         hasMore = false;
+//         break;
+//       }
+
+//       for (const wpPost of wpPosts) {
+//         console.log(`📦 [${totalImported + 1}] Processing: ${wpPost.slug}`);
+
+//         const wpImageUrl = wpPost._embedded?.["wp:featuredmedia"]?.[0]?.source_url || "";
+//         let finalImageUrl = "";
+
+//         if (wpImageUrl) {
+//           try {
+//             const uploadResponse = await utapi.uploadFilesFromUrl(wpImageUrl);
+//             if (uploadResponse && uploadResponse.data) {
+//               finalImageUrl = uploadResponse.data.url;
+//             } else {
+//               finalImageUrl = wpImageUrl; 
+//             }
+//           } catch (err) {
+//             console.error(`   ❌ Image Upload Failed:`, err.message);
+//             finalImageUrl = wpImageUrl;
+//           }
+//           await delay(300);
+//         }
+
+//         const excerptClean = cleanText(wpPost.excerpt.rendered);
+        
+//         const blogData = {
+//           title: wpPost.title.rendered,
+//           slug: wpPost.slug,
+//           description: excerptClean,
+//           content: wpPost.content.rendered,
+//           images: finalImageUrl ? [{ url: finalImageUrl, alt: wpPost.title.rendered }] : [],
+//           isPublished: true,
+//           isFeatured: false,
+//           isNewPost: false,
+//           // CRITICAL: Save the actual WP date
+//           createdAt: new Date(wpPost.date), 
+//           metaTitle: wpPost.yoast_head_json?.title || wpPost.title.rendered,
+//           metaDescription: wpPost.yoast_head_json?.description || excerptClean.substring(0, 160),
+//           metaKeywords: "",
+//           canonicalUrl: wpPost.link,
+//         };
+
+//         await Blog.findOneAndUpdate(
+//           { slug: blogData.slug },
+//           blogData,
+//           { upsert: true, new: true }
+//         );
+
+//         totalImported++;
+//       }
+
+//       const totalPages = parseInt(res.headers.get("X-WP-TotalPages"));
+//       if (page >= totalPages) {
+//         hasMore = false;
+//       } else {
+//         page++;
+//       }
+//     }
+
+//     console.log(`\n🎉 SUCCESS! Newest blogs were processed last.`);
+
+//   } catch (error) {
+//     console.error("\n❌ FATAL ERROR:", error.message);
+//   } finally {
+//     await mongoose.disconnect();
+//     process.exit(0);
+//   }
+// }
+
+// importAllPosts();
+
+
+// import dotenv from 'dotenv';
+// dotenv.config();
+// import mongoose from "mongoose";
+// import connectDB from "../lib/mongodb.js";
+// import Blog from "../models/Blog.js";
+
+// const WP_URL = "https://www.pixeltoonzacademy.com";
+
+// async function updateSingleBlogDate(slug) {
+//   await connectDB();
+
+//   try {
+//     console.log(`🔍 Searching WordPress for post: ${slug}...`);
+
+//     // Fetch only this specific post by slug from WordPress
+//     const res = await fetch(`${WP_URL}/wp-json/wp/v2/posts?slug=${slug}`);
+//     const wpPosts = await res.json();
+
+//     if (!wpPosts || wpPosts.length === 0) {
+//       console.error("❌ Error: Post not found on WordPress.");
+//       return;
+//     }
+
+//     const wpPost = wpPosts[0];
+//     const wpDate = new Date(wpPost.date);
+
+//     console.log(`📅 Found WP Date: ${wpPost.date}`);
+
+//     // Perform the update
+//     const updatedBlog = await Blog.findOneAndUpdate(
+//       { slug: slug },
+//       { 
+//         $set: { 
+//           // Use .toISOString() or a fresh Date object to ensure compatibility
+//           createdAt: new Date(wpPost.date), 
+//           updatedAt: new Date(wpPost.date) 
+//         } 
+//       },
+//       { 
+//         returnDocument: 'after', // Fixes the deprecation warning
+//         timestamps: false,       // Tells Mongoose: "Don't touch the dates"
+//         strict: false            // Bypass schema validation just for this update
+//       }
+//     );
+
+//     if (updatedBlog) {
+//       console.log("--------------------------------------------");
+//       console.log(`✅ SUCCESS!`);
+//       console.log(`📝 Title: ${updatedBlog.title}`);
+//       console.log(`🕒 New createdAt: ${updatedBlog.createdAt}`);
+//       console.log("--------------------------------------------");
+//     } else {
+//       console.log(`❌ Error: Blog with slug "${slug}" not found in your MongoDB.`);
+//     }
+
+//   } catch (error) {
+//     console.error("\n❌ ERROR:", error.message);
+//   } finally {
+//     await mongoose.disconnect();
+//     process.exit(0);
+//   }
+// }
+
+// // TODO: Replace with a real slug from your database to test
+// updateSingleBlogDate('ui-ux-designer-course-in-kochi-your-complete-guide-to-a-future-proof-tech-career');
+
+
+
 import dotenv from 'dotenv';
 dotenv.config();
 import mongoose from "mongoose";
 import connectDB from "../lib/mongodb.js";
 import Blog from "../models/Blog.js";
-import { UTApi } from "uploadthing/server";
 
-const utapi = new UTApi();
 const WP_URL = "https://www.pixeltoonzacademy.com";
 
-// Helper to prevent rate limiting (waits 500ms between uploads)
-const delay = (ms) => new Promise(res => setTimeout(res, ms));
-
-
-
-async function importAllPosts() {
+async function syncAllBlogDates() {
   await connectDB();
-
-  const cleanText = (str) => {
-    if (!str) return "";
-    return str
-      .replace(/&nbsp;/g, " ")
-      .replace(/\[&hellip;\]/g, "...")
-      .replace(/<[^>]*>?/gm, "")
-      .trim();
-  };
 
   try {
     let page = 1;
     let hasMore = true;
-    let totalImported = 0;
+    let totalUpdated = 0;
 
-    console.log("🚀 Starting Full Migration (Oldest to Newest)...");
+    console.log("🚀 Starting Date-Only Sync (WordPress -> MongoDB)...");
 
     while (hasMore) {
-      console.log(`\n📄 Fetching Page ${page}...`);
+      console.log(`\n📄 Fetching WordPress Page ${page}...`);
       
-      // ADDED: orderby=date&order=asc 
-      // This ensures newest blogs are at the end of the process
+      // We don't need _embed or full content, just the slug and date
       const res = await fetch(
-        `${WP_URL}/wp-json/wp/v2/posts?_embed&per_page=100&page=${page}&status=publish&orderby=date&order=asc`
+        `${WP_URL}/wp-json/wp/v2/posts?per_page=100&page=${page}&status=publish&_fields=slug,date`
       );
 
       if (!res.ok) {
-        if (res.status === 400) {
-          hasMore = false;
-          break;
-        }
-        throw new Error(`WordPress API status: ${res.status}`);
+        hasMore = false;
+        break;
       }
 
       const wpPosts = await res.json();
@@ -361,52 +537,30 @@ async function importAllPosts() {
       }
 
       for (const wpPost of wpPosts) {
-        console.log(`📦 [${totalImported + 1}] Processing: ${wpPost.slug}`);
+        const wpDate = new Date(wpPost.date);
 
-        const wpImageUrl = wpPost._embedded?.["wp:featuredmedia"]?.[0]?.source_url || "";
-        let finalImageUrl = "";
-
-        if (wpImageUrl) {
-          try {
-            const uploadResponse = await utapi.uploadFilesFromUrl(wpImageUrl);
-            if (uploadResponse && uploadResponse.data) {
-              finalImageUrl = uploadResponse.data.url;
-            } else {
-              finalImageUrl = wpImageUrl; 
-            }
-          } catch (err) {
-            console.error(`   ❌ Image Upload Failed:`, err.message);
-            finalImageUrl = wpImageUrl;
+        // $set ensures we ONLY touch createdAt and updatedAt
+        // timestamps: false prevents Mongoose from overwriting with "now"
+        const result = await Blog.findOneAndUpdate(
+          { slug: wpPost.slug },
+          { 
+            $set: { 
+              createdAt: wpDate,
+              updatedAt: wpDate 
+            } 
+          },
+          { 
+            timestamps: false,
+            strict: false 
           }
-          await delay(300);
-        }
-
-        const excerptClean = cleanText(wpPost.excerpt.rendered);
-        
-        const blogData = {
-          title: wpPost.title.rendered,
-          slug: wpPost.slug,
-          description: excerptClean,
-          content: wpPost.content.rendered,
-          images: finalImageUrl ? [{ url: finalImageUrl, alt: wpPost.title.rendered }] : [],
-          isPublished: true,
-          isFeatured: false,
-          isNewPost: false,
-          // CRITICAL: Save the actual WP date
-          createdAt: new Date(wpPost.date), 
-          metaTitle: wpPost.yoast_head_json?.title || wpPost.title.rendered,
-          metaDescription: wpPost.yoast_head_json?.description || excerptClean.substring(0, 160),
-          metaKeywords: "",
-          canonicalUrl: wpPost.link,
-        };
-
-        await Blog.findOneAndUpdate(
-          { slug: blogData.slug },
-          blogData,
-          { upsert: true, new: true }
         );
 
-        totalImported++;
+        if (result) {
+          console.log(`✅ Updated Date: ${wpPost.slug}`);
+          totalUpdated++;
+        } else {
+          console.log(`⚠️ Skipped (Slug not in DB): ${wpPost.slug}`);
+        }
       }
 
       const totalPages = parseInt(res.headers.get("X-WP-TotalPages"));
@@ -417,7 +571,7 @@ async function importAllPosts() {
       }
     }
 
-    console.log(`\n🎉 SUCCESS! Newest blogs were processed last.`);
+    console.log(`\n🎉 FINISHED! Successfully synced dates for ${totalUpdated} blogs.`);
 
   } catch (error) {
     console.error("\n❌ FATAL ERROR:", error.message);
@@ -427,4 +581,4 @@ async function importAllPosts() {
   }
 }
 
-importAllPosts();
+syncAllBlogDates();

@@ -1,7 +1,7 @@
 "use client";
 import DOMPurify from "dompurify";
 
-export default function BlogContentRenderer({ content }) {
+export default function ContentRenderer({ content }) {
   const cleanHtml = typeof window !== "undefined" ? DOMPurify.sanitize(content) : content;
 
   return (

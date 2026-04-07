@@ -253,7 +253,7 @@ const CourseForm = ({ onSubmit, loading, initialData }) => {
                     <FormLabel className={labelCn(fieldState.error)}>
                       Course Images<Req />
                     </FormLabel>
-                    <ImageUpload value={field.value} onChange={field.onChange} multiple maxImages={8} />
+                    <ImageUpload value={field.value} onChange={field.onChange} multiple maxImages={4} />
                     <FormMessage />
                   </FormItem>
                 )}

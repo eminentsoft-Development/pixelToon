@@ -6,6 +6,7 @@ import { Plus } from "lucide-react";
 import ImageGallery from "./ImageGallery";
 import { faqs } from "@/contant/faq";
 import DOMPurify from "dompurify";
+import ContentRenderer from "./ContentRenderer";
 
 export default function CourseOverview({
   title,
@@ -16,9 +17,6 @@ export default function CourseOverview({
   acquireItems,
 }) {
   const [openFaq, setOpenFaq] = useState(null);
-
-  const cleanHtml =
-    typeof window !== "undefined" ? DOMPurify.sanitize(content) : content;
 
   return (
     <div
@@ -50,63 +48,65 @@ export default function CourseOverview({
 
             {/* DESCRIPTION */}
             <section className="mb-[72px]">
-              <div
-                className="prose prose-slate lg:prose-xl max-w-none 
-                   prose-headings:font-serif prose-a:text-primary"
-                dangerouslySetInnerHTML={{ __html: cleanHtml }}
-              />
+              <ContentRenderer content={content} />
             </section>
 
-            {/* WHAT YOU'LL GAIN */}
-            <section className="mb-[72px] p-12 bg-[#13131a] border border-[#2a2a35] rounded-sm relative">
-              <span
-                className="absolute right-8 -top-5 text-[200px] text-[#c9a84c] opacity-[0.04] italic leading-none pointer-events-none select-none"
-                aria-hidden="true"
-              >
-                &ldquo;
-              </span>
-              <p className="font-sans-dm text-[10px] tracking-[4px] uppercase text-primary mb-3.5">
-                What You&apos;ll Gain
-              </p>
-              <h2 className="text-[2rem] italic text-[#f0ede6] mb-9 leading-[1.2]">
-                What you acquire from this Course ?
-              </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {acquireItems.map((item, i) => (
-                  <div key={i} className="flex bg-white/[0.03] rounded-lg py-4 px-4 gap-4 items-center ">
-                    <div className="text-3xl italic text-primary opacity-40 leading-none shrink-0 w-8">
-                      0{i + 1}
-                    </div>
+            {acquireItems.length > 0 && (
+              <section className="mb-[72px] p-12 bg-[#13131a] border border-[#2a2a35] rounded-sm relative">
+                <span
+                  className="absolute right-8 -top-5 text-[200px] text-[#c9a84c] opacity-[0.04] italic leading-none pointer-events-none select-none"
+                  aria-hidden="true"
+                >
+                  &ldquo;
+                </span>
+                <p className="font-sans-dm text-[10px] tracking-[4px] uppercase text-primary mb-3.5">
+                  What You&apos;ll Gain
+                </p>
+                <h2 className="text-[2rem] italic text-[#f0ede6] mb-9 leading-[1.2]">
+                  What you acquire from this Course ?
+                </h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {acquireItems.map((item, i) => (
+                    <div
+                      key={i}
+                      className="flex bg-white/[0.03] rounded-lg py-4 px-4 gap-4 items-center "
+                    >
+                      <div className="text-3xl italic text-primary opacity-40 leading-none shrink-0 w-8">
+                        0{i + 1}
+                      </div>
                       <h4 className="font-sans-dm text-[0.9rem] font-semibold text-[#f0ede6]">
                         {item.value}
                       </h4>
-                  </div>
-                ))}
-              </div>
-            </section>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            )}
 
-            {/* ACQUIRE */}
-            <section className="mb-[72px]">
-              <p className="font-sans-dm text-[10px] tracking-[4px] uppercase text-primary mb-3.5">
-                Why This Course
-              </p>
-              <h2 className="text-[2rem] italic text-textColor mb-8 leading-[1.2]">
-                 Why {title} in Kochi at Pixeltoonz Academy?
-              </h2>
-              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4 list-none">
-                {whyThisCourse.map((item, i) => (
-                  <li
-                    key={i}
-                    className="flex min-h-20 gap-3 items-center font-sans-dm text-[0.88rem] leading-[1.6] text-textColor font-light p-4 border border-primary/50 rounded-sm transition-all duration-200 hover:border-[#c9a84c] hover:bg-[rgba(201,168,76,0.03)] hover:text-primary cursor-default"
-                  >
-                    <span className="text-primary text-[0.9rem] shrink-0 mt-px">
-                      ◆
-                    </span>
-                    {item?.value}
-                  </li>
-                ))}
-              </ul>
-            </section>
+            {/* whyThisCourse */}
+            {whyThisCourse.length > 0 && (
+              <section className="mb-[72px]">
+                <p className="font-sans-dm text-[10px] tracking-[4px] uppercase text-primary mb-3.5">
+                  Why This Course
+                </p>
+                <h2 className="text-[2rem] italic text-textColor mb-8 leading-[1.2]">
+                  Why {title} in Kochi at Pixeltoonz Academy?
+                </h2>
+                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4 list-none">
+                  {whyThisCourse.map((item, i) => (
+                    <li
+                      key={i}
+                      className="flex min-h-20 gap-3 items-center font-sans-dm text-[0.88rem] leading-[1.6] text-textColor font-light p-4 border border-primary/50 rounded-sm transition-all duration-200 hover:border-[#c9a84c] hover:bg-[rgba(201,168,76,0.03)] hover:text-primary cursor-default"
+                    >
+                      <span className="text-primary text-[0.9rem] shrink-0 mt-px">
+                        ◆
+                      </span>
+                      {item?.value}
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            )}
 
             {/* BENEFITS */}
             {/* <section className="mb-[72px]">
