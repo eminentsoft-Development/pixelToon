@@ -7,16 +7,23 @@ import { DynamicPagination } from "@/components/site/Pagination";
 const ITEMS_PER_PAGE = 6;
 
 export async function getCourses(page = 1, limit = 9) {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_SITE_URL}/api/course?page=${page}&limit=${limit}`,
-    {
-      next: { revalidate: 60 }, // Cache for 1 min, or use 'no-store' for real-time
-    },
-  );
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_SITE_URL}/api/course?page=${page}&limit=${limit}`,
+      {
+        next: { revalidate: 60 },
+      }
+    );
 
-  if (!res.ok) throw new Error("Failed to fetch news");
-  return res.json();
+    if (!res.ok) return { courses: [], totalPages: 0 };
+    return res.json();
+  } catch (error) {
+    console.error("Courses build fetch failed:", error.message);
+    // Return empty state so the build can finish
+    return { courses: [], totalPages: 0 };
+  }
 }
+
 
 const CourseListing = async ({ searchParams }) => {
   const currentPage = Number(searchParams.page) || 1;
@@ -42,7 +49,7 @@ const CourseListing = async ({ searchParams }) => {
 
         {/* Courses Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {courses.map((course, index) => (
+          {courses?.map((course, index) => (
             <CourseCard key={index} {...course} index={index} />
           ))}
         </div>

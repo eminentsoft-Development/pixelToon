@@ -31,7 +31,7 @@ export function MegaDropdown({ title, path, menuChildren, isScrolled }) {
 
       <NavigationMenuContent>
         <div className="min-w-[700px] rounded-xl bg-white shadow-lg p-3 grid grid-cols-3 gap-3">
-          {menuChildren.map((item, idx) => (
+          {menuChildren?.map((item, idx) => (
             <Link
               key={idx}
               href={item.path}

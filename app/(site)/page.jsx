@@ -1,15 +1,17 @@
+import React from "react";
 import AboutSection from "@/components/site/AboutSection";
 import CourseSection from "@/components/site/CourseSection";
 import GetInTouch from "@/components/site/GetInTouch";
 import HeroSection from "@/components/site/heroSection";
-import LatestNews from "@/components/site/LatestNews";
 import LevelUpSection from "@/components/site/LevelUpSection";
-import SuccessStories from "@/components/site/SuccessStories";
 import Testimonials from "@/components/site/Testimonials";
 import WhyJoinPixeltoonz from "@/components/site/Whyjoinpixeltoonz";
-import React from "react";
+import { getBlogs } from "@/lib/get-blogs";
+import LatestBlogs from "@/components/site/LatestBlogs";
 
-const Home = () => {
+
+const Home = async () => {
+  const { blogs } = await getBlogs(1, 9);
   return (
     <>
       <HeroSection />
@@ -18,8 +20,7 @@ const Home = () => {
       <LevelUpSection />
       <WhyJoinPixeltoonz />
       <Testimonials />
-      {/* <SuccessStories /> */}
-      <LatestNews />
+      <LatestBlogs blogs={blogs} />
       <GetInTouch />
     </>
   );
