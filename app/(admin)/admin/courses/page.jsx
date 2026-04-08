@@ -56,7 +56,7 @@ const CourseAdminPage = () => {
             <BookOpen className="w-6 h-6 text-primary" /> All Courses
           </h1>
         </div>
-        <Link href="/admin/courses/new">
+        <Link href="/admin/courses/add">
           <Button className="bg-primary hover:opacity-90">
             <Plus className="w-4 h-4 mr-2" /> New Course
           </Button>

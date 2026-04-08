@@ -30,8 +30,8 @@ const AddCoursePage = () => {
         description: "The course is now saved and ready to publish.",
       });
 
-      // router.push("/admin/courses");
-      // router.refresh();
+      router.push("/admin/courses");
+      router.refresh();
     } catch (error) {
       toast.error("Something went wrong", {
         description: error.message || "Please try again.",
