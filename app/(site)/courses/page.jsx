@@ -2,33 +2,15 @@ import React from "react";
 import Breadcrumbs from "@/components/site/Breadcrumbs";
 import CourseCard from "@/components/site/CourseCard";
 import { DynamicPagination } from "@/components/site/Pagination";
+import { getFullCourses } from "../../../lib/get-courses";
 
 
-const ITEMS_PER_PAGE = 6;
-
-export async function getCourses(page = 1, limit = 9) {
-  try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_SITE_URL}/api/course?page=${page}&limit=${limit}`,
-      {
-        next: { revalidate: 60 },
-      }
-    );
-
-    if (!res.ok) return { courses: [], totalPages: 0 };
-    return res.json();
-  } catch (error) {
-    console.error("Courses build fetch failed:", error.message);
-    // Return empty state so the build can finish
-    return { courses: [], totalPages: 0 };
-  }
-}
-
+const ITEMS_PER_PAGE = 12;
 
 const CourseListing = async ({ searchParams }) => {
   const currentPage = Number(searchParams.page) || 1;
 
-  const { courses, totalPages } = await getCourses(currentPage, ITEMS_PER_PAGE);
+  const { courses, totalPages } = await getFullCourses(currentPage, ITEMS_PER_PAGE);
 
   return (
     <div className="min-h-screen bg-slate-50">

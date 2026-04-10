@@ -5,9 +5,8 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { Button } from "../ui/button";
 import Link from "next/link";
-import { SelectScrollDownButton } from "../ui/select";
 
-const CourseCard = ({ image, title, slug, description, index }) => {
+const CourseCard = ({ images, title, slug, description, index }) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -18,7 +17,7 @@ const CourseCard = ({ image, title, slug, description, index }) => {
     >
       <div className="relative aspect-[3/4] rounded-[2.5rem] overflow-hidden mb-6 shadow-xl">
         <Image
-          src={
+          src={ images?.[0]?.url ||
             "https://images.unsplash.com/photo-1542038784456-1ea8e935640e?q=80&w=800"
           }
           alt={"Digital Photography"}
@@ -55,7 +54,7 @@ const CourseCard = ({ image, title, slug, description, index }) => {
               <Link href={`/courses/${slug}`}>
                 <Button
                   className={
-                    "w-full py-6 bg-white mt-2 rounded-full text-black text-base tracking-wider"
+                    "w-full py-6 bg-white mt-2 rounded-full font-bold text-black text-base tracking-wider hover:bg-primary hover:text-white"
                   }
                 >
                   Explore More

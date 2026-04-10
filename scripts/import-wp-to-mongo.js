@@ -1,584 +1,106 @@
-// import 'dotenv/config';
-// import mongoose from 'mongoose';
-// import connectDB from '../lib/mongodb.js';
-// import Post from '../models/Post.js';
-
-// const WP_URL = 'https://www.pixeltoonzacademy.com';
-
-// async function importPosts() {
-//   await connectDB();
-
-//   try {
-//     console.log('🔄 Fetching posts from WordPress...');
-
-//     const res = await fetch(`${WP_URL}/wp-json/wp/v2/posts?_embed&per_page=100&status=publish`);
-
-//     if (!res.ok) {
-//       throw new Error(`WordPress API returned status: ${res.status}`);
-//     }
-
-//     const wpPosts = await res.json();
-//     let imported = 0;
-
-//     for (const wpPost of wpPosts) {
-//       const featuredImage = wpPost._embedded?.['wp:featuredmedia']?.[0]?.source_url || '';
-//       const author = wpPost._embedded?.author?.[0]?.name || 'PixelToonz Academy';
-
-//       await Post.findOneAndUpdate(
-//         { wpId: wpPost.id },
-//         {
-//           wpId: wpPost.id,
-//           slug: wpPost.slug,
-//           title: wpPost.title.rendered,
-//           content: wpPost.content.rendered,
-//           excerpt: wpPost.excerpt?.rendered || '',
-//           featuredImage,
-//           author,
-//           date: new Date(wpPost.date),
-//         },
-//         { upsert: true, new: true }
-//       );
-
-//       imported++;
-//       console.log(`✅ Imported: ${wpPost.slug}`);
-//     }
-
-//     console.log(`\n🎉 Successfully imported ${imported} posts into MongoDB!`);
-
-//   } catch (error) {
-//     console.error('❌ Import failed:', error.message);
-//   } finally {
-//     await mongoose.disconnect();
-//     console.log('✅ Disconnected from MongoDB.');
-//     process.exit(0);
-//   }
-// }
-
-// importPosts().catch(console.error);
-
-// import dotenv from 'dotenv';
-// dotenv.config();
-// import mongoose from "mongoose";
-// import connectDB from "../lib/mongodb.js";
-// import Post from "../models/Post.js";
-// import { UTApi } from "uploadthing/server";
-
-// const utapi = new UTApi(); // Ensure UPLOADTHING_SECRET is in your .env.local
-// const WP_URL = "https://www.pixeltoonzacademy.com";
-
-// async function importPosts() {
-
-//   await connectDB();
-
-//   try {
-//     console.log("🔄 Fetching posts from WordPress...");
-//     const res = await fetch(
-//       `${WP_URL}/wp-json/wp/v2/posts?_embed&per_page=100&status=publish`,
-//     );
-
-//     if (!res.ok) throw new Error(`WordPress API status: ${res.status}`);
-
-//     const wpPosts = await res.json();
-//     let imported = 0;
-
-//     for (const wpPost of wpPosts) {
-//       const wpImageUrl =
-//         wpPost._embedded?.["wp:featuredmedia"]?.[0]?.source_url || "";
-//       let finalImageUrl = "";
-
-//       // --- NEW UPLOADTHING LOGIC ---
-//       // ... inside the for loop
-//       if (wpImageUrl) {
-//         try {
-//           console.log(`📸 Uploading image for: ${wpPost.slug}...`);
-
-//           // UploadThing SDK returns a single object (or array)
-//           const uploadResponse = await utapi.uploadFilesFromUrl(wpImageUrl);
-
-//           // LOG THIS to your console to see the exact structure if it fails
-//           // console.log('UploadThing Raw Response:', JSON.stringify(uploadResponse, null, 2));
-
-//           if (uploadResponse && uploadResponse.data) {
-//             finalImageUrl = uploadResponse.data.url;
-//             console.log(`✅ UploadThing URL: ${finalImageUrl}`);
-//           } else if (uploadResponse.error) {
-//             console.error(
-//               `❌ UploadThing Error: ${uploadResponse.error.message}`,
-//             );
-//             finalImageUrl = wpImageUrl; // Fallback
-//           }
-//         } catch (imgError) {
-//           console.error(
-//             `❌ Request failed for ${wpPost.slug}:`,
-//             imgError.message,
-//           );
-//           finalImageUrl = wpImageUrl;
-//         }
-//       } // ------------------------------
-
-//       const author =
-//         wpPost._embedded?.author?.[0]?.name || "PixelToonz Academy";
-
-//       await Post.findOneAndUpdate(
-//         { wpId: wpPost.id },
-//         {
-//           wpId: wpPost.id,
-//           slug: wpPost.slug,
-//           title: wpPost.title.rendered,
-//           content: wpPost.content.rendered, // NOTE: Content images will still point to WP
-//           excerpt: wpPost.excerpt?.rendered || "",
-//           featuredImage: finalImageUrl,
-//           author,
-//           date: new Date(wpPost.date),
-//         },
-//         { upsert: true, new: true },
-//       );
-
-//       imported++;
-//       console.log(`🚀 Processed: ${wpPost.slug}`);
-//     }
-
-//     console.log(`\n🎉 Successfully imported ${imported} posts and images!`);
-//   } catch (error) {
-//     console.error("❌ Import failed:", error.message);
-//   } finally {
-//     await mongoose.disconnect();
-//     process.exit(0);
-//   }
-// }
-
-// importPosts().catch(console.error);
-
-// import dotenv from 'dotenv';
-// dotenv.config();
-// const WP_URL = "https://www.pixeltoonzacademy.com";
-
-// async function testDataFetch() {
-//   try {
-//     console.log("🔍 Fetching 1 post from WordPress for validation...\n");
-
-//     // We use _embed to get featured media and author info
-//     const res = await fetch(
-//       `${WP_URL}/wp-json/wp/v2/posts?_embed&per_page=1&status=publish`,
-//     );
-
-//     if (!res.ok) throw new Error(`Status: ${res.status}`);
-
-//     const posts = await res.json();
-//     if (posts.length === 0) return console.log("No posts found.");
-
-//     const post = posts[0];
-
-//     // --- Data Extraction Logic ---
-//     const data = {
-//       title: post.title.rendered,
-//       slug: post.slug,
-//       // Mapping for your 'description' field (stripping HTML tags)
-//       description: post.excerpt.rendered.replace(/<[^>]*>?/gm, '').trim(),
-//       content: post.content.rendered,
-//       // Finding the featured image URL
-//       wpImageUrl: post._embedded?.["wp:featuredmedia"]?.[0]?.source_url || "No image found",
-//       // SEO Fields (using Yoast data if available, otherwise fallback)
-//       metaTitle: post.yoast_head_json?.title || post.title.rendered,
-//       metaDescription: post.yoast_head_json?.og_description || post.yoast_head_json?.description || "No meta description",
-//       canonicalUrl: post.link,
-//     };
-
-//     // --- Console Output ---
-//     console.log("📊 --- DATA PREVIEW ---");
-//     console.log(`📌 Title:       ${data.title}`);
-//     console.log(`🔗 Slug:        ${data.slug}`);
-//     console.log(`📝 Description: ${data.description.substring(0, 100)}...`);
-//     console.log(`🖼️ WP Image:   ${data.wpImageUrl}`);
-//     console.log(`🎯 Meta Title:  ${data.metaTitle}`);
-//     console.log(`📄 Meta Desc:   ${data.metaDescription}`);
-//     console.log(`🌐 Canonical:   ${data.canonicalUrl}`);
-//     console.log("------------------------\n");
-
-//     console.log("✅ Data check complete. If this looks correct, you can run the full import script.");
-
-//   } catch (error) {
-//     console.error("❌ Fetch failed:", error.message);
-//   }
-// }
-
-// testDataFetch();
-
-// import mongoose from "mongoose";
-// import connectDB from "../lib/mongodb.js";
-// import Blog from "../models/Blog.js"; // Ensure this matches your schema file path
-// import { UTApi } from "uploadthing/server";
-
-// const utapi = new UTApi();
-// const WP_URL = "https://www.pixeltoonzacademy.com";
-
-// async function importSinglePost() {
-//   await connectDB();
-
-//   const cleanText = (str) => {
-//     return str
-//       .replace(/&nbsp;/g, " ") // Remove non-breaking spaces
-//       .replace(/\[&hellip;\]/g, "...") // Replace WP ellipsis
-//       .replace(/<[^>]*>?/gm, "") // Strip any remaining HTML tags
-//       .trim();
-//   };
-
-//   try {
-//     console.log("🔄 Fetching latest post from WordPress...");
-//     // Fetching only 1 post for testing
-//     const res = await fetch(
-//       `${WP_URL}/wp-json/wp/v2/posts?_embed&per_page=1&status=publish`,
-//     );
-
-//     if (!res.ok) throw new Error(`WordPress API status: ${res.status}`);
-
-//     const wpPosts = await res.json();
-//     if (wpPosts.length === 0) {
-//       console.log("No posts found.");
-//       return;
-//     }
-
-//     const wpPost = wpPosts[0];
-//     const wpImageUrl =
-//       wpPost._embedded?.["wp:featuredmedia"]?.[0]?.source_url || "";
-//     let finalImageUrl = "";
-
-//     // 1. Handle UploadThing for the featured image
-//     if (wpImageUrl) {
-//       try {
-//         console.log(`📸 Uploading image to UploadThing: ${wpImageUrl}`);
-//         const uploadResponse = await utapi.uploadFilesFromUrl(wpImageUrl);
-
-//         if (uploadResponse && uploadResponse.data) {
-//           finalImageUrl = uploadResponse.data.url;
-//           console.log(`✅ UploadThing URL: ${finalImageUrl}`);
-//         } else {
-//           console.error("❌ Upload failed, using fallback.");
-//           finalImageUrl = wpImageUrl;
-//         }
-//       } catch (err) {
-//         console.error("❌ Image upload error:", err.message);
-//         finalImageUrl = wpImageUrl;
-//       }
-//     }
-
-//     // 2. Prepare Data for your 'Blog' Schema
-//     // Mapping WP fields to your specific schema fields
-//     const blogData = {
-//       title: wpPost.title.rendered,
-//       slug: wpPost.slug,
-//       description: cleanText(wpPost.excerpt.rendered),
-//       content: wpPost.content.rendered,
-//       images: finalImageUrl
-//         ? [{ url: finalImageUrl, alt: wpPost.title.rendered }]
-//         : [],
-//       isPublished: true,
-//       isFeatured: false,
-//       isNewPost: false,
-//       // SEO Mapping
-//       metaTitle: wpPost.yoast_head_json?.title || wpPost.title.rendered,
-//       metaDescription: wpPost.yoast_head_json?.description || "",
-//       metaKeywords: "", // WP doesn't provide this by default
-//       canonicalUrl: wpPost.link,
-//     };
-
-//     // 3. Save to MongoDB
-//     const updatedBlog = await Blog.findOneAndUpdate(
-//       { slug: blogData.slug },
-//       blogData,
-//       { upsert: true, new: true },
-//     );
-
-//     console.log(`\n🎉 Successfully imported: "${updatedBlog.title}"`);
-//     console.log(`🔗 DB ID: ${updatedBlog._id}`);
-//   } catch (error) {
-//     console.error("❌ Import failed:", error.message);
-//   } finally {
-//     await mongoose.disconnect();
-//     process.exit(0);
-//   }
-// }
-
-// importSinglePost();
-
-
-// import dotenv from 'dotenv';
-// dotenv.config();
-// import mongoose from "mongoose";
-// import connectDB from "../lib/mongodb.js";
-// import Blog from "../models/Blog.js";
-// import { UTApi } from "uploadthing/server";
-
-// const utapi = new UTApi();
-// const WP_URL = "https://www.pixeltoonzacademy.com";
-
-// // Helper to prevent rate limiting (waits 500ms between uploads)
-// const delay = (ms) => new Promise(res => setTimeout(res, ms));
-
-
-
-// async function importAllPosts() {
-//   await connectDB();
-
-//   const cleanText = (str) => {
-//     if (!str) return "";
-//     return str
-//       .replace(/&nbsp;/g, " ")
-//       .replace(/\[&hellip;\]/g, "...")
-//       .replace(/<[^>]*>?/gm, "")
-//       .trim();
-//   };
-
-//   try {
-//     let page = 1;
-//     let hasMore = true;
-//     let totalImported = 0;
-
-//     console.log("🚀 Starting Full Migration (Oldest to Newest)...");
-
-//     while (hasMore) {
-//       console.log(`\n📄 Fetching Page ${page}...`);
-      
-//       // ADDED: orderby=date&order=asc 
-//       // This ensures newest blogs are at the end of the process
-//       const res = await fetch(
-//         `${WP_URL}/wp-json/wp/v2/posts?_embed&per_page=100&page=${page}&status=publish&orderby=date&order=asc`
-//       );
-
-//       if (!res.ok) {
-//         if (res.status === 400) {
-//           hasMore = false;
-//           break;
-//         }
-//         throw new Error(`WordPress API status: ${res.status}`);
-//       }
-
-//       const wpPosts = await res.json();
-      
-//       if (wpPosts.length === 0) {
-//         hasMore = false;
-//         break;
-//       }
-
-//       for (const wpPost of wpPosts) {
-//         console.log(`📦 [${totalImported + 1}] Processing: ${wpPost.slug}`);
-
-//         const wpImageUrl = wpPost._embedded?.["wp:featuredmedia"]?.[0]?.source_url || "";
-//         let finalImageUrl = "";
-
-//         if (wpImageUrl) {
-//           try {
-//             const uploadResponse = await utapi.uploadFilesFromUrl(wpImageUrl);
-//             if (uploadResponse && uploadResponse.data) {
-//               finalImageUrl = uploadResponse.data.url;
-//             } else {
-//               finalImageUrl = wpImageUrl; 
-//             }
-//           } catch (err) {
-//             console.error(`   ❌ Image Upload Failed:`, err.message);
-//             finalImageUrl = wpImageUrl;
-//           }
-//           await delay(300);
-//         }
-
-//         const excerptClean = cleanText(wpPost.excerpt.rendered);
-        
-//         const blogData = {
-//           title: wpPost.title.rendered,
-//           slug: wpPost.slug,
-//           description: excerptClean,
-//           content: wpPost.content.rendered,
-//           images: finalImageUrl ? [{ url: finalImageUrl, alt: wpPost.title.rendered }] : [],
-//           isPublished: true,
-//           isFeatured: false,
-//           isNewPost: false,
-//           // CRITICAL: Save the actual WP date
-//           createdAt: new Date(wpPost.date), 
-//           metaTitle: wpPost.yoast_head_json?.title || wpPost.title.rendered,
-//           metaDescription: wpPost.yoast_head_json?.description || excerptClean.substring(0, 160),
-//           metaKeywords: "",
-//           canonicalUrl: wpPost.link,
-//         };
-
-//         await Blog.findOneAndUpdate(
-//           { slug: blogData.slug },
-//           blogData,
-//           { upsert: true, new: true }
-//         );
-
-//         totalImported++;
-//       }
-
-//       const totalPages = parseInt(res.headers.get("X-WP-TotalPages"));
-//       if (page >= totalPages) {
-//         hasMore = false;
-//       } else {
-//         page++;
-//       }
-//     }
-
-//     console.log(`\n🎉 SUCCESS! Newest blogs were processed last.`);
-
-//   } catch (error) {
-//     console.error("\n❌ FATAL ERROR:", error.message);
-//   } finally {
-//     await mongoose.disconnect();
-//     process.exit(0);
-//   }
-// }
-
-// importAllPosts();
-
-
-// import dotenv from 'dotenv';
-// dotenv.config();
-// import mongoose from "mongoose";
-// import connectDB from "../lib/mongodb.js";
-// import Blog from "../models/Blog.js";
-
-// const WP_URL = "https://www.pixeltoonzacademy.com";
-
-// async function updateSingleBlogDate(slug) {
-//   await connectDB();
-
-//   try {
-//     console.log(`🔍 Searching WordPress for post: ${slug}...`);
-
-//     // Fetch only this specific post by slug from WordPress
-//     const res = await fetch(`${WP_URL}/wp-json/wp/v2/posts?slug=${slug}`);
-//     const wpPosts = await res.json();
-
-//     if (!wpPosts || wpPosts.length === 0) {
-//       console.error("❌ Error: Post not found on WordPress.");
-//       return;
-//     }
-
-//     const wpPost = wpPosts[0];
-//     const wpDate = new Date(wpPost.date);
-
-//     console.log(`📅 Found WP Date: ${wpPost.date}`);
-
-//     // Perform the update
-//     const updatedBlog = await Blog.findOneAndUpdate(
-//       { slug: slug },
-//       { 
-//         $set: { 
-//           // Use .toISOString() or a fresh Date object to ensure compatibility
-//           createdAt: new Date(wpPost.date), 
-//           updatedAt: new Date(wpPost.date) 
-//         } 
-//       },
-//       { 
-//         returnDocument: 'after', // Fixes the deprecation warning
-//         timestamps: false,       // Tells Mongoose: "Don't touch the dates"
-//         strict: false            // Bypass schema validation just for this update
-//       }
-//     );
-
-//     if (updatedBlog) {
-//       console.log("--------------------------------------------");
-//       console.log(`✅ SUCCESS!`);
-//       console.log(`📝 Title: ${updatedBlog.title}`);
-//       console.log(`🕒 New createdAt: ${updatedBlog.createdAt}`);
-//       console.log("--------------------------------------------");
-//     } else {
-//       console.log(`❌ Error: Blog with slug "${slug}" not found in your MongoDB.`);
-//     }
-
-//   } catch (error) {
-//     console.error("\n❌ ERROR:", error.message);
-//   } finally {
-//     await mongoose.disconnect();
-//     process.exit(0);
-//   }
-// }
-
-// // TODO: Replace with a real slug from your database to test
-// updateSingleBlogDate('ui-ux-designer-course-in-kochi-your-complete-guide-to-a-future-proof-tech-career');
-
-
-
-import dotenv from 'dotenv';
-dotenv.config();
-import mongoose from "mongoose";
+import Video from "../models/Video.js";
 import connectDB from "../lib/mongodb.js";
-import Blog from "../models/Blog.js";
 
-const WP_URL = "https://www.pixeltoonzacademy.com";
+const videoUrls = [
+  "https://youtu.be/ZYp64zxq2cc?si=AyKTili-EYwUKY9v",
+  "https://youtu.be/MeHAVbCTlis?si=ebVvS7K_kiBBCJvZ",
+  "https://youtu.be/Cc3cZjK_suk?si=qLqEq_Uwth3NBAFx",
+  "https://youtu.be/78_hIxFWGQo?si=a1UsMJY-9Vfd9szH",
+  "https://youtu.be/Y5j2vjHz99c?si=2fjdTqRo18hcOBlE",
+  "https://youtu.be/hYUCBytldCs?si=9dDDg6gPnhtNP3zc",
+  "https://youtu.be/PlhHqaeJnjo?si=HVrW96_0ls56IxnH",
+  "https://youtu.be/25FSyCl6yKw?si=HiFyFqnLCveVR8Rs",
+  "https://youtu.be/Cuwmv-d1-xc?si=lsoa3qky2wQ8f9wq",
+  "https://youtu.be/Cuwmv-d1-xc?si=Et8WdTixVCOsYV8h",
+  "https://youtu.be/Gy8P4iI8zms?si=BfwGY7SXN-wecRW3",
+  "https://youtu.be/pSmlO4SHx7o?si=TQFLv4OuK-iJW3xw",
+  "https://youtu.be/tSPpP6XWBME?si=MEoy_z2Kwp9uKBcn",
+  "https://youtu.be/TaxCu6-YgfE?si=BfQoi3i7QBWjFeld",
+  "https://youtu.be/fTRo1jecddg?si=joRBzG5wGwKITxSY",
+  "https://youtu.be/d0KrpGHatEw?si=3GOy6zT-0lcsVbej",
+  "https://youtu.be/-X_NEAXQykc?si=wCWDv6SklhvvrTzu",
+  "https://youtu.be/Hz6NoMwfRns?si=gxlEKC96QvFwGwmt",
+  "https://youtu.be/2yv5vX2WuSo?si=85jmmDMAM1YH1X-d",
+  "https://youtu.be/fRiKFe8_G4A?si=xeFe95KvIJPisUtd",
+  "https://youtu.be/f8f0PfRpcd4?si=XbUDc5mGdmtuiXu6",
+];
 
-async function syncAllBlogDates() {
-  await connectDB();
-
+/**
+ * Fetches the video title using YouTube's oEmbed API.
+ */
+async function getYoutubeMetadata(id) {
   try {
-    let page = 1;
-    let hasMore = true;
-    let totalUpdated = 0;
-
-    console.log("🚀 Starting Date-Only Sync (WordPress -> MongoDB)...");
-
-    while (hasMore) {
-      console.log(`\n📄 Fetching WordPress Page ${page}...`);
-      
-      // We don't need _embed or full content, just the slug and date
-      const res = await fetch(
-        `${WP_URL}/wp-json/wp/v2/posts?per_page=100&page=${page}&status=publish&_fields=slug,date`
-      );
-
-      if (!res.ok) {
-        hasMore = false;
-        break;
-      }
-
-      const wpPosts = await res.json();
-      
-      if (wpPosts.length === 0) {
-        hasMore = false;
-        break;
-      }
-
-      for (const wpPost of wpPosts) {
-        const wpDate = new Date(wpPost.date);
-
-        // $set ensures we ONLY touch createdAt and updatedAt
-        // timestamps: false prevents Mongoose from overwriting with "now"
-        const result = await Blog.findOneAndUpdate(
-          { slug: wpPost.slug },
-          { 
-            $set: { 
-              createdAt: wpDate,
-              updatedAt: wpDate 
-            } 
-          },
-          { 
-            timestamps: false,
-            strict: false 
-          }
-        );
-
-        if (result) {
-          console.log(`✅ Updated Date: ${wpPost.slug}`);
-          totalUpdated++;
-        } else {
-          console.log(`⚠️ Skipped (Slug not in DB): ${wpPost.slug}`);
-        }
-      }
-
-      const totalPages = parseInt(res.headers.get("X-WP-TotalPages"));
-      if (page >= totalPages) {
-        hasMore = false;
-      } else {
-        page++;
-      }
-    }
-
-    console.log(`\n🎉 FINISHED! Successfully synced dates for ${totalUpdated} blogs.`);
-
+    const response = await fetch(
+      `https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${id}&format=json`
+    );
+    if (!response.ok) throw new Error("Metadata fetch failed");
+    const data = await response.json();
+    return data.title;
   } catch (error) {
-    console.error("\n❌ FATAL ERROR:", error.message);
-  } finally {
-    await mongoose.disconnect();
-    process.exit(0);
+    console.warn(`Could not fetch title for ${id}, using fallback.`);
+    return "Pixeltoonz Student Project"; 
   }
 }
 
-syncAllBlogDates();
+/**
+ * Checks YouTube's image servers for the highest available resolution.
+ * Fallback order: Max Res -> Standard Def -> High Quality -> Default
+ */
+async function getBestThumbnail(id) {
+  const resolutions = ["maxresdefault", "sddefault", "hqdefault"];
+
+  for (const res of resolutions) {
+    const url = `https://img.youtube.com/vi/${id}/${res}.jpg`;
+    try {
+      const response = await fetch(url, { method: "HEAD" });
+      if (response.ok) return url;
+    } catch (err) {
+      continue;
+    }
+  }
+
+  return `https://img.youtube.com/vi/${id}/default.jpg`;
+}
+
+async function uploadVideos() {
+  try {
+    await connectDB();
+    console.log("Connected to Database. Starting upload...");
+
+    for (const url of videoUrls) {
+      // 1. Extract ID from various URL formats
+      const youtubeId = url.split("/").pop().split("?")[0];
+
+      // 2. Avoid duplicates: Check if video already exists
+      const existing = await Video.findOne({ youtubeId });
+      if (existing) {
+        console.log(`⏩ Skipping (Already exists): ${youtubeId}`);
+        continue;
+      }
+
+      // 3. Fetch Title and the best available Thumbnail
+      console.log(`⏳ Processing: ${youtubeId}...`);
+      const title = await getYoutubeMetadata(youtubeId);
+      const thumbnail = await getBestThumbnail(youtubeId);
+
+      // 4. Save to DB
+      await Video.create({
+        title,
+        youtubeId,
+        thumbnail,
+        url: `https://www.youtube.com/watch?v=${youtubeId}`,
+        category: "students-life",
+      });
+
+      console.log(`✅ Saved: ${title}`);
+    }
+
+    console.log("🚀 All Videos processed successfully!");
+    process.exit(0);
+  } catch (error) {
+    console.error("❌ Fatal Error during upload:", error);
+    process.exit(1);
+  }
+}
+
+uploadVideos();

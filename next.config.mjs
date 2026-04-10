@@ -9,11 +9,15 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "www.stedcouncil.com",
-        pathname: "/**", 
+        pathname: "/**",
       },
       {
         protocol: "https",
         hostname: "i.pravatar.cc",
+      },
+      {
+        protocol: "https",
+        hostname: "img.youtube.com",
       },
       {
         protocol: "https",

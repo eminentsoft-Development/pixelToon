@@ -45,13 +45,14 @@ export async function PUT(req, { params }) {
     await dbConnect();
     const { id } = await params;
     const body = await req.json();
+    console.log("body :", body)
 
     // Strip fields that must never be updated from the client
     const { _id, createdAt, updatedAt, __v, ...safeBody } = body;
 
     const course = await Course.findByIdAndUpdate(
       id,
-      { $set: safeBody },
+      safeBody,
       {
         new: true,          // return updated document
         runValidators: true,
