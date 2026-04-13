@@ -53,7 +53,7 @@ const HeroSection = () => {
           >
             <div className="relative w-full h-full rounded-[35px] overflow-hidden bg-black">
               <Image
-                src="/our-vision.jpg"
+                src="/floating-img-1.jpg"
                 alt="VR Media"
                 fill
                 className="object-cover"
@@ -70,7 +70,7 @@ const HeroSection = () => {
           >
             <div className="relative w-full h-full rounded-[35px] overflow-hidden bg-[#1a1125]">
               <Image
-                src="/our-vision.jpg"
+                src="/vfx-and-animation-courses-in-kerala.jpg"
                 alt="VR Media"
                 fill
                 className="object-cover"
@@ -86,7 +86,7 @@ const HeroSection = () => {
           >
             <div className="relative w-full h-full rounded-[35px] overflow-hidden bg-[#1a1125]">
               <Image
-                src="/our-vision.jpg"
+                src="/floating-img-2.jpg"
                 alt="VR Media"
                 fill
                 className="object-cover"
@@ -102,7 +102,7 @@ const HeroSection = () => {
           >
             <div className="relative w-full h-full rounded-[35px] overflow-hidden bg-[#1a1125]">
               <Image
-                src="/our-vision.jpg"
+                src="/floating-img-3.jpg"
                 alt="VR Media"
                 fill
                 className="object-cover"
@@ -202,30 +202,25 @@ const HeroSection = () => {
                     </span>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                     {[
-                      { title: "Digital Marketing", tag: "With AI" },
-                      { title: "Graphic Design", tag: "Pro UI/UX" },
-                      { title: "Multimedia", tag: "VFX & Edit" },
+                      { img: "/multimedia-courses-in-kerala-1024x683-1.jpg" },
+                      { img: "/65518.jpg" },
+                      { img: "/WhatsApp-Image-2025-12-17-at-3.52.58-PM-2.jpeg" },
+                      { img: "/WhatsApp-Image-2025-12-17-at-3.52.57-PM.jpeg" },
+                      { img: "/4.jpeg" },
+                      { img: "/9.jpeg" },
                     ].map((course, i) => (
                       <div
                         key={i}
-                        className="relative group h-36 rounded-[25px] bg-white border border-gray-100 flex flex-col justify-end p-5 overflow-hidden hover:border-[#f07822]/30 hover:shadow-xl transition-all cursor-pointer"
+                        className="relative group h-36 rounded-[16px] bg-white border border-gray-100 flex flex-col justify-end p-5 overflow-hidden hover:border-[#f07822]/30 hover:shadow-xl transition-all cursor-pointer"
                       >
                         <Image
-                          src="/film-editor.jpg"
-                          alt={course.title}
+                          src={course.img}
+                          alt={"images"}
                           fill
                           className="object-cover group-hover:scale-105 transition-transform duration-300"
                         />
-
-                        <div className="relative z-10 text-white">
-                          <h3 className="text-lg font-semibold">
-                            {course.title}
-                          </h3>
-                          <p className="text-sm opacity-80">{course.tag}</p>
-                        </div>
-
                         <div className="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition"></div>
                       </div>
                     ))}

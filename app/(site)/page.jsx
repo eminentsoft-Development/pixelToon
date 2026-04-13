@@ -8,15 +8,17 @@ import Testimonials from "@/components/site/Testimonials";
 import WhyJoinPixeltoonz from "@/components/site/Whyjoinpixeltoonz";
 import { getBlogs } from "@/lib/get-blogs";
 import LatestBlogs from "@/components/site/LatestBlogs";
+import { getFullCourses } from "@/lib/get-courses";
 
 
 const Home = async () => {
   const { blogs } = await getBlogs(1, 9);
+  const { courses } = await getFullCourses(1, 12);
   return (
     <>
       <HeroSection />
       <AboutSection />
-      <CourseSection />
+      <CourseSection courses={courses} />
       <LevelUpSection />
       <WhyJoinPixeltoonz />
       <Testimonials />

@@ -52,13 +52,13 @@ const AboutSection = () => {
                 , is one among the top educational institutions in Kerala.
               </p>
               <p className="text-gray-500 leading-relaxed">
-                Providing the best multimedia courses in Animation, VFX, 3D
+                providing the best multimedia courses in Animation, VFX, 3D
                 Design, Film Editing, Photography, Cinematography, Graphics
-                Design and Web Technologies. As the best film editing institute
-                in Kerala, we personally understand the student’s natural
-                ability and accordingly inculcate “Creativity” with the right
-                blend of motivation & inspiration towards Art, Design &
-                Technology.
+                Design and Web Technologies. Pixeltoonz, as the best film
+                editing institute in Kerala, we personally understand the
+                student’s natural ability and accordingly inculcate “Creativity”
+                with the right blend of motivation & inspiration towards Art,
+                Design & Technology.
               </p>
             </motion.div>
 
@@ -152,9 +152,10 @@ const AboutSection = () => {
                 The <span className="text-primary">Bridge</span>
               </h4>
               <p className="text-sm leading-relaxed text-gray-400 group-hover:text-gray-200 transition-colors duration-300">
-                Providing high-quality film and multimedia training to nurture
-                creative capabilities and linking students with India’s finest
-                industry professionals.
+                Our mission is to provide consistent high quality training on
+                film and multimedia to nurture creative capabilities of the
+                individual and to bridge the gap by linking them with India’s
+                finest professionals.
               </p>
             </div>
 
@@ -167,9 +168,9 @@ const AboutSection = () => {
                 The <span className="text-primary">Future</span>
               </h4>
               <p className="text-sm leading-relaxed text-gray-400 group-hover:text-gray-200 transition-colors duration-300">
-                Extensive practical and on-job training that empowers students
-                to transform their talent into a thriving, high-impact creative
-                career.
+                Our vision is to provide, extensive practical and on job
+                training helps students to turn their skills and talent into a
+                promising creative career.
               </p>
             </div>
 
@@ -178,9 +179,12 @@ const AboutSection = () => {
               <span className="mb-6 font-mono text-sm tracking-widest text-yellow-400">
                 03 // MOTTO
               </span>
+               <h4 className="mb-4 text-3xl font-black uppercase tracking-tighter">
+                Our <span className="text-primary">MOTTO</span>
+              </h4>
               <p className="text-lg italic font-medium leading-snug text-white">
-                “Human mind is a beautiful place... they just need the right
-                teacher to{" "}
+                “Human mind is a beautiful place and every individual is
+                creatively endowed. They just need the right teacher to{" "}
                 <span className="text-primary">ignite the Spark!!</span>”
               </p>
             </div>

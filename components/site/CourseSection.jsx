@@ -1,146 +1,137 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
-import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { ArrowUpRight, ArrowLeft, ArrowRight } from "lucide-react";
 import CourseCard from "./CourseCard";
-import { Button } from "../ui/button";
-import Link from "next/link";
 
-const courses = [
-  {
-    title: "Film Editing & Post Production",
-    category: "Cinema",
-    description:
-      "Master industry-standard tools like Premiere Pro and DaVinci Resolve.",
-    image:
-      "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?q=80&w=1200",
-  },
-  {
-    title: "VFX & Cinematic Animation",
-    category: "Visual Effects",
-    description:
-      "Master industry-standard tools like Premiere Pro and DaVinci Resolve.",
-    image:
-      "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=1200",
-  },
-  {
-    title: "Professional Photography",
-    category: "Media",
-    description:
-      "Master industry-standard tools like Premiere Pro and DaVinci Resolve.",
-    image:
-      "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?q=80&w=1200",
-  },
-  {
-    title: "Web Technologies & UI/UX",
-    category: "Design",
-    description:
-      "Master industry-standard tools like Premiere Pro and DaVinci Resolve.",
-    image:
-      "https://images.unsplash.com/photo-1517292987719-0369a794ec0f?q=80&w=1200",
-  },
-];
+const VISIBLE_COUNT = 3;
 
-const CourseSection = () => {
-  const scrollRef = useRef(null);
-  const [isHovered, setIsHovered] = useState(false);
+export default function CourseSection({ courses = [] }) {
+  const [current, setCurrent] = useState(0);
+  const maxIndex = Math.max(0, courses.length - VISIBLE_COUNT);
 
-  const handleScroll = (direction) => {
-    const container = scrollRef.current;
-    if (!container) return;
-
-    const cardWidth = container.firstChild?.offsetWidth + 24; // Width + gap
-    const scrollAmount = direction === "next" ? cardWidth : -cardWidth;
-
-    container.scrollBy({ left: scrollAmount, behavior: "smooth" });
+  const go = (dir) => {
+    setCurrent((prev) => Math.max(0, Math.min(maxIndex, prev + dir)));
   };
 
-  useEffect(() => {
-    const scrollContainer = scrollRef.current;
-    if (!scrollContainer) return;
-
-    const autoScroll = setInterval(() => {
-      if (!isHovered) {
-        const cardWidth = scrollContainer.firstChild?.offsetWidth + 24; // Width + gap (gap-6 = 24px)
-        const maxScrollLeft =
-          scrollContainer.scrollWidth - scrollContainer.clientWidth;
-
-        if (scrollContainer.scrollLeft >= maxScrollLeft - 10) {
-          // Reset to start if at the end
-          scrollContainer.scrollTo({ left: 0, behavior: "smooth" });
-        } else {
-          // Scroll by exactly one card width
-          scrollContainer.scrollBy({ left: cardWidth, behavior: "smooth" });
-        }
-      }
-    }, 3000); // Change card every 3 seconds
-
-    return () => clearInterval(autoScroll);
-  }, [isHovered]);
+  const goTo = (i) => setCurrent(Math.max(0, Math.min(maxIndex, i)));
 
   return (
-    <section className="py-24 bg-[#fff0e7] overflow-hidden">
-      <div className="px-4 lg:px-28 mx-auto">
-        <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
-          <div className="max-w-xl">
-            <span className="text-yellow-500 font-bold uppercase tracking-[0.3em] text-xs mb-4 block">
-              Our Programs
-            </span>
-            <h2 className="text-4xl md:text-5xl font-black text-gray-900 tracking-tighter uppercase leading-[0.9]">
-              Popular <span className="text-gray-400">Services.</span>
+    <section className="bg-white py-24 overflow-hidden">
+      <div className="px-6 lg:px-28 mx-auto">
+        {/* Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
+            <h2 className="text-4xl md:text-5xl font-bold text-neutral-900 mb-4">
+              Popular <span className="text-yellow-500">Courses</span>
             </h2>
-          </div>
-          <div className="flex gap-4">
-            <button
-              onClick={() => handleScroll("prev")}
-              className="p-4 rounded-full border-2 border-primary hover:bg-primary hover:text-white transition-all active:scale-95"
-              aria-label="Previous slide"
+            <p className="text-neutral-500 max-w-md"></p>
+          </motion.div>
+
+          {/* Nav controls + CTA */}
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="flex items-center gap-3"
+          >
+            {/* Prev */}
+            <motion.button
+              onClick={() => go(-1)}
+              disabled={current === 0}
+              whileTap={{ scale: 0.9 }}
+              className="w-11 h-11 rounded-full border border-neutral-200 flex items-center justify-center
+                         text-neutral-700 disabled:opacity-30 disabled:cursor-not-allowed
+                         hover:bg-neutral-900 hover:text-white hover:border-neutral-900 transition-colors"
             >
-              <ChevronLeft className="w-6 h-6" />
-            </button>
-            <button
-              onClick={() => handleScroll("next")}
-              className="p-4 rounded-full bg-primary text-white hover:bg-primary hover:border-primary transition-all active:scale-95 border-2 border-primary"
-              aria-label="Next slide"
+              <ArrowLeft size={18} />
+            </motion.button>
+
+            {/* Next */}
+            <motion.button
+              onClick={() => go(1)}
+              disabled={current >= maxIndex}
+              whileTap={{ scale: 0.9 }}
+              className="w-11 h-11 rounded-full border border-neutral-200 flex items-center justify-center
+                         text-neutral-700 disabled:opacity-30 disabled:cursor-not-allowed
+                         hover:bg-neutral-900 hover:text-white hover:border-neutral-900 transition-colors"
             >
-              <ChevronRight className="w-6 h-6" />
-            </button>
-          </div>
+              <ArrowRight size={18} />
+            </motion.button>
+
+            {/* CTA */}
+            <motion.button
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+              className="flex items-center gap-2 bg-neutral-900 text-white px-7 py-3 rounded-full
+                         font-bold hover:bg-yellow-500 hover:text-black transition-colors"
+            >
+              Explore All
+              <ArrowUpRight size={18} />
+            </motion.button>
+          </motion.div>
         </div>
 
-        {/* Updated Scrolling Container */}
-        <div
-          ref={scrollRef}
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-          className="flex flex-nowrap gap-6 overflow-x-auto pb-12 snap-x snap-mandatory scrollbar-hide"
-          style={{
-            scrollbarWidth: "none",
-            msOverflowStyle: "none",
-            WebkitOverflowScrolling: "touch",
-          }}
-        >
-          {[...courses, ...courses].map((course, index) => (
-            <div
-              key={index}
-              className="flex-shrink-0 w-[280px] md:w-[320px] snap-start"
-            >
-              <CourseCard {...course} index={index} />
-            </div>
+        {/* Scrolling Track */}
+        <div className="overflow-hidden">
+          <motion.div
+            className="flex gap-8"
+            animate={{
+              x: `calc(-${current} * (100% / ${VISIBLE_COUNT} + 8px))`,
+            }}
+            transition={{
+              type: "spring",
+              stiffness: 300,
+              damping: 35,
+              mass: 0.8,
+            }}
+          >
+            {courses?.map((course, index) => (
+              <motion.div
+                key={index}
+                className="min-w-[calc(33.333%-1.4rem)]"
+                animate={{
+                  opacity:
+                    index >= current && index < current + VISIBLE_COUNT
+                      ? 1
+                      : 0.4,
+                  scale:
+                    index >= current && index < current + VISIBLE_COUNT
+                      ? 1
+                      : 0.96,
+                }}
+                transition={{ duration: 0.3 }}
+              >
+                <CourseCard {...course} index={index} />
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+
+        {/* Dot Indicators */}
+        <div className="flex justify-center gap-2 mt-10">
+          {/* Change 'courses.map' to a sliced array or a limited range */}
+          {courses.slice(0, maxIndex + 1).map((_, i) => (
+            <motion.button
+              key={i}
+              onClick={() => goTo(i)}
+              animate={{
+                width: i === current ? 28 : 8,
+                background: i === current ? "#eab308" : "#d4d4d4",
+              }}
+              transition={{ duration: 0.25 }}
+              className="h-2 rounded-full"
+            />
           ))}
         </div>
       </div>
-
-      <div className="flex w-full justify-center items-center">
-        <Link href={"/courses"}>
-          <Button className="group flex items-center gap-2 py-7 px-12 rounded-full font-bold uppercase text-sm tracking-widest text-white hover:text-black transition-all duration-300 transform hover:scale-105">
-            View All Courses
-            <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
-          </Button>
-        </Link>
-      </div>
     </section>
   );
-};
-
-export default CourseSection;
+}
