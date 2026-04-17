@@ -51,7 +51,7 @@ const AboutUs = () => {
               className="relative"
             >
               {/* Adjusted min-height for mobile to prevent massive empty space */}
-              <div className="min-h-[400px] lg:min-h-[830px] rounded-3xl lg:rounded-[3rem] overflow-hidden shadow-2xl relative">
+              <div className="min-h-[500px] lg:min-h-[830px] rounded-3xl lg:rounded-[3rem] overflow-hidden shadow-2xl relative">
                 <Image
                   src="https://images.unsplash.com/photo-1551434678-e076c223a692?q=80&w=2070&auto=format&fit=crop"
                   alt="Creative Workspace"

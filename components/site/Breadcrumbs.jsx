@@ -58,7 +58,7 @@ const Breadcrumbs = () => {
               <React.Fragment key={path}>
                 <ChevronRight size={14} className="text-white/40" />
                 {isLast ? (
-                  <span className="text-white font-bold text-sm capitalize">
+                  <span className="text-white font-bold text-sm capitalize line-clamp-1">
                     {path.replace(/-/g, " ")}
                   </span>
                 ) : (

@@ -28,7 +28,7 @@ export default function CourseOverview({
       <div className="container py-10">
         <div className="page-layout">
           {/* ── MAIN COLUMN ── */}
-          <main className="main-col pl-6">
+          <main className="main-col">
             {/* HERO */}
 
             {/* IMAGES */}

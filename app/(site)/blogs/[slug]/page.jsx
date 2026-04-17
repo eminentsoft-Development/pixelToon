@@ -52,10 +52,10 @@ export default async function SingleBlogPost({ params }) {
     <div className="min-h-screen text-black">
       <Breadcrumbs />
       <div className="container py-10">
-        <div className="page-layout px-6">
+        <div className="page-layout">
           <main className="main-col">
 
-            <section className="relative w-full aspect-video overflow-hidden rounded-xl border border-gray-300">
+            <section className="relative w-full h-[300px] md:h-[550px] overflow-hidden rounded-xl border border-gray-300">
               <Image 
                 src={post.images?.[0]?.url || "/default-blog-image.jpg"} 
                 alt={post.images?.[0]?.alt || post.title}
@@ -68,7 +68,7 @@ export default async function SingleBlogPost({ params }) {
 
             {/* HERO SECTION */}
             <section className="relative pt-8 pb-8 border-b border-[#2a2a35] mb-16">
-              <h1 className="text-4xl font-bold w-[95%] italic leading-[1.1] text-primary mb-6 tracking-wide">
+              <h1 className="text-3xl md:text-4xl font-bold w-[95%] italic leading-[1.1] text-primary mb-6">
                 {post.title}
               </h1>
             </section>

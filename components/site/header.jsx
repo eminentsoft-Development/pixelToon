@@ -255,11 +255,7 @@ const Navbar = ({ courses }) => {
                           className="flex items-center justify-between w-full py-3 text-left font-bold text-slate-800"
                         >
                           <span
-                            className={
-                              currentPath.includes(item.path)
-                                ? "text-[#BC430D]"
-                                : ""
-                            }
+                            
                           >
                             {item.title}
                           </span>

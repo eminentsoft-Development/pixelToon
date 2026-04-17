@@ -70,7 +70,7 @@ export default function GalleryPage() {
 
       <main className="container mx-auto py-10">
         {/* MASONRY LAYOUT: Maintained as per your preference */}
-        <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6 px-6">
+        <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
           {items.map((item, index) => (
             <div 
               key={`${item.id}-${index}`} 

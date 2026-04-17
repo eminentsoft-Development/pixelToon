@@ -7,9 +7,9 @@ export default function ImageGallery({ images }) {
   const [activeIndex, setActiveIndex] = useState(0);
 
   return (
-    <div className="max-w-6xl mx-auto">
+    <div className=" mx-auto">
       {images.length === 1 ? (
-        <div className="relative w-full h-[550px] rounded-2xl overflow-hidden">
+        <div className="relative w-full h-[300px] md:h-[550px] rounded-2xl overflow-hidden">
           <Image
             src={images[0].url}
             alt={images[0].alt || "Preview"}
