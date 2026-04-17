@@ -3,65 +3,79 @@
 import React from "react";
 import { motion } from "framer-motion";
 
-const PixelToonzSimpleLoader = () => {
+const PixelToonzCreativeFrameLoader = () => {
   return (
-    <div className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-white">
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-white">
       <div className="relative flex flex-col items-center">
         
-        {/* Animated Pixel Icon */}
-        <div className="relative h-16 w-16 mb-6 flex items-center justify-center">
-          {/* Main Bouncing Square */}
-          <motion.div
-            animate={{
-              y: [0, -20, 0],
-              rotate: [0, 90, 180, 270, 360],
-              scale: [1, 0.8, 1],
-            }}
-            transition={{
-              duration: 1.5,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-            className="w-10 h-10 bg-[#BC430D] rounded-lg shadow-lg flex items-center justify-center"
-          >
-            {/* Inner "Pixel" */}
-            <div className="w-3 h-3 bg-white" />
-          </motion.div>
-
-          {/* Shadow Effect */}
+        {/* Viewfinder / Framing Box */}
+        <div className="relative w-24 h-24 flex items-center justify-center">
+          
+          {/* Top-Left Corner */}
           <motion.div 
-            animate={{
-              scale: [1, 1.5, 1],
-              opacity: [0.3, 0.1, 0.3]
+            animate={{ 
+              x: [-5, 0, -5], 
+              y: [-5, 0, -5] 
             }}
-            transition={{
-              duration: 1.5,
-              repeat: Infinity,
-              ease: "easeInOut",
+            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute top-0 left-0 w-6 h-6 border-t-4 border-l-4 border-[#393d72]" 
+          />
+          
+          {/* Bottom-Right Corner */}
+          <motion.div 
+            animate={{ 
+              x: [5, 0, 5], 
+              y: [5, 0, 5] 
             }}
-            className="absolute bottom-0 w-8 h-1 bg-black/10 rounded-full blur-[2px]"
+            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute bottom-0 right-0 w-6 h-6 border-b-4 border-r-4 border-[#BC430D]" 
+          />
+
+          {/* Central Creative Icon (Playhead/VFX Node style) */}
+          <motion.div
+            animate={{ 
+              scale: [0.8, 1.1, 0.8],
+              rotate: [0, 90, 180, 270, 360]
+            }}
+            transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+            className="flex items-center justify-center"
+          >
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+              <rect x="3" y="3" width="18" height="18" rx="2" stroke="#393d72" strokeWidth="2" />
+              <path d="M9 8l6 4-6 4V8z" fill="#BC430D" />
+            </svg>
+          </motion.div>
+        </div>
+
+        {/* Text Section */}
+        <div className="mt-8 text-center">
+          <div className="flex items-center justify-center space-x-1">
+            <span className="text-[#393d72] font-black text-xl tracking-widest">PIXEL</span>
+            <span className="text-[#BC430D] font-black text-xl tracking-widest">TOONZ</span>
+          </div>
+          
+          {/* Animated Status Subtext */}
+          <motion.p 
+            animate={{ opacity: [0.3, 1, 0.3] }}
+            transition={{ duration: 1.5, repeat: Infinity }}
+            className="text-[9px] font-medium text-gray-400 mt-2 uppercase tracking-[0.4em]"
+          >
+            ISO 9001:2015 Certified
+          </motion.p>
+        </div>
+
+        {/* Bottom Decorative Line */}
+        <div className="mt-4 w-12 h-[2px] bg-gray-100 relative overflow-hidden">
+          <motion.div 
+            animate={{ left: ["-100%", "100%"] }}
+            transition={{ duration: 1.2, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute top-0 bottom-0 w-6 bg-[#BC430D]"
           />
         </div>
 
-        {/* Brand Text */}
-        <div className="text-center">
-          <div className="flex items-baseline gap-1">
-            <span className="text-[#393d72] text-2xl font-black italic tracking-tighter">PIXEL</span>
-            <span className="text-[#BC430D] text-2xl font-black italic tracking-tighter">TOONZ</span>
-          </div>
-          
-          {/* Subtle Progress Bar */}
-          <div className="mt-3 w-32 h-[2px] bg-gray-100 rounded-full overflow-hidden mx-auto">
-            <motion.div 
-              animate={{ x: ["-100%", "100%"] }}
-              transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-              className="w-1/2 h-full bg-[#BC430D]"
-            />
-          </div>
-        </div>
       </div>
     </div>
   );
 };
 
-export default PixelToonzSimpleLoader;
+export default PixelToonzCreativeFrameLoader;

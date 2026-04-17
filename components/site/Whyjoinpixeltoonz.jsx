@@ -190,7 +190,7 @@ export default function WhyJoinPixeltoonz() {
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-orange-100 rounded-full blur-3xl opacity-30 -translate-y-1/2 pointer-events-none" />
         <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-amber-100 rounded-full blur-3xl opacity-30 translate-y-1/2 pointer-events-none" />
 
-        <div className="relative px-4 lg:px-28 mx-auto">
+        <div className="relative lg:px-28 mx-auto">
 
           {/* Header */}
           <div

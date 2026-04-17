@@ -83,11 +83,11 @@ export default function PixelContact() {
         </motion.p>
       </div>
 
-      <div className="container">
+      <div className="md:container">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
-          className="bg-white rounded-[40px] shadow-2xl shadow-neutral-200/50 flex flex-col lg:flex-row w-full overflow-hidden p-3 md:p-6"
+          className="bg-white rounded-[40px] shadow-2xl shadow-neutral-200/50 flex flex-col lg:flex-row w-full overflow-hidden  md:p-6"
         >
           {/* Left Side: Contact Info */}
           <div className="lg:w-[40%] bg-neutral-900 rounded-[32px] p-8 md:p-12 relative overflow-hidden flex flex-col justify-between text-white">
@@ -122,7 +122,7 @@ export default function PixelContact() {
           </div>
 
           {/* Right Side: Form */}
-          <div className="lg:w-[60%] p-8 md:p-14">
+          <div className="lg:w-[60%] p-6 md:p-14">
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}

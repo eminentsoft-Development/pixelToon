@@ -110,7 +110,7 @@ const HeroSection = () => {
             </div>
           </motion.div>
           {/* --- CENTRAL CONTAINER (PRESERVED STATIC) --- */}
-          <div className="relative z-10 w-full max-w-5xl rounded-[50px] p-[18px] bg-white/25 backdrop-blur-xl border border-white/30 shadow-[0_40px_100px_-20px_rgba(0,0,0,0.2)] overflow-hidden">
+          <div className="relative z-10 mb-6 w-full max-w-5xl rounded-[50px] p-[18px] bg-white/25 backdrop-blur-xl border border-white/30 shadow-[0_40px_100px_-20px_rgba(0,0,0,0.2)] overflow-hidden">
             <div className="grid grid-cols-12 min-h-[700px] rounded-[40px] overflow-hidden bg-white/90">
               <aside className="col-span-12 lg:col-span-3 bg-gray-50/50 p-6 flex flex-col gap-5 border-r border-gray-100">
                 <div className="bg-black text-white rounded-[35px] p-5 shadow-2xl">

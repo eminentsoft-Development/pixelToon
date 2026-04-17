@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
+  ChevronDown,
   Facebook,
   Instagram,
   Linkedin,
@@ -20,6 +21,7 @@ import {
 
 import { MegaDropdown } from "../Common/MegaDropdown";
 import Dropdown from "../Common/Dropdown";
+import { AnimatePresence, motion } from "framer-motion";
 
 const Navbar = ({ courses }) => {
   const NavbarmenuData = [
@@ -45,73 +47,6 @@ const Navbar = ({ courses }) => {
       subMenu: true,
       subMenuType: "mega",
       children: courses,
-      // children: [
-      //   {
-      //     title: "Integrated Diploma In Graphics & 3D",
-      //     description: "Comprehensive training in graphic design, 3D design and multimedia tools.",
-      //     path: "/courses/integrated-diploma-graphics-3d",
-      //   },
-      //   {
-      //     title: "Graphic Designing",
-      //     description: "Learn professional graphic design using industry-standard tools.",
-      //     path: "/courses/graphic-designing",
-      //   },
-      //   {
-      //     title: "Film Editing",
-      //     description: "Master video editing techniques and post-production workflows.",
-      //     path: "/courses/film-editing",
-      //   },
-      //   {
-      //     title: "Media Production",
-      //     description: "Training in media production including audio, video and digital media.",
-      //     path: "/courses/media-production",
-      //   },
-      //   {
-      //     title: "Photography",
-      //     description: "Professional photography training including lighting and composition.",
-      //     path: "/courses/photography",
-      //   },
-      //   {
-      //     title: "Multimedia",
-      //     description: "Learn multimedia design, animation and digital content creation.",
-      //     path: "/courses/multimedia",
-      //   },
-      //   {
-      //     title: "Diploma in UI/UX",
-      //     description: "Learn UI/UX design, user research and product design fundamentals.",
-      //     path: "/courses/diploma-ui-ux",
-      //   },
-      //   {
-      //     title: "AI Film Making",
-      //     description: "Create films using modern AI tools and advanced production techniques.",
-      //     path: "/courses/ai-film-making",
-      //   },
-      //   {
-      //     title: "Graphics and Web Design",
-      //     description: "Learn both graphic design and website design skills.",
-      //     path: "/courses/graphics-web-design",
-      //   },
-      //   {
-      //     title: "Interior Design Course",
-      //     description: "Interior design fundamentals including planning and visualization.",
-      //     path: "/courses/interior-design",
-      //   },
-      //   {
-      //     title: "Short Term Courses",
-      //     description: "Short duration skill-based courses in creative fields.",
-      //     path: "/courses/short-term",
-      //   },
-      //   {
-      //     title: "Diploma in Interior Visualization",
-      //     description: "3D interior visualization and rendering training.",
-      //     path: "/courses/interior-visualization",
-      //   },
-      //   {
-      //     title: "Integrated Diploma in Digital Marketing With AI Tools",
-      //     description: "Digital marketing training with modern AI-powered tools.",
-      //     path: "/courses/digital-marketing-ai",
-      //   },
-      // ],
     },
     {
       id: 4,
@@ -157,6 +92,11 @@ const Navbar = ({ courses }) => {
   const currentPath = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [expandedItem, setExpandedItem] = useState(null);
+
+  const toggleSubMenu = (id) => {
+    setExpandedItem(expandedItem === id ? null : id);
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -291,26 +231,117 @@ const Navbar = ({ courses }) => {
           {/* MOBILE MENU */}
 
           <div
-            className={`lg:hidden absolute top-20 left-0 w-full bg-white shadow-lg transition-all ${
+            className={`lg:hidden fixed inset-x-3 top-[100px] bg-white rounded-[2rem] shadow-2xl overflow-hidden transition-all duration-500 ease-in-out z-[90] ${
               mobileMenuOpen
-                ? "opacity-100 translate-y-0"
-                : "opacity-0 -translate-y-4 pointer-events-none"
+                ? "max-h-[85vh] opacity-100 translate-y-0"
+                : "max-h-0 opacity-0 -translate-y-10 pointer-events-none"
             }`}
           >
-            <nav className="px-4 pt-3 pb-5">
+            <nav className="p-6 overflow-y-auto max-h-[75vh]">
               <ul className="flex flex-col gap-1 text-black font-semibold">
                 {NavbarmenuData.map((item) => (
                   <li
                     key={item.id}
-                    className={`rounded-md px-2 hover:bg-gray-100 ${
+                    className={`rounded-lg px-2 hover:bg-gray-100 ${
                       currentPath === item.path
                         ? "bg-gray-100 text-primary"
                         : ""
                     }`}
                   >
-                    <Link href={item.path} className="block py-3">
-                      {item.title}
-                    </Link>
+                    {item.subMenu ? (
+                      <div className="flex flex-col">
+                        <button
+                          onClick={() => toggleSubMenu(item.id)}
+                          className="flex items-center justify-between w-full py-3 text-left font-bold text-slate-800"
+                        >
+                          <span
+                            className={
+                              currentPath.includes(item.path)
+                                ? "text-[#BC430D]"
+                                : ""
+                            }
+                          >
+                            {item.title}
+                          </span>
+                          <ChevronDown
+                            size={18}
+                            className={`transition-transform duration-300 ${expandedItem === item.id ? "rotate-180" : ""}`}
+                          />
+                        </button>
+
+                        <AnimatePresence>
+                          {expandedItem === item.id && (
+                            <motion.div
+                              initial={{ opacity: 0, x: -10 }}
+                              animate={{ opacity: 1, x: 0 }}
+                              exit={{ opacity: 0, x: -10 }}
+                              className="mt-1 ml-2 pl-4 border-l border-slate-200"
+                            >
+                              <ul className="flex flex-col">
+                                {item.children?.map((child, idx) => {
+                                  const isActive = currentPath === child.path;
+
+                                  return (
+                                    <motion.li
+                                      key={idx}
+                                      initial={{ opacity: 0, y: 5 }}
+                                      animate={{ opacity: 1, y: 0 }}
+                                      transition={{ delay: idx * 0.04 }}
+                                    >
+                                      <Link
+                                        href={child.path}
+                                        onClick={() => setMobileMenuOpen(false)}
+                                        className="group flex items-center py-3 relative"
+                                      >
+                                        {/* Minimalist Indicator */}
+                                        <span
+                                          className={`absolute -left-[17.5px] w-2 h-2 rounded-full border-2 border-white transition-all duration-300 ${
+                                            isActive
+                                              ? "bg-[#BC430D] scale-125 shadow-[0_0_8px_#BC430D]"
+                                              : "bg-slate-200"
+                                          }`}
+                                        />
+
+                                        <div className="flex flex-col">
+                                          <span
+                                            className={`text-sm font-bold transition-colors ${
+                                              isActive
+                                                ? "text-[#BC430D]"
+                                                : "text-slate-500 group-hover:text-slate-900"
+                                            }`}
+                                          >
+                                            {child.title}
+                                          </span>
+
+                                          {/* Optional: Tiny description if your courses have them */}
+                                          {child.description && (
+                                            <span className="text-[10px] text-slate-400 font-medium line-clamp-1">
+                                              {child.description}
+                                            </span>
+                                          )}
+                                        </div>
+                                      </Link>
+                                    </motion.li>
+                                  );
+                                })}
+                              </ul>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </div>
+                    ) : (
+                      <Link
+                        href={item.path}
+                        onClick={() => setMobileMenuOpen(false)}
+                        className={`block py-3 text-base font-bold ${
+                          currentPath === item.path
+                            ? "text-[#BC430D]"
+                            : "text-slate-800"
+                        }`}
+                      >
+                        {item.title}
+                      </Link>
+                    )}
                   </li>
                 ))}
               </ul>

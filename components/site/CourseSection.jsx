@@ -23,7 +23,7 @@ export default function CourseSection({ courses = [] }) {
   );
 
   return (
-    <section className="bg-white py-24 overflow-hidden">
+    <section className="bg-white py-16 md:py-24 overflow-hidden">
       <div className="px-6 lg:px-28 mx-auto">
         {/* Header Section */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
@@ -33,7 +33,7 @@ export default function CourseSection({ courses = [] }) {
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            <h2 className="text-4xl md:text-5xl font-bold text-neutral-900 mb-4">
+            <h2 className="text-4xl md:text-5xl font-bold text-neutral-900 ">
               Popular <span className="text-yellow-500">Courses</span>
             </h2>
             <p className="text-neutral-500 max-w-md"></p>
@@ -45,19 +45,19 @@ export default function CourseSection({ courses = [] }) {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="flex items-center gap-3"
+            className="hidden lg:flex items-center gap-3"
           >
             <Link href="/courses">
-            {/* CTA */}
-            <motion.button
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
-              className="flex items-center gap-2 bg-neutral-900 text-white px-7 py-3 rounded-full
+              {/* CTA */}
+              <motion.button
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+                className="flex items-center gap-2 bg-neutral-900 text-white px-7 py-3 rounded-full
                          font-bold hover:bg-yellow-500 hover:text-black transition-colors"
-            >
-              Explore All
-              <ArrowUpRight size={18} />
-            </motion.button>
+              >
+                Explore All
+                <ArrowUpRight size={18} />
+              </motion.button>
             </Link>
           </motion.div>
         </div>
@@ -89,7 +89,19 @@ export default function CourseSection({ courses = [] }) {
           {/* Navigation Controls */}
           <div className="flex items-center justify-center md:justify-end mt-6">
             {/* Custom Dot Indicators or Pagination could go here */}
-            <div className="flex gap-2">
+            <Link className="block lg:hidden" href="/courses">
+              {/* CTA */}
+              <motion.button
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+                className="flex items-center gap-2 bg-neutral-900 text-white px-7 py-3 rounded-full
+                         font-bold hover:bg-yellow-500 hover:text-black transition-colors"
+              >
+                Explore All
+                <ArrowUpRight size={18} />
+              </motion.button>
+            </Link>
+            <div className="hidden lg:flex gap-2">
               <CarouselPrevious className="static translate-y-0 h-12 w-12 border-neutral-200 hover:bg-neutral-900 hover:text-white transition-all" />
               <CarouselNext className="static translate-y-0 h-12 w-12 border-neutral-200 hover:bg-neutral-900 hover:text-white transition-all" />
             </div>

@@ -232,7 +232,7 @@ export default function Testimonials() {
 
       {/* Top label bar */}
       <div
-        className={`relative border-b border-white/[0.06] px-8 md:px-16 py-5 flex items-center justify-between transition-all duration-700 delay-100 ${
+        className={`relative border-b border-white/[0.06] px-4 md:px-16 py-5 flex items-center justify-between transition-all duration-700 delay-100 ${
           visible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2.5"
         }`}
       >
@@ -250,7 +250,7 @@ export default function Testimonials() {
         </span>
       </div>
 
-      <div className="relative px-8 md:px-16 pt-16 pb-20">
+      <div className="relative px-4 md:px-16 pt-16 pb-20">
         <div className="max-w-7xl mx-auto">
           {/* Heading row */}
           <div
@@ -432,7 +432,7 @@ export default function Testimonials() {
           </div>
 
           {/* Name pills */}
-          <div
+          {/* <div
             className={`mt-10 flex flex-wrap gap-2 transition-opacity duration-700 delay-500 ${
               visible ? "opacity-100" : "opacity-0"
             }`}
@@ -457,7 +457,7 @@ export default function Testimonials() {
                 {String(testimonials.length).padStart(2, "0")}
               </span>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </section>
