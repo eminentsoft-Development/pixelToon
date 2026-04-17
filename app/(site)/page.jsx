@@ -9,7 +9,7 @@ import WhyJoinPixeltoonz from "@/components/site/Whyjoinpixeltoonz";
 import { getBlogs } from "@/lib/get-blogs";
 import LatestBlogs from "@/components/site/LatestBlogs";
 import { getFullCourses } from "@/lib/get-courses";
-
+import GoogleReviewsCarousel from "@/components/site/GoogleReviewsCarousel";
 
 const Home = async () => {
   const { blogs } = await getBlogs(1, 9);
@@ -23,6 +23,7 @@ const Home = async () => {
       <WhyJoinPixeltoonz />
       <Testimonials />
       <LatestBlogs blogs={blogs} />
+      <GoogleReviewsCarousel />
       <GetInTouch />
     </>
   );

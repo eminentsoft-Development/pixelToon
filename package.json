@@ -39,6 +39,8 @@
     "clsx": "^2.1.1",
     "dompurify": "^3.3.3",
     "dotenv": "^17.3.1",
+    "embla-carousel-autoplay": "^8.6.0",
+    "embla-carousel-react": "^8.6.0",
     "framer-motion": "^12.35.2",
     "lexical": "^0.42.0",
     "lucide-react": "^0.577.0",

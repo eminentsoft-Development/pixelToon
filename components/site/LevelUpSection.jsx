@@ -4,6 +4,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { ArrowUpRight, PlayCircle } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 const LevelUpCompact = () => {
   return (
@@ -30,12 +31,14 @@ const LevelUpCompact = () => {
                 Breaking traditional boundaries with industry-first training in
                 Film, VFX, and Media Design.
               </p>
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                className="flex items-center gap-2 bg-yellow-400 text-black px-6 py-3 rounded-full font-bold text-xs uppercase tracking-widest"
-              >
-                View Gallery <ArrowUpRight className="w-4 h-4" />
-              </motion.button>
+              <Link href={"/gallery/students-work"}>
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  className="flex items-center gap-2 bg-yellow-400 text-black px-6 py-3 rounded-full font-bold text-xs uppercase tracking-widest"
+                >
+                  View Gallery <ArrowUpRight className="w-4 h-4" />
+                </motion.button>
+              </Link>
             </motion.div>
           </div>
 

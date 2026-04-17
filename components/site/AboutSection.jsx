@@ -4,6 +4,7 @@ import React from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { ArrowUpRight, Eye, Sparkles, Target } from "lucide-react";
+import Link from "next/link";
 
 const AboutSection = () => {
   const containerVariants = {
@@ -62,16 +63,17 @@ const AboutSection = () => {
               </p>
             </motion.div>
 
-            <motion.button
-              variants={itemVariants}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="group flex items-center gap-3 bg-black text-white px-8 py-4 rounded-full font-bold transition-all hover:bg-yellow-400 hover:text-black shadow-xl"
-            >
-              DISCOVER MORE
-              <ArrowUpRight className="w-5 h-5 group-hover:rotate-45 transition-transform" />
-            </motion.button>
-
+            <Link href={"/about-us"}>
+              <motion.button
+                variants={itemVariants}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="group flex items-center gap-3 bg-black text-white px-8 py-4 rounded-full font-bold transition-all hover:bg-yellow-400 hover:text-black shadow-xl"
+              >
+                DISCOVER MORE
+                <ArrowUpRight className="w-5 h-5 group-hover:rotate-45 transition-transform" />
+              </motion.button>
+            </Link>
             {/* Mission/Vision/Motto Grid */}
           </motion.div>
 
@@ -179,7 +181,7 @@ const AboutSection = () => {
               <span className="mb-6 font-mono text-sm tracking-widest text-yellow-400">
                 03 // MOTTO
               </span>
-               <h4 className="mb-4 text-3xl font-black uppercase tracking-tighter">
+              <h4 className="mb-4 text-3xl font-black uppercase tracking-tighter">
                 Our <span className="text-primary">MOTTO</span>
               </h4>
               <p className="text-lg italic font-medium leading-snug text-white">

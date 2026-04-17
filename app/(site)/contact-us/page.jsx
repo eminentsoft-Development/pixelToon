@@ -21,7 +21,7 @@ const contactInfo = [
     ),
     label: "Our Location",
     value:
-      "1st Floor 65, 3028-A, Azad Rd, near PC Road, Kaloor, Kochi, Ernakulam, Kerala 682017",
+      "Pixeltoonz Academy, 1st Floor 65, 3028-A, Azad Rd, near PC Road, Kaloor, Kochi, Ernakulam, Kerala 682017",
     link: "https://www.google.com/maps/place/Pixeltoonz+Academy",
     linkLabel: "Get Directions →",
   },
@@ -116,7 +116,7 @@ const socials = [
   },
   {
     label: "Instagram",
-    href: "https://www.instagram.com/pixeltoonz/",
+    href: "https://www.instagram.com/pixeltoonz/?igshid=1b7pgky2g3bi4",
     icon: (
       <svg
         width="16"

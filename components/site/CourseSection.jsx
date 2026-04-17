@@ -1,26 +1,31 @@
 "use client";
 
-import { useState } from "react";
-import { motion } from "framer-motion";
+import * as React from "react";
+import Autoplay from "embla-carousel-autoplay";
 import { ArrowUpRight, ArrowLeft, ArrowRight } from "lucide-react";
-import CourseCard from "./CourseCard";
+import { motion } from "framer-motion";
 
-const VISIBLE_COUNT = 3;
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+import { Button } from "@/components/ui/button";
+import CourseCard from "./CourseCard";
+import Link from "next/link";
 
 export default function CourseSection({ courses = [] }) {
-  const [current, setCurrent] = useState(0);
-  const maxIndex = Math.max(0, courses.length - VISIBLE_COUNT);
-
-  const go = (dir) => {
-    setCurrent((prev) => Math.max(0, Math.min(maxIndex, prev + dir)));
-  };
-
-  const goTo = (i) => setCurrent(Math.max(0, Math.min(maxIndex, i)));
+  // Plugin for Auto-scroll
+  const plugin = React.useRef(
+    Autoplay({ delay: 4000, stopOnInteraction: true }),
+  );
 
   return (
     <section className="bg-white py-24 overflow-hidden">
       <div className="px-6 lg:px-28 mx-auto">
-        {/* Header */}
+        {/* Header Section */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
@@ -42,30 +47,7 @@ export default function CourseSection({ courses = [] }) {
             transition={{ duration: 0.5, delay: 0.1 }}
             className="flex items-center gap-3"
           >
-            {/* Prev */}
-            <motion.button
-              onClick={() => go(-1)}
-              disabled={current === 0}
-              whileTap={{ scale: 0.9 }}
-              className="w-11 h-11 rounded-full border border-neutral-200 flex items-center justify-center
-                         text-neutral-700 disabled:opacity-30 disabled:cursor-not-allowed
-                         hover:bg-neutral-900 hover:text-white hover:border-neutral-900 transition-colors"
-            >
-              <ArrowLeft size={18} />
-            </motion.button>
-
-            {/* Next */}
-            <motion.button
-              onClick={() => go(1)}
-              disabled={current >= maxIndex}
-              whileTap={{ scale: 0.9 }}
-              className="w-11 h-11 rounded-full border border-neutral-200 flex items-center justify-center
-                         text-neutral-700 disabled:opacity-30 disabled:cursor-not-allowed
-                         hover:bg-neutral-900 hover:text-white hover:border-neutral-900 transition-colors"
-            >
-              <ArrowRight size={18} />
-            </motion.button>
-
+            <Link href="/courses">
             {/* CTA */}
             <motion.button
               whileHover={{ scale: 1.03 }}
@@ -76,61 +58,43 @@ export default function CourseSection({ courses = [] }) {
               Explore All
               <ArrowUpRight size={18} />
             </motion.button>
+            </Link>
           </motion.div>
         </div>
 
-        {/* Scrolling Track */}
-        <div className="overflow-hidden">
-          <motion.div
-            className="flex gap-8"
-            animate={{
-              x: `calc(-${current} * (100% / ${VISIBLE_COUNT} + 8px))`,
-            }}
-            transition={{
-              type: "spring",
-              stiffness: 300,
-              damping: 35,
-              mass: 0.8,
-            }}
-          >
-            {courses?.map((course, index) => (
-              <motion.div
+        {/* Carousel Component */}
+        <Carousel
+          plugins={[plugin.current]}
+          className="w-full"
+          onMouseEnter={plugin.current.stop}
+          onMouseLeave={plugin.current.reset}
+          opts={{
+            align: "start",
+            loop: true,
+          }}
+        >
+          <CarouselContent className="-ml-4">
+            {courses.map((course, index) => (
+              <CarouselItem
                 key={index}
-                className="min-w-[calc(33.333%-1.4rem)]"
-                animate={{
-                  opacity:
-                    index >= current && index < current + VISIBLE_COUNT
-                      ? 1
-                      : 0.4,
-                  scale:
-                    index >= current && index < current + VISIBLE_COUNT
-                      ? 1
-                      : 0.96,
-                }}
-                transition={{ duration: 0.3 }}
+                className="pl-4 basis-full md:basis-1/2 lg:basis-1/4"
               >
-                <CourseCard {...course} index={index} />
-              </motion.div>
+                <div className="p-1">
+                  <CourseCard {...course} />
+                </div>
+              </CarouselItem>
             ))}
-          </motion.div>
-        </div>
+          </CarouselContent>
 
-        {/* Dot Indicators */}
-        <div className="flex justify-center gap-2 mt-10">
-          {/* Change 'courses.map' to a sliced array or a limited range */}
-          {courses.slice(0, maxIndex + 1).map((_, i) => (
-            <motion.button
-              key={i}
-              onClick={() => goTo(i)}
-              animate={{
-                width: i === current ? 28 : 8,
-                background: i === current ? "#eab308" : "#d4d4d4",
-              }}
-              transition={{ duration: 0.25 }}
-              className="h-2 rounded-full"
-            />
-          ))}
-        </div>
+          {/* Navigation Controls */}
+          <div className="flex items-center justify-center md:justify-end mt-6">
+            {/* Custom Dot Indicators or Pagination could go here */}
+            <div className="flex gap-2">
+              <CarouselPrevious className="static translate-y-0 h-12 w-12 border-neutral-200 hover:bg-neutral-900 hover:text-white transition-all" />
+              <CarouselNext className="static translate-y-0 h-12 w-12 border-neutral-200 hover:bg-neutral-900 hover:text-white transition-all" />
+            </div>
+          </div>
+        </Carousel>
       </div>
     </section>
   );

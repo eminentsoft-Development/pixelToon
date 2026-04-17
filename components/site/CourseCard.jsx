@@ -13,7 +13,7 @@ const CourseCard = ({ images, title, slug, description, index }) => {
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.1 }}
       viewport={{ once: true }}
-      className="group cursor-pointer flex-shrink-0 w-[300px] md:w-full" // Added flex-shrink for scrolling
+      className="group cursor-pointer flex-shrink-0" // Added flex-shrink for scrolling
     >
       <div className="relative aspect-[3/4] rounded-[2.5rem] overflow-hidden mb-6 shadow-xl">
         <Image

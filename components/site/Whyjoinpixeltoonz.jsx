@@ -158,9 +158,9 @@ function FeatureCard({ feature, index }) {
           style={{ fontFamily: "'Sora', sans-serif" }}>
           {feature.subtitle}
         </p>
-        <p className="text-gray-500 text-sm leading-relaxed">
+        {/* <p className="text-gray-500 text-sm leading-relaxed">
           {feature.description}
-        </p>
+        </p> */}
       </div>
     </div>
   );

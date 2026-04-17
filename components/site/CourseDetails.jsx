@@ -229,34 +229,6 @@ export default function CourseOverview({
               </section>
             )}
 
-            {/* BENEFITS */}
-            {/* <section className="mb-[72px]">
-              <p className="font-sans-dm text-[10px] tracking-[4px] uppercase text-primary mb-3.5">
-                Benefits
-              </p>
-              <h2 className="text-[2rem] italic text-textColor mb-8 leading-[1.2]">
-                Everything you get, day one
-              </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                {benefits.map((b, i) => (
-                  <div
-                    key={i}
-                    className="p-8 bg-[#13131a] border border-[#2a2a35] rounded-sm transition-all duration-[250ms] hover:border-[#c9a84c] hover:-translate-y-1 cursor-default"
-                  >
-                    <div className="text-[1.6rem] text-primary mb-4">
-                      {b.icon}
-                    </div>
-                    <h4 className="font-sans-dm text-[0.95rem] font-semibold text-[#f0ede6] mb-2">
-                      {b.title}
-                    </h4>
-                    <p className="font-sans-dm text-[0.83rem] leading-[1.7] text-[#8a8578] font-light">
-                      {b.desc}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </section> */}
-
             {/* CTA */}
             <section
               className="mb-[72px] py-16 px-12 border border-[rgba(201,168,76,0.2)] rounded-sm text-center relative"
