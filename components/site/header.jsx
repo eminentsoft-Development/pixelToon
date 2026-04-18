@@ -11,6 +11,7 @@ import {
   MenuIcon,
   Twitter,
   X,
+  Youtube,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 
@@ -122,9 +123,13 @@ const Navbar = ({ courses }) => {
               : " h-28"
           }`}
         >
+          {/* <div
+            className={`flex mx-2 lg:mx-20  py-1 items-center justify-between w-full 
+                ${isScrolled ? "bg-transparent px-0" : "bg-[#FAF7F2]/40 border border-[#faf7f2]/30 px-4 md:px-10 rounded-full shadow-lg transition-all duration-300"}`}
+          > */}
           <div
             className={`flex mx-2 lg:mx-20  py-1 items-center justify-between w-full 
-                ${isScrolled ? "bg-transparent px-0" : "bg-white/40 backdrop-blur-md border px-4 md:px-10 border-white/20 rounded-full shadow-lg transition-all duration-300"}`}
+                ${isScrolled ? "bg-transparent px-0" : "bg-white/40 backdrop-blur-md border border-white/20 px-4 md:px-10  rounded-full shadow-lg transition-all duration-300"}`}
           >
             <Link href="/" className="w-[220px] md:w-[250px]">
               <Image
@@ -134,6 +139,7 @@ const Navbar = ({ courses }) => {
                 alt="PixelToonz logo"
                 sizes="300px"
                 className="w-48"
+                // className="w-48 invert brightness-0"
               />
             </Link>
             {/* DESKTOP MENU */}
@@ -186,7 +192,7 @@ const Navbar = ({ courses }) => {
             <ul className="hidden lg:flex items-center gap-5">
               <li>
                 <a
-                  href="#"
+                  href="https://www.facebook.com/pixeltoonz"
                   className="p-2 rounded-full hover:bg-primary/10 hover:text-primary transition"
                 >
                   <Facebook size={18} />
@@ -195,28 +201,19 @@ const Navbar = ({ courses }) => {
 
               <li>
                 <a
-                  href="#"
+                  href="https://www.instagram.com/pixeltoonz/?igshid=1b7pgky2g3bi4"
                   className="p-2 rounded-full hover:bg-primary/10 hover:text-primary transition"
                 >
                   <Instagram size={18} />
                 </a>
               </li>
-
+            
               <li>
                 <a
-                  href="#"
+                  href="https://www.youtube.com/channel/UCIKz0ZYOA54p-86TL-eXkAg"
                   className="p-2 rounded-full hover:bg-primary/10 hover:text-primary transition"
                 >
-                  <Linkedin size={18} />
-                </a>
-              </li>
-
-              <li>
-                <a
-                  href="#"
-                  className="p-2 rounded-full hover:bg-primary/10 hover:text-primary transition"
-                >
-                  <Twitter size={18} />
+                  <Youtube size={24} />
                 </a>
               </li>
             </ul>

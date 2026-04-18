@@ -102,17 +102,17 @@ export default function PixelContact() {
                 <ContactMethod
                   icon={<Phone />}
                   title="Call Us"
-                  detail="+91 98765 43210"
+                  detail="+91 9745678780"
                 />
                 <ContactMethod
                   icon={<Mail />}
                   title="Email Us"
-                  detail="support@pixeltoonz.com"
+                  detail="pixeltoonzacademy@gmail.com"
                 />
                 <ContactMethod
                   icon={<MapPin />}
                   title="Visit Us"
-                  detail="Kochi, Kerala, India"
+                  detail="Pixeltoonz Academy, 1st Floor 65, 3028-A, Azad Rd, near PC Road, Kaloor, Kochi, Ernakulam, Kerala 682017"
                 />
               </div>
             </div>

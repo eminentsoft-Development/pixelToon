@@ -1,12 +1,12 @@
-// models/Video.js
 import mongoose from "mongoose";
 
 const VideoSchema = new mongoose.Schema(
   {
     title: { type: String, required: true },
     youtubeId: { type: String, required: true },
-    thumbnail: String, // Sharpest version: maxresdefault
-    url: String,       // Full link for convenience
+    thumbnail: String,
+    url: String,
+    order: { type: Number, default: 0 },
   },
   { timestamps: true }
 );

@@ -41,7 +41,9 @@ const HeroSection = () => {
 
   return (
     <>
-      <section className="min-h-[1200px] flex flex-col items-center justify-center bg-gradient-to-br from-[#F09410] to-[#BC430D]">
+      {/* <section className="min-h-[1200px] flex flex-col items-center justify-center bg-gradient-to-br from-[#F09410] to-[#BC430D]"> */}
+      <section className="min-h-[1200px] flex flex-col items-center justify-center bg-gradient-to-br from-[#000000] via-[#0a0a0a] to-[#1a1a1a]">
+        {/* <section className="min-h-[1200px] flex flex-col items-center justify-center bg-bgColor"> */}
         {/* --- FLOATING CORNER CARDS --- */}
         <div className="pt-[120px] lg:pt-[90px] w-full " aria-hidden="true" />
         <div className="relative min-h-[1200px] flex flex-col items-center justify-center w-full font-sans overflow-hidden">
@@ -206,7 +208,9 @@ const HeroSection = () => {
                     {[
                       { img: "/multimedia-courses-in-kerala-1024x683-1.jpg" },
                       { img: "/65518.jpg" },
-                      { img: "/WhatsApp-Image-2025-12-17-at-3.52.58-PM-2.jpeg" },
+                      {
+                        img: "/WhatsApp-Image-2025-12-17-at-3.52.58-PM-2.jpeg",
+                      },
                       { img: "/WhatsApp-Image-2025-12-17-at-3.52.57-PM.jpeg" },
                       { img: "/4.jpeg" },
                       { img: "/9.jpeg" },

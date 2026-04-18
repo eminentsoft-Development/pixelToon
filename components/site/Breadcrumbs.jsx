@@ -21,7 +21,7 @@ const Breadcrumbs = () => {
     title.length > 50 ? title.slice(0, 50).trim() + "..." : title;
 
   return (
-    <div className="h-96 w-full bg-gradient-to-br from-[#F09410] to-[#BC430D] relative overflow-hidden">
+    <div className="h-96 w-full bg-gradient-to-br from-[#000000] via-[#0a0a0a] to-[#1a1a1a] relative overflow-hidden">
       
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
         <div className="absolute -top-24 -left-24 w-96 h-96 bg-white/10 rounded-full blur-3xl" />
