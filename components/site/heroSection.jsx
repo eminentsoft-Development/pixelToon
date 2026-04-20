@@ -41,10 +41,8 @@ const HeroSection = () => {
 
   return (
     <>
-      {/* <section className="min-h-[1200px] flex flex-col items-center justify-center bg-gradient-to-br from-[#F09410] to-[#BC430D]"> */}
-      <section className="min-h-[1200px] flex flex-col items-center justify-center bg-gradient-to-br from-[#000000] via-[#0a0a0a] to-[#1a1a1a]">
-        {/* <section className="min-h-[1200px] flex flex-col items-center justify-center bg-bgColor"> */}
-        {/* --- FLOATING CORNER CARDS --- */}
+      <section className="min-h-[1200px] flex flex-col items-center justify-center bg-gradient-to-br from-[#F09410] to-[#BC430D]">
+
         <div className="pt-[120px] lg:pt-[90px] w-full " aria-hidden="true" />
         <div className="relative min-h-[1200px] flex flex-col items-center justify-center w-full font-sans overflow-hidden">
           <motion.div
@@ -113,8 +111,8 @@ const HeroSection = () => {
           </motion.div>
           {/* --- CENTRAL CONTAINER (PRESERVED STATIC) --- */}
           <div className="relative z-10 mb-6 w-full max-w-5xl rounded-[50px] p-[18px] bg-white/25 backdrop-blur-xl border border-white/30 shadow-[0_40px_100px_-20px_rgba(0,0,0,0.2)] overflow-hidden">
-            <div className="grid grid-cols-12 min-h-[700px] rounded-[40px] overflow-hidden bg-white/90">
-              <aside className="col-span-12 lg:col-span-3 bg-gray-50/50 p-6 flex flex-col gap-5 border-r border-gray-100">
+            <div className="grid grid-cols-12 min-h-[700px] rounded-[40px] overflow-hidden bg-white/80">
+              <aside className="col-span-12 lg:col-span-3 bg-gray-50 p-6 flex flex-col gap-5 border-r border-gray-100">
                 <div className="bg-black text-white rounded-[35px] p-5 shadow-2xl">
                   <div className="flex items-center gap-3 mb-4">
                     <div className="w-9 h-9 rounded-full bg-[#f07822] flex items-center justify-center font-black text-sm text-white">
@@ -135,7 +133,7 @@ const HeroSection = () => {
                   </nav>
                 </div>
 
-                <div className="flex-1 bg-white rounded-[35px] p-7 border border-gray-100 shadow-sm">
+                <div className="flex-1 bg-white/60 rounded-[35px] p-7 border border-gray-100 shadow-sm">
                   <h3 className="text-[10px] font-black uppercase tracking-[0.25em] text-gray-400 mb-6">
                     Explore Menu
                   </h3>
@@ -162,7 +160,7 @@ const HeroSection = () => {
                   </ul>
                 </div>
               </aside>
-              <section className="col-span-12 lg:col-span-9 p-6 lg:p-7 flex flex-col">
+              <section className="col-span-12 bg-white/70 lg:col-span-9 p-6 lg:p-7 flex flex-col">
                 <div className="relative bg-[#080808] rounded-[45px] h-44 md:h-52 w-full flex flex-col items-center justify-center shadow-inner mb-14 overflow-visible">
                   <div className="absolute inset-0 rounded-[45px] overflow-hidden pointer-events-none">
                     <div className="absolute -top-24 -right-24 w-64 h-64 bg-[#f07822]/20 blur-[100px] rounded-full" />

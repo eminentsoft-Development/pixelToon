@@ -119,26 +119,22 @@ const Navbar = ({ courses }) => {
         <header
           className={`w-full flex justify-center items-center bg-transparent transition-shadow duration-300 ${
             isScrolled
-              ? "bg-white/60 backdrop-blur-md border border-white/20 shadow-lg transition-all duration-300 h-24"
+              ? "bg-white border border-gray-200 shadow-lg transition-all duration-300 h-24"
               : " h-28"
           }`}
         >
-          {/* <div
-            className={`flex mx-2 lg:mx-20  py-1 items-center justify-between w-full 
-                ${isScrolled ? "bg-transparent px-0" : "bg-[#FAF7F2]/40 border border-[#faf7f2]/30 px-4 md:px-10 rounded-full shadow-lg transition-all duration-300"}`}
-          > */}
           <div
             className={`flex mx-2 lg:mx-20  py-1 items-center justify-between w-full 
-                ${isScrolled ? "bg-transparent px-0" : "bg-white/40 backdrop-blur-md border border-white/20 px-4 md:px-10  rounded-full shadow-lg transition-all duration-300"}`}
+                ${isScrolled ? "bg-white/80 px-0" : "bg-white/70 backdrop-blur-md border border-white/20 px-4 md:px-10  rounded-full shadow-lg transition-all duration-300"}`}
           >
-            <Link href="/" className="w-[220px] md:w-[250px]">
+            <Link href="/" className="w-[220px] md:w-[280px]">
               <Image
-                src="/logo.png"
-                width={300}
-                height={70}
+                src="/logo_.png"
+                width={350}
+                height={80}
                 alt="PixelToonz logo"
-                sizes="300px"
-                className="w-48"
+                sizes="350px"
+                className="w-44 md:w-52"
                 // className="w-48 invert brightness-0"
               />
             </Link>
@@ -170,7 +166,7 @@ const Navbar = ({ courses }) => {
                     return (
                       <li
                         key={item.id}
-                        className={`px-2 py-1 rounded-md ${isScrolled ? "text-black" : "text-white"} hover:bg-gray-100  hover:text-primary transition-colors text-[13px] uppercase font-extrabold tracking-wide `}
+                        className={`px-2 py-1 rounded-md ${isScrolled ? "text-black" : "text-black"} hover:bg-gray-100  hover:text-primary transition-colors text-[13px] uppercase font-extrabold tracking-wide `}
                       >
                         <Link
                           href={item.path}

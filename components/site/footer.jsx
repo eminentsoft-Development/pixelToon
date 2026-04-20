@@ -16,16 +16,16 @@ const Footer = () => {
 
   return (
     <footer className="bg-[#131313] text-gray-300 pt-16 pb-8">
-      <div className="container mx-auto px-6 lg:px-20">
+      <div className="container ">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
           {/* Column 1: Brand & About */}
           <div className="space-y-6">
             <Link href="/">
               <Image
-                src="/logo.png"
+                src="/logo_white.png"
                 alt="Logo"
-                width={180}
-                height={50}
+                width={200}
+                height={60}
                 className="brightness-0 invert" // Keeps logo white on dark bg
               />
             </Link>
@@ -155,12 +155,12 @@ const Footer = () => {
           <p>© {currentYear} Pixeltoonz Academy. All rights reserved.</p>
           <div className="flex gap-6">
             <Link
-              href="/privacy"
+              href=""
               className="hover:text-white transition-colors"
             >
               Privacy Policy
             </Link>
-            <Link href="/terms" className="hover:text-white transition-colors">
+            <Link href="" className="hover:text-white transition-colors">
               Terms of Service
             </Link>
           </div>

@@ -16,12 +16,12 @@ export function MegaDropdown({ title, path, menuChildren, isScrolled }) {
   return (
     <NavigationMenuItem>
       <NavigationMenuTrigger
-        className={`px-2 py-1 uppercase h-fit hover:bg-gray-100  font-extrabold tracking-wide text-[13px] ${isScrolled ? "text-black" : "text-white"} hover:text-primary  ${currentPath === path ? "text-primary" : " "}`}
+        className={`px-2 py-1 uppercase h-fit hover:bg-gray-100  font-extrabold tracking-wide text-[13px] ${isScrolled ? "text-black" : "text-black"} hover:text-primary  ${currentPath === path ? "text-primary" : " "}`}
       >
         <Link
           href={path || ""}
           className={` uppercase h-full w-full font-extrabold text-[13px] transition-colors flex items-center gap-1
-          ${isActive ? "text-primary" : isScrolled ? "text-black" : "text-white"}
+          ${isActive ? "text-primary" : isScrolled ? "text-black" : "text-black"}
         hover:text-primary
         `}
         >

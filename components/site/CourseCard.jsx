@@ -8,63 +8,66 @@ import Link from "next/link";
 
 const CourseCard = ({ images, title, slug, description, index }) => {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.1 }}
-      viewport={{ once: true }}
-      className="group cursor-pointer flex-shrink-0" // Added flex-shrink for scrolling
-    >
-      <div className="relative aspect-[3/4] rounded-[2.5rem] overflow-hidden mb-6 shadow-xl">
-        <Image
-          src={ images?.[0]?.url ||
-            "https://images.unsplash.com/photo-1542038784456-1ea8e935640e?q=80&w=800"
-          }
-          alt={"Digital Photography"}
-          fill
-          className="object-cover transition-transform duration-700 group-hover:scale-110"
-        />
+    <Link href={`/courses/${slug}`}>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ delay: index * 0.1 }}
+        viewport={{ once: true }}
+        className="group cursor-pointer flex-shrink-0" // Added flex-shrink for scrolling
+      >
+        <div className="relative aspect-[3/4] rounded-[2.5rem] overflow-hidden mb-6 shadow-xl">
+          <Image
+            src={
+              images?.[0]?.url ||
+              "https://images.unsplash.com/photo-1542038784456-1ea8e935640e?q=80&w=800"
+            }
+            alt={"Digital Photography"}
+            fill
+            className="object-cover transition-transform duration-700 group-hover:scale-110"
+          />
 
-        {/* Darker gradient on hover to make description readable */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity" />
+          {/* Darker gradient on hover to make description readable */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity" />
 
-        <div className="absolute top-6 left-6">
-          {/* <span className="bg-white/10 backdrop-blur-md border border-white/20 text-white text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full">
+          <div className="absolute top-6 left-6">
+            {/* <span className="bg-white/10 backdrop-blur-md border border-white/20 text-white text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full">
             {category}
           </span> */}
-        </div>
-
-        {/* Bottom Content */}
-        <div className="absolute bottom-8 left-4 right-4 text-white">
-          <h3 className="text-xl font-bold leading-tight uppercase group-hover:text-yellow-400 transition-colors">
-            {title}
-          </h3>
-
-          {/* Animated Description */}
-          <div className="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-all duration-500 ease-in-out">
-            <div className="overflow-hidden">
-              <p className="text-sm text-gray-300 mt-2 leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 line-clamp-2">
-                {description}
-              </p>
-            </div>
           </div>
 
-          <div className="grid grid-rows-[0fr] mt-2 group-hover:grid-rows-[1fr] transition-all duration-500 ease-in-out">
-            <div className="overflow-hidden">
-              <Link href={`/courses/${slug}`}>
-                <Button
-                  className={
-                    "w-full py-6 bg-white mt-2 rounded-full font-bold text-black text-base tracking-wider hover:bg-primary hover:text-white"
-                  }
-                >
-                  Explore More
-                </Button>
-              </Link>
+          {/* Bottom Content */}
+          <div className="absolute bottom-8 left-4 right-4 text-white">
+            <h3 className="text-xl font-bold leading-tight uppercase group-hover:text-yellow-400 transition-colors">
+              {title}
+            </h3>
+
+            {/* Animated Description */}
+            <div className="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-all duration-500 ease-in-out">
+              <div className="overflow-hidden">
+                <p className="text-sm text-gray-300 mt-2 leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 line-clamp-2">
+                  {description}
+                </p>
+              </div>
+            </div>
+
+            <div className="grid grid-rows-[0fr] mt-2 group-hover:grid-rows-[1fr] transition-all duration-500 ease-in-out">
+              <div className="overflow-hidden">
+                {/* <Link href={`/courses/${slug}`}> */}
+                  <Button
+                    className={
+                      "w-full py-6 bg-white mt-2 rounded-full font-bold text-black text-base tracking-wider hover:bg-primary hover:text-white"
+                    }
+                  >
+                    Explore More
+                  </Button>
+                {/* </Link> */}
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </motion.div>
+      </motion.div>
+    </Link>
   );
 };
 
