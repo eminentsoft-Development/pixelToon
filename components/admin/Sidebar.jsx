@@ -40,16 +40,7 @@ const navItems = [
   {
     name: "Gallery",
     icon: ImageIcon,
-    href: "",
-    submenu: [
-      { name: "Students Work", href: "/admin/gallery/students-work" },
-      { name: "Videos Gallery", href: "/admin/gallery/video-gallery" },
-      {
-        name: "Students Life & Events",
-        href: "/admin/gallery/students-life-events",
-      },
-      { name: "Latest Events", href: "/admin/gallery/latest-events" },
-    ],
+    href: "/admin/gallery",
   },
 ];
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   GraduationCap,
@@ -9,11 +9,10 @@ import {
   CalendarDays,
   Images,
 } from "lucide-react";
-import StudentsWork from "@/components/admin/sample/StudentsWork";
-import StudentsLifeEvents from "@/components/admin/sample/StudentsLifeEvents";
-import VideosGallery from "@/components/admin/sample/AddVideoModal";
-import LatestEvents from "@/components/admin/sample/AddEventModal";
-
+import LatestEvents from "@/components/admin/Gallery/AddEventModal";
+import StudentsLifeEvents from "@/components/admin/Gallery/StudentsLifeEvents";
+import StudentsWork from "@/components/admin/Gallery/StudentsWork";
+import VideosGallery from "@/components/admin/Gallery/VideoGallery";
 const TABS = [
   {
     id: "students-work",
@@ -46,10 +45,22 @@ const TABS = [
 ];
 
 export default function GalleryManagementPage() {
-  const [activeTab, setActiveTab] = useState("students-work");
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
 
-  const ActiveComponent = TABS.find((t) => t.id === activeTab)?.component;
-  const activeTabData = TABS.find((t) => t.id === activeTab);
+  // Get the active tab from URL (?tab=...) or default to the first tab
+  const activeTab = searchParams.get("tab") || "students-work";
+
+  const handleTabChange = (tabId) => {
+    const params = new URLSearchParams(searchParams);
+    params.set("tab", tabId);
+    // Use { scroll: false } to prevent the page from jumping to top
+    router.push(`${pathname}?${params.toString()}`, { scroll: false });
+  };
+
+  const activeTabData = TABS.find((t) => t.id === activeTab) || TABS[0];
+  const ActiveComponent = activeTabData.component;
 
   return (
     <div className="min-h-screen">
@@ -73,13 +84,13 @@ export default function GalleryManagementPage() {
       {/* Tab Navigation */}
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 mb-6 overflow-hidden">
         <div className="flex overflow-x-auto scrollbar-hide">
-          {TABS.map((tab, index) => {
+          {TABS.map((tab) => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;
             return (
               <button
                 key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
+                onClick={() => handleTabChange(tab.id)}
                 className={`relative flex items-center gap-2.5 px-6 py-4 text-sm font-medium whitespace-nowrap transition-all duration-200 flex-1 justify-center border-b-2 ${
                   isActive
                     ? "text-[#5b4fcf] border-[#5b4fcf] bg-[#5b4fcf]/5"
@@ -92,7 +103,6 @@ export default function GalleryManagementPage() {
                   }`}
                 />
                 <span>{tab.label}</span>
-                
               </button>
             );
           })}
@@ -110,8 +120,8 @@ export default function GalleryManagementPage() {
         >
           {ActiveComponent && (
             <ActiveComponent
-              tabLabel={activeTabData?.label}
-              tabDescription={activeTabData?.description}
+              tabLabel={activeTabData.label}
+              tabDescription={activeTabData.description}
             />
           )}
         </motion.div>
@@ -119,5 +129,3 @@ export default function GalleryManagementPage() {
     </div>
   );
 }
-
-

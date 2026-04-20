@@ -9,7 +9,7 @@ export async function GET(request) {
 
   try {
     const query = category ? { category } : {};
-    const images = await Image.find(query).sort({ order: 1, createdAt: -1 });
+    const images = await Image.find(query).sort({ createdAt: -1 });
     return NextResponse.json({ success: true, data: images });
   } catch (error) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
@@ -20,21 +20,27 @@ export async function POST(request) {
   await connectDB();
   try {
     const body = await request.json();
-    const { url, category, alt, order } = body;
+    
+    // Check if body is an array or a single object
+    const dataToSave = Array.isArray(body) ? body : [body];
 
-    if (!url || !category) {
-      return NextResponse.json(
-        { success: false, error: "url and category are required" },
-        { status: 400 }
-      );
+    // Validate entries
+    for (const item of dataToSave) {
+      if (!item.url || !item.category) {
+        return NextResponse.json(
+          { success: false, error: "URL and Category are required" },
+          { status: 400 }
+        );
+      }
     }
 
-    const image = await Image.create({ url, category, alt: alt || "", order: order || 0 });
-    return NextResponse.json({ success: true, data: image }, { status: 201 });
+    const images = await Image.insertMany(dataToSave);
+    return NextResponse.json({ success: true, data: images }, { status: 201 });
   } catch (error) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
 }
+
 
 // Bulk reorder
 export async function PATCH(request) {

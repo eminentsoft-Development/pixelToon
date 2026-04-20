@@ -14,7 +14,7 @@ const PixelToonzCreativeFrameLoader = () => {
             scale: [0.9, 1.05, 0.9],
           }}
           transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-          className="relative w-48 h-48" // Adjust size as needed
+          className="relative w-28 h-28 md:w-48 md:h-48" // Adjust size as needed
         >
           <Image
             src="/logo-icon.png" // Ensure your image is in the /public folder

@@ -4,7 +4,9 @@ import { useState } from "react";
 import { CalendarDays, MapPin, Users, Trash2, Eye, EyeOff, Plus, X, Clock } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
-import { GalleryShell, MediaCard, UploadModal, EmptyState } from "./GalleryShell";
+import { EmptyState, GalleryShell } from "./GalleryShell";
+import { MediaCard } from "./MediaCard";
+import { UploadModal } from "./UploadModal";
 
 const EVENT_IMAGES = [
   { id: 1, src: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400&q=80", alt: "Tech Summit", title: "Tech Summit 2024", published: true, date: "Apr 18", size: "2.1 MB" },
