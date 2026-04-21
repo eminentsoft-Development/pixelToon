@@ -1,16 +1,43 @@
-import {
-  Clock,
-  ExternalLink,
-  Eye,
-  EyeOff,
-  Pencil,
-  Play,
-  Trash2,
-} from "lucide-react";
+import { Clock, ExternalLink, Pencil, Play, Trash2 } from "lucide-react";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
-export function VideoCard({ item, onDelete, onTogglePublish, view }) {
+const DeleteDialog = ({ children, onDelete, item }) => (
+  <AlertDialog>
+    <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
+    <AlertDialogContent className="bg-bgColor text-white border-gray-600">
+      <AlertDialogHeader>
+        <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+        <AlertDialogDescription>
+          This action cannot be undone. This will permanently delete the image
+          from the gallery and cloud storage.
+        </AlertDialogDescription>
+      </AlertDialogHeader>
+      <AlertDialogFooter>
+        <AlertDialogCancel>Cancel</AlertDialogCancel>
+        <AlertDialogAction
+          onClick={() => onDelete?.(item._id)}
+          className="bg-red-500 hover:bg-red-600"
+        >
+          Delete
+        </AlertDialogAction>
+      </AlertDialogFooter>
+    </AlertDialogContent>
+  </AlertDialog>
+);
+
+export function VideoCard({ item, onDelete, onEdit, view }) {
   if (view === "list") {
     return (
       <motion.div
@@ -42,18 +69,19 @@ export function VideoCard({ item, onDelete, onTogglePublish, view }) {
           </p>
         </div>
 
-         <button
-            onClick={() => onTogglePublish(item._id)}
-            className="bg-bgColor hover:bg-bgColor backdrop-blur-sm text-white p-1.5 rounded-lg transition"
-          >
-            <Pencil className="w-3.5 h-3.5" />
-          </button>
         <button
-          onClick={() => onDelete(item._id)}
-          className="p-2 text-gray-400 hover:text-red-500 transition"
+          onClick={() => onEdit(item)}
+          className="bg-bgColor hover:bg-bgColor backdrop-blur-sm text-white p-1.5 rounded-lg transition"
         >
-          <Trash2 className="w-4 h-4" />
+          <Pencil className="w-3.5 h-3.5" />
         </button>
+        <DeleteDialog onDelete={onDelete} item={item}>
+          <button
+            className="p-2 text-gray-400 hover:text-red-500 transition"
+          >
+            <Trash2 className="w-4 h-4" />
+          </button>
+        </DeleteDialog>
       </motion.div>
     );
   }
@@ -87,17 +115,16 @@ export function VideoCard({ item, onDelete, onTogglePublish, view }) {
         {/* Hover actions */}
         <div className="absolute top-2 right-2 transition-opacity flex gap-1.5">
           <button
-            onClick={() => onTogglePublish(item._id)}
+            onClick={() => onEdit(item)}
             className="bg-bgColor hover:bg-bgColor backdrop-blur-sm text-white p-1.5 rounded-lg transition"
           >
             <Pencil className="w-3.5 h-3.5" />
           </button>
-          <button
-            onClick={() => onDelete(item._id)}
-            className="bg-red-500/70 hover:bg-red-500 backdrop-blur-sm text-white p-1.5 rounded-lg transition"
-          >
-            <Trash2 className="w-3.5 h-3.5" />
-          </button>
+          <DeleteDialog onDelete={onDelete} item={item}>
+            <button className="bg-red-500/70 hover:bg-red-500 backdrop-blur-sm text-white p-1.5 rounded-lg transition">
+              <Trash2 className="w-3.5 h-3.5" />
+            </button>
+          </DeleteDialog>
         </div>
       </div>
 

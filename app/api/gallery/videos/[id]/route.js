@@ -1,4 +1,3 @@
-// app/api/gallery/videos/[id]/route.js
 import { NextResponse } from "next/server";
 import Video from "@/models/Video";
 import connectDB from "@/lib/mongodb";

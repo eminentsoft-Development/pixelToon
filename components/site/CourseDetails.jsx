@@ -9,7 +9,6 @@ import ContentRenderer from "./ContentRenderer";
 
 export default function CourseOverview({
   title,
-  description,
   images,
   content,
   whyThisCourse,
@@ -47,7 +46,7 @@ export default function CourseOverview({
             </section>
 
             {acquireItems.length > 0 && (
-              <section className="mb-[72px] p-12 bg-[#13131a] border border-[#2a2a35] rounded-sm relative">
+              <section className="mb-[72px] p-4 md:p-12 bg-[#13131a] border border-[#2a2a35] rounded-sm relative">
                 <span
                   className="absolute right-8 -top-5 text-[200px] text-[#c9a84c] opacity-[0.04] italic leading-none pointer-events-none select-none"
                   aria-hidden="true"

@@ -9,11 +9,8 @@ const EventSchema = new mongoose.Schema(
       {
         url: { type: String, required: true },
         alt: { type: String, default: "" },
-        order: { type: Number, default: 0 },
       },
     ],
-    coverImage: { type: String, default: "" },
-    published: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

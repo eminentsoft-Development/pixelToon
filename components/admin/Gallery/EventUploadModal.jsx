@@ -1,3 +1,5 @@
+"use client";
+
 import { useUploadThing } from "@/lib/uploadthing";
 import { AnimatePresence, motion } from "framer-motion";
 import { Upload, X } from "lucide-react";
@@ -5,56 +7,62 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 
-export function UploadModal({
+export function EventUploadModal({
   open,
   onClose,
   onSuccess,
+  eventId, // The specific event to update
+  currentImages = [], // Existing images in the event
   accept = "image/*",
   endpoint = "imageUploader",
-  category,
-  label = "images",
+  label = "event photos",
 }) {
   const [dragging, setDragging] = useState(false);
   const [selectedFiles, setSelectedFiles] = useState([]); // { file, preview, alt }
   const fileRef = useRef();
 
-  // Clean up object URLs to avoid memory leaks
   useEffect(() => {
     return () => {
       selectedFiles.forEach((item) => URL.revokeObjectURL(item.preview));
     };
   }, [selectedFiles]);
 
-  // 2. Initialize the UploadThing hook
   const { startUpload, isUploading } = useUploadThing(endpoint, {
     onClientUploadComplete: async (res) => {
       try {
-        const savePromises = res.map((file, index) => {
-          return fetch("/api/gallery/images", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              url: file.url,
-              category: category,
-              alt: selectedFiles[index].alt ?? "",
-            }),
-          });
+        // 1. Prepare the new images from the upload response
+        const newImages = res.map((file, index) => ({
+          url: file.url,
+          alt: selectedFiles[index].alt ?? "",
+        }));
+
+        // 2. Combine with existing images and update the Event
+        const updatedImages = [...currentImages, ...newImages];
+
+        const response = await fetch(`/api/gallery/events/${eventId}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ images: updatedImages }),
         });
 
-        await Promise.all(savePromises);
-        toast.success("Images uploaded and saved to gallery!");
-        setSelectedFiles([]);
-        onClose();
-        onSuccess?.();
+        const json = await response.json();
+
+        if (json.success) {
+          toast.success("Event photos updated!");
+          setSelectedFiles([]);
+          onClose();
+          onSuccess?.(json.data.images); // Pass the new images array back to UI
+        } else {
+          throw new Error(json.error);
+        }
       } catch (error) {
-        toast.error("Files uploaded, but failed to save to database.");
+        toast.error("Failed to update event images.");
         console.error(error);
       }
     },
     onUploadError: (error) => {
       toast.error(`Upload failed: ${error.message}`);
     },
-    onUploadProgress: (p) => {},
   });
 
   const processFiles = (files) => {
@@ -87,15 +95,6 @@ export function UploadModal({
 
   const handleUpload = async () => {
     if (selectedFiles.length === 0) return;
-
-    console.log(
-      "Final check before upload:",
-      selectedFiles.map((item) => ({
-        fileName: item.file.name,
-        altText: item.alt,
-      })),
-    );
-
     const filesToUpload = selectedFiles.map((item) => item.file);
     await startUpload(filesToUpload);
   };
@@ -119,7 +118,7 @@ export function UploadModal({
           >
             <div className="flex items-center justify-between mb-5">
               <h3 className="text-base font-semibold text-gray-900">
-                Upload {label}
+                Add to {label}
               </h3>
               <button
                 onClick={onClose}
@@ -129,9 +128,7 @@ export function UploadModal({
               </button>
             </div>
 
-            {/* Scrollable Area */}
             <div className="flex-1 overflow-y-auto pr-2 scrollbar-hide">
-              {/* Dropzone */}
               <div
                 onDragOver={(e) => {
                   e.preventDefault();
@@ -147,10 +144,12 @@ export function UploadModal({
                 }`}
               >
                 <Upload
-                  className={`w-8 h-8 mx-auto mb-3 ${dragging ? "text-[#5b4fcf]" : "text-gray-300"}`}
+                  className={`w-8 h-8 mx-auto mb-3 ${
+                    dragging ? "text-[#5b4fcf]" : "text-gray-300"
+                  }`}
                 />
                 <p className="text-sm font-medium text-gray-700 mb-1">
-                  Drag & drop images here
+                  Drag & drop event photos here
                 </p>
                 <p className="text-xs text-gray-400">or click to browse</p>
                 <input
@@ -163,7 +162,6 @@ export function UploadModal({
                 />
               </div>
 
-              {/* Preview List */}
               <div className="space-y-4">
                 {selectedFiles.map((item, index) => (
                   <div
@@ -175,7 +173,7 @@ export function UploadModal({
                         src={item.preview}
                         alt="Preview"
                         fill
-                        unoptimized // Important for blob/object URLs
+                        unoptimized
                         className="object-cover"
                       />
                     </div>
@@ -186,7 +184,7 @@ export function UploadModal({
                       </label>
                       <input
                         type="text"
-                        placeholder="Describe this image..."
+                        placeholder="Describe this photo..."
                         value={item.alt}
                         onChange={(e) => handleAltChange(index, e.target.value)}
                         className="w-full px-3 py-2 text-sm bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5b4fcf]/20 focus:border-[#5b4fcf]"
@@ -222,7 +220,9 @@ export function UploadModal({
                     Uploading...
                   </>
                 ) : (
-                  `Upload ${selectedFiles.length > 0 ? `(${selectedFiles.length})` : ""}`
+                  `Upload ${
+                    selectedFiles.length > 0 ? `(${selectedFiles.length})` : ""
+                  }`
                 )}
               </button>
             </div>

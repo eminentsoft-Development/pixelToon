@@ -9,7 +9,7 @@ import {
   CalendarDays,
   Images,
 } from "lucide-react";
-import LatestEvents from "@/components/admin/Gallery/AddEventModal";
+import LatestEvents from "@/components/admin/Gallery/EventGallery";
 import StudentsLifeEvents from "@/components/admin/Gallery/StudentsLifeEvents";
 import StudentsWork from "@/components/admin/Gallery/StudentsWork";
 import VideosGallery from "@/components/admin/Gallery/VideoGallery";
@@ -63,7 +63,7 @@ export default function GalleryManagementPage() {
   const ActiveComponent = activeTabData.component;
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen mb-6">
       {/* Page Header */}
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-1">

@@ -9,20 +9,26 @@ import { EditModal } from "./EditModal";
 import { MediaCard } from "./MediaCard";
 import { UploadModal } from "./UploadModal";
 import { SkeletonGrid } from "./SkeletonGrid";
+import { PaginationControlled } from "@/components/Common/PaginationControlled";
 
 export default function StudentsWork({ tabLabel, tabDescription }) {
   const [loading, setLoading] = useState(true);
   const [items, setItems] = useState([]);
+  const [pagination, setPagination] = useState({ current: 1, total: 1 });
   const [uploadOpen, setUploadOpen] = useState(false);
   const [editItem, setEditItem] = useState(null);
 
-  const fetchImages = useCallback(async () => {
+  const fetchImages = useCallback(async (page = 1) => {
     setLoading(true);
     try {
       const res = await apiRequest(
-        `/api/gallery/images?category=students-work`,
+        `/api/gallery/images?category=students-work&page=${page}&limit=20`,
       );
       setItems(res.data || []);
+      setPagination({
+        current: res.pagination.currentPage,
+        total: res.pagination.totalPages,
+      });
     } catch {
       toast.error("Failed to load images");
     } finally {
@@ -31,8 +37,13 @@ export default function StudentsWork({ tabLabel, tabDescription }) {
   }, []);
 
   useEffect(() => {
-    fetchImages();
+    fetchImages(1);
   }, [fetchImages]);
+
+  const handlePageChange = (newPage) => {
+    fetchImages(newPage);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   // ── Upload ────────────────────────────────────────────────────────────────
   const handleUploadSuccess = useCallback(() => {
@@ -50,9 +61,6 @@ export default function StudentsWork({ tabLabel, tabDescription }) {
       setItems((prev) => prev.filter((i) => i._id !== id));
 
       try {
-        // 1. Delete from MongoDB
-        console.log("Attempting to delete image with ID:", id);
-
         await fetch(`/api/gallery/images/${id}`, { method: "DELETE" });
 
         // 2. Delete from UploadThing storage
@@ -123,23 +131,30 @@ export default function StudentsWork({ tabLabel, tabDescription }) {
             );
 
           return (
-            <div
-              className={
-                view === "grid"
-                  ? "grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4"
-                  : "flex flex-col gap-2"
-              }
-            >
-              {items.map((item) => (
-                <MediaCard
-                  key={item._id}
-                  item={item}
-                  view={view}
-                  onDelete={handleDelete}
-                  onEdit={() => setEditItem(item)}
-                />
-              ))}
-            </div>
+            <>
+              <div
+                className={` 
+                  ${view === "grid"
+                    ? "grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4"
+                    : "flex flex-col gap-2"}
+                `}
+              >
+                {items.map((item) => (
+                  <MediaCard
+                    key={item._id}
+                    item={item}
+                    view={view}
+                    onDelete={handleDelete}
+                    onEdit={() => setEditItem(item)}
+                  />
+                ))}
+              </div>
+              <PaginationControlled
+                currentPage={pagination.current}
+                totalPages={pagination.total}
+                onPageChange={handlePageChange}
+              />
+            </>
           );
         }}
       </GalleryShell>

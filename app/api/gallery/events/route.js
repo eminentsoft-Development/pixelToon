@@ -1,39 +1,45 @@
-// app/api/gallery/events/route.js
 import { NextResponse } from "next/server";
-import Event from "@/models/Event";
 import connectDB from "@/lib/mongodb";
+import Event from "@/models/Event";
 
 export async function GET() {
   await connectDB();
   try {
-    const events = await Event.find().sort({ date: -1 });
+    const events = await Event.find({}).sort({ createdAt: -1 });
     return NextResponse.json({ success: true, data: events });
-  } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+  } catch (err) {
+    return NextResponse.json(
+      { success: false, error: err.message },
+      { status: 500 },
+    );
   }
 }
 
 export async function POST(request) {
   await connectDB();
-  try {
-    const body = await request.json();
-    const { title, description, date, images, coverImage, published } = body;
 
-    if (!title) {
-      return NextResponse.json({ success: false, error: "title is required" }, { status: 400 });
+  try {
+    const { title, date, description } = await request.json();
+
+    if (!title?.trim()) {
+      return NextResponse.json(
+        { success: false, error: "Title is required" },
+        { status: 400 },
+      );
+    }
+    if (!date) {
+      return NextResponse.json(
+        { success: false, error: "Date is required" },
+        { status: 400 },
+      );
     }
 
-    const event = await Event.create({
-      title,
-      description: description || "",
-      date: date || new Date(),
-      images: images || [],
-      coverImage: coverImage || (images?.[0]?.url ?? ""),
-      published: published ?? false,
-    });
-
+    const event = await Event.create({ title, date, description });
     return NextResponse.json({ success: true, data: event }, { status: 201 });
-  } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+  } catch (err) {
+    return NextResponse.json(
+      { success: false, error: err.message },
+      { status: 500 },
+    );
   }
 }

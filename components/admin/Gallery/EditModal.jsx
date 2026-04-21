@@ -5,7 +5,6 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
 export function EditModal({ item, onClose, onSave }) {
-  console.log("EditModal received item:", item); // Debug log to check the item prop
   const [alt, setAlt] = useState(item?.alt || "");
   const [preview, setPreview] = useState(null); // new image preview URL
   const [newFile, setNewFile] = useState(null); // new File object
