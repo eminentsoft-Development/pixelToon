@@ -11,6 +11,12 @@ import {
   Sparkles,
   Settings,
   ChevronRight,
+  Palette,
+  Video,
+  Camera,
+  Code2,
+  Film,
+  Shapes,
 } from "lucide-react";
 
 const HeroSection = () => {
@@ -42,8 +48,72 @@ const HeroSection = () => {
   return (
     <>
       <section className="min-h-[1200px] flex flex-col items-center justify-center bg-gradient-to-br from-[#F09410] to-[#BC430D]">
-
         <div className="pt-[120px] lg:pt-[90px] w-full " aria-hidden="true" />
+
+        {/* --- FLOATING ICONS LAYER --- */}
+        <div className="absolute inset-0 pointer-events-none hidden xl:block">
+          <motion.div
+            variants={floatingVariants(1.8, 10, -20)}
+            initial="initial"
+            animate="animate"
+            className="absolute top-[90%] right-[9%] w-14 h-14 rounded-xl flex items-center justify-center transition-transform hover:scale-110"
+          >
+            <Image
+              src={"/floating-icons/premiere-pro-icon.png"}
+              alt="Adobe Premiere Pro Icon"
+              width={56}
+              height={56}
+              className="object-contain opacity-70"
+            />
+          </motion.div>
+
+          {/* Film Reel Icon - Mid Left */}
+          <motion.div
+            variants={floatingVariants(2.2, -15, 15)}
+            initial="initial"
+            animate="animate"
+            className="absolute top-[86%] left-[8%] p-4 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 text-white/80 shadow-xl"
+          >
+            <Film size={30} strokeWidth={1.2} />
+          </motion.div>
+
+          <motion.div
+            variants={floatingVariants(2.2, -15, 15)}
+            initial="initial"
+            animate="animate"
+            className="absolute top-[20%] right-[33%] p-4 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 text-white/80 shadow-xl"
+          >
+            <Camera size={30} strokeWidth={1.2} />
+          </motion.div>
+
+          {/* Code / Web Icon - Bottom Left Area */}
+          <motion.div
+            variants={floatingVariants(1.4, -10, 25)}
+            initial="initial"
+            animate="animate"
+            className="absolute top-[28%] left-[33%] p-4 bg-white/10 backdrop-blur-md rounded-full border border-white/20 text-white shadow-xl"
+          >
+            <Code2 size={28} strokeWidth={1.5} />
+          </motion.div>
+
+          <motion.div
+            variants={floatingVariants(1.4, -10, 25)}
+            initial="initial"
+            animate="animate"
+            className="absolute bottom-[-62%] left-[60%] p-4 bg-white/10 backdrop-blur-md rounded-full border border-white/20 text-white shadow-xl"
+          >
+            <Video  size={28} strokeWidth={1.5} />
+          </motion.div>
+          <motion.div
+            variants={floatingVariants(1.4, -10, 25)}
+            initial="initial"
+            animate="animate"
+            className="absolute bottom-[-55%] left-[33%] p-4 bg-white/10 backdrop-blur-md rounded-full border border-white/20 text-white shadow-xl"
+          >
+            <Shapes  size={28} strokeWidth={1.5} />
+          </motion.div>
+        </div>
+
         <div className="relative min-h-[1200px] flex flex-col items-center justify-center w-full font-sans overflow-hidden">
           <motion.div
             variants={floatingVariants(0, -20, -12)}
@@ -77,6 +147,7 @@ const HeroSection = () => {
               />
             </div>
           </motion.div>
+
           {/* Bottom Left: Adsin Hub - Rotated 6deg */}
           <motion.div
             variants={floatingVariants(1, -15, 6)}

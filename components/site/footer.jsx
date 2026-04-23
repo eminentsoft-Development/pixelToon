@@ -30,16 +30,27 @@ const Footer = () => {
               />
             </Link>
             <p className="text-sm leading-relaxed">
-              Best ui ux Design Course | vfx and animation courses in Kerala.
+              KERALA&apos;S NO 1 DESIGN & MEDIA SCHOOL, Integrated Diploma in
+              Graphics & 3D, Ui/Ux, Photography, Film Editing, VFX, 
+              Animation
             </p>
             <div className="flex gap-4">
-              <Link href="https://www.facebook.com/pixeltoonz" className="hover:text-primary transition-colors">
+              <Link
+                href="https://www.facebook.com/pixeltoonz"
+                className="hover:text-primary transition-colors"
+              >
                 <Facebook size={20} />
               </Link>
-              <Link href="https://www.instagram.com/pixeltoonz/?igshid=1b7pgky2g3bi4" className="hover:text-primary transition-colors">
+              <Link
+                href="https://www.instagram.com/pixeltoonz/?igshid=1b7pgky2g3bi4"
+                className="hover:text-primary transition-colors"
+              >
                 <Instagram size={20} />
               </Link>
-              <Link href="https://www.youtube.com/channel/UCIKz0ZYOA54p-86TL-eXkAg" className="hover:text-primary transition-colors">
+              <Link
+                href="https://www.youtube.com/channel/UCIKz0ZYOA54p-86TL-eXkAg"
+                className="hover:text-primary transition-colors"
+              >
                 <Youtube size={24} />
               </Link>
             </div>
@@ -98,27 +109,42 @@ const Footer = () => {
             </h4>
             <ul className="space-y-4 text-sm">
               <li>
-                <Link href="/courses/diploma-in-graphic-design" className="hover:text-white transition-colors">
-                 Diploma in graphic design
+                <Link
+                  href="/courses/diploma-in-graphic-design"
+                  className="hover:text-white transition-colors"
+                >
+                  Diploma in graphic design
                 </Link>
               </li>
               <li>
-                <Link href="/courses/diploma-in-photography-courses" className="hover:text-white transition-colors">
+                <Link
+                  href="/courses/diploma-in-photography-courses"
+                  className="hover:text-white transition-colors"
+                >
                   Diploma in photography courses
                 </Link>
               </li>
               <li>
-                <Link href="/courses/diploma-in-film-editing" className="hover:text-white transition-colors">
+                <Link
+                  href="/courses/diploma-in-film-editing"
+                  className="hover:text-white transition-colors"
+                >
                   Diploma in film editing
                 </Link>
               </li>
               <li>
-                <Link href="/courses/integrated-diploma-in-graphics-and-3d" className="hover:text-white transition-colors">
+                <Link
+                  href="/courses/integrated-diploma-in-graphics-and-3d"
+                  className="hover:text-white transition-colors"
+                >
                   Diploma in graphics and 3d
                 </Link>
               </li>
               <li>
-                <Link href="/courses/ai-film-making-course" className="hover:text-white transition-colors">
+                <Link
+                  href="/courses/ai-film-making-course"
+                  className="hover:text-white transition-colors"
+                >
                   Ai film making course
                 </Link>
               </li>
@@ -154,10 +180,7 @@ const Footer = () => {
         <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs">
           <p>© {currentYear} Pixeltoonz Academy. All rights reserved.</p>
           <div className="flex gap-6">
-            <Link
-              href=""
-              className="hover:text-white transition-colors"
-            >
+            <Link href="" className="hover:text-white transition-colors">
               Privacy Policy
             </Link>
             <Link href="" className="hover:text-white transition-colors">

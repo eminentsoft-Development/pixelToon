@@ -320,7 +320,7 @@ export default function Testimonials() {
             className="w-1.5 h-1.5 rounded-full bg-orange-400"
             style={{ boxShadow: "0 0 8px rgba(251,146,60,0.8)" }}
           />
-          <span className="text-white/30 text-xs tracking-[0.3em] uppercase font-['Outfit',sans-serif]">
+          <span className="text-white text-xs tracking-[0.3em] uppercase font-['Outfit',sans-serif]">
             Testimonials
           </span>
         </div>

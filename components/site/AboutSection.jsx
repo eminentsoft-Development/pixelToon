@@ -68,7 +68,7 @@ const AboutSection = () => {
                 variants={itemVariants}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="group flex items-center gap-3 bg-black text-white px-8 py-4 rounded-full font-bold transition-all hover:bg-yellow-400 hover:text-black shadow-xl"
+                className="group flex items-center gap-3 mt-8 bg-black text-white px-8 py-4 rounded-full font-bold transition-all hover:bg-yellow-400 hover:text-black shadow-xl"
               >
                 DISCOVER MORE
                 <ArrowUpRight className="w-5 h-5 group-hover:rotate-45 transition-transform" />

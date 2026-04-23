@@ -124,8 +124,8 @@ const Navbar = ({ courses }) => {
           }`}
         >
           <div
-            className={`flex mx-2 lg:mx-20  py-1 items-center justify-between w-full 
-                ${isScrolled ? "bg-white/80 px-0" : "bg-white/70 backdrop-blur-md border border-white/20 px-4 md:px-10  rounded-full shadow-lg transition-all duration-300"}`}
+            className={`flex mx-2 lg:mx-20 py-1 items-center justify-between w-full 
+                ${isScrolled ? "bg-white/80 px-0" : "bg-white border border-white/20 px-4 md:px-10  rounded-full shadow-lg transition-all duration-300"}`}
           >
             <Link href="/" className="w-[220px] md:w-[280px]">
               <Image
