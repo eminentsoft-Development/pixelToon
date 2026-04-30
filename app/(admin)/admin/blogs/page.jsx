@@ -10,8 +10,7 @@ import {
   Plus,
   Loader2,
 } from "lucide-react";
-import Breadcrumbs from "@/components/admin/Breadcrumbs";
-import CustomPagination from "@/components/admin/CustomPagination"; // Your new component
+import CustomPagination from "@/components/admin/CustomPagination";
 import {
   Table,
   TableBody,
@@ -34,11 +33,16 @@ import {
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import Image from "next/image";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const BlogAdminPage = () => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const pageFromUrl = Number(searchParams.get("page")) || 1;
+
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(pageFromUrl);
   const [totalPages, setTotalPages] = useState(1);
 
   const fetchBlogs = useCallback(async () => {
@@ -78,9 +82,7 @@ const BlogAdminPage = () => {
     <div className="p-6 space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="font-bold text-2xl">
-            All Blogs
-          </h1>
+          <h1 className="font-bold text-2xl">All Blogs</h1>
         </div>
         <Link href="/admin/blogs/new">
           <Button className="bg-primary hover:opacity-90">
@@ -209,7 +211,10 @@ const BlogAdminPage = () => {
           <CustomPagination
             currentPage={currentPage}
             totalPages={totalPages}
-            onPageChange={(page) => setCurrentPage(page)}
+            onPageChange={(page) => {
+              setCurrentPage(page);
+              router.push(`?page=${page}`);
+            }}
           />
         )}
       </div>

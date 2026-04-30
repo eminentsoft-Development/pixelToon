@@ -63,7 +63,7 @@ export default function GalleryManagementPage() {
   const ActiveComponent = activeTabData.component;
 
   return (
-    <div className="min-h-screen mb-6">
+    <div className="min-h-screen mb-6 mt-6">
       {/* Page Header */}
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-1">

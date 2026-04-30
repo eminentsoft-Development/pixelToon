@@ -44,6 +44,5 @@ export async function proxy(request) {
 }
 
 export const config = {
-  // Ensure the matcher covers your admin panel and your login page
   matcher: ["/admin/:path*"],
 };

@@ -4,13 +4,17 @@ import CourseCard from "@/components/site/CourseCard";
 import { DynamicPagination } from "@/components/site/Pagination";
 import { getFullCourses } from "../../../lib/get-courses";
 
-
 const ITEMS_PER_PAGE = 12;
 
 const CourseListing = async ({ searchParams }) => {
-  const currentPage = Number(searchParams.page) || 1;
+  const params = await searchParams;
 
-  const { courses, totalPages } = await getFullCourses(currentPage, ITEMS_PER_PAGE);
+  const currentPage = Number(params.page) || 1;
+  
+  const { courses, totalPages } = await getFullCourses(
+    currentPage,
+    ITEMS_PER_PAGE,
+  );
 
   return (
     <div className="min-h-screen bg-slate-50">

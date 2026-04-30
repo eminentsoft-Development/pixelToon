@@ -11,7 +11,6 @@ const LevelUpCompact = () => {
     <section className="py-6 md:py-10 px-4 md:px-6 bg-white">
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row bg-[#0a0a0a] rounded-[2rem] md:rounded-[3rem] overflow-hidden shadow-2xl min-h-[500px] md:min-h-[600px]">
-          
           {/* LEFT: The Message (Vertical stack on mobile, 40% width on Desktop) */}
           <div className="order-2 md:order-1 md:w-[40%] p-8 md:p-16 flex flex-col justify-center border-t md:border-t-0 md:border-r border-white/10">
             <motion.div
@@ -45,29 +44,30 @@ const LevelUpCompact = () => {
           </div>
 
           {/* RIGHT: The Visual (Top on mobile, 60% width on Desktop) */}
-          <div className="order-1 md:order-2 md:w-[60%] relative group cursor-pointer min-h-[300px] md:min-h-full">
+          <div className="order-1 md:order-2 md:w-[60%] relative group cursor-pointer min-h-[300px] md:min-h-full overflow-hidden">
             <motion.div
               initial={{ scale: 1.1, opacity: 0 }}
               whileInView={{ scale: 1, opacity: 1 }}
               transition={{ duration: 1.2 }}
               className="absolute inset-0"
             >
-              <Image
-                src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=1200"
-                alt="Cinematography"
-                fill
-                className="object-cover transition-transform duration-700 group-hover:scale-105"
-                sizes="(max-width: 768px) 100vw, 60vw"
-                priority
+              {/* Video Replacement */}
+              <video
+                src="https://res.cloudinary.com/dauoxptqb/video/upload/q_auto/f_auto/v1777518818/website_p3semc.mp4"
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 scale-125"
               />
 
               {/* Gradient Overlay - Adaptive */}
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent md:bg-gradient-to-r md:from-[#0a0a0a] md:via-transparent" />
-              <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent md:bg-gradient-to-r md:from-[#0a0a0a] md:via-transparent pointer-events-none" />
+              <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors pointer-events-none" />
             </motion.div>
 
             {/* Play Button Overlay - Smaller on mobile */}
-            <div className="absolute inset-0 flex items-center justify-center">
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
               <motion.div
                 animate={{ scale: [1, 1.1, 1] }}
                 transition={{ duration: 2, repeat: Infinity }}
@@ -78,7 +78,7 @@ const LevelUpCompact = () => {
             </div>
 
             {/* Floating Tag - Responsive Position */}
-            <div className="absolute bottom-4 right-4 md:bottom-10 md:right-10">
+            <div className="absolute bottom-4 right-4 md:bottom-10 md:right-10 pointer-events-none">
               <span className="bg-yellow-400 text-black px-3 py-1 md:px-4 md:py-1 rounded-full text-[9px] md:text-[10px] font-black uppercase tracking-widest shadow-xl">
                 Showcase 2026
               </span>
