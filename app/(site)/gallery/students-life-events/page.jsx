@@ -10,16 +10,12 @@ export default function GalleryPage() {
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   
-  // Lightbox State
   const [selectedIndex, setSelectedIndex] = useState(null);
   
-  // Refs for pagination and scroll
   const skipRef = useRef(0);
   const sentinelRef = useRef(null);
 
-  // ─── STABLE FETCH LOGIC ──────────────────────────────────────────
   const loadImages = useCallback(async (isInitial = false) => {
-    // Prevent duplicate fetches
     if (loading && !isInitial) return; 
 
     const currentSkip = isInitial ? 0 : skipRef.current;
@@ -34,7 +30,6 @@ export default function GalleryPage() {
 
       setItems((prev) => {
         if (isInitial) return newItems;
-        // Ensure no duplicate IDs enter the state
         const existingIds = new Set(prev.map(i => i.id));
         const filtered = newItems.filter(i => !existingIds.has(i.id));
         return [...prev, ...filtered];

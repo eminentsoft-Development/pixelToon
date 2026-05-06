@@ -7,6 +7,13 @@ import * as z from "zod";
 import { motion } from "framer-motion";
 import { Phone, Mail, MapPin, Send, Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 import {
   Form,
@@ -29,33 +36,39 @@ const formSchema = z.object({
       /^(\+91[\-\s]?)?[6-9]\d{9}$/,
       "Enter a valid Indian phone number (with or without +91)",
     ),
-  subject: z.string().min(5, "Subject should be more descriptive."),
+  course: z.string().min(1, "Please select a course."),
   message: z.string().min(10, "Message must be at least 10 characters."),
 });
 
-export default function PixelContact() {
+export default function PixelContact({ courses }) {
   // 2. Initialize Form
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       fullname: "",
-      email: "",
-      subject: "",
+      phone: "",
+      course: "",
       message: "",
     },
   });
 
   const isLoading = form.formState.isSubmitting;
 
-  // 3. Handle Submit
+  // Handle Submit
   async function onSubmit(values) {
     try {
-      // Simulate API Call
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      console.log(values);
-      toast.success("Message sent successfully!");
-      form.reset();
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(values),
+      });
+
+      if (response.ok) {
+        toast.success("Message sent successfully!");
+        form.reset();
+      }
     } catch (error) {
+      console.error(error.errors);
       toast.error("Something went wrong. Please try again.");
     }
   }
@@ -171,19 +184,36 @@ export default function PixelContact() {
 
                 <FormField
                   control={form.control}
-                  name="subject"
+                  name="course"
                   render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="uppercase text-xs font-bold tracking-widest text-neutral-500">
-                        Subject
+                    <FormItem className="space-y-3">
+                      <FormLabel className="uppercase text-xs font-bold tracking-[0.2em] text-neutral-500">
+                        Select Course
                       </FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="I want to join a course"
-                          className="border-0 border-b rounded-none px-0 focus-visible:ring-0 focus-visible:border-yellow-500 transition-all bg-transparent"
-                          {...field}
-                        />
-                      </FormControl>
+
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger className="h-14 rounded-2xl border border-neutral-200 bg-white px-5 shadow-sm transition-all duration-300 hover:border-primary focus:ring-2 focus:ring-primary/20 focus:border-primary">
+                            <SelectValue placeholder="Choose your interested course" />
+                          </SelectTrigger>
+                        </FormControl>
+
+                        <SelectContent className="rounded-2xl border border-neutral-200 bg-white shadow-2xl max-h-72 overflow-y-auto">
+                          {courses?.map((course, index) => (
+                            <SelectItem
+                              key={index}
+                              value={course}
+                              className="cursor-pointer rounded-xl mx-2 my-1 px-4 py-3 text-sm font-medium transition-all duration-200 focus:bg-primary focus:text-black"
+                            >
+                              {course}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+
                       <FormMessage />
                     </FormItem>
                   )}

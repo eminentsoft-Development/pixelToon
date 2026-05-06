@@ -1,3 +1,4 @@
+import { getCoursesForSelect } from "@/app/action/get-courses";
 import Breadcrumbs from "@/components/site/Breadcrumbs";
 import { EnquiryForm } from "@/components/site/EnquiryForm";
 import React from "react";
@@ -149,7 +150,9 @@ const socials = [
   },
 ];
 
-const Page = () => {
+const Page = async () => {
+  const courseList = await getCoursesForSelect();
+
   return (
     <div className="min-h-screen text-black">
       <Breadcrumbs />
@@ -239,7 +242,7 @@ const Page = () => {
           </main>
 
           <aside className="sidebar-col">
-            <EnquiryForm />
+            <EnquiryForm courseList={courseList.data}/>
           </aside>
         </div>
       </div>

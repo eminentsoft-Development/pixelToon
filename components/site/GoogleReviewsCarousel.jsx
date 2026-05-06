@@ -10,8 +10,6 @@ export default function GoogleReviewsCarousel() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   
-  // FIX: Initialize state directly from window if available to avoid 
-  // calling setState inside useEffect on mount.
   const [isMobile, setIsMobile] = useState(() => {
     if (typeof window !== "undefined") {
       return window.innerWidth < 768;
@@ -33,7 +31,6 @@ export default function GoogleReviewsCarousel() {
   }, []);
 
   useEffect(() => {
-    // We only attach the listener here. No manual call to handleResize().
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, [handleResize]);

@@ -14,6 +14,9 @@ import GoogleReviewsCarousel from "@/components/site/GoogleReviewsCarousel";
 const Home = async () => {
   const { blogs } = await getBlogs(1, 9);
   const { courses } = await getFullCourses(1, 12);
+
+  const courseTitles = courses.map((course) => course.title);
+
   return (
     <>
       <HeroSection />
@@ -24,7 +27,7 @@ const Home = async () => {
       <Testimonials />
       <LatestBlogs blogs={blogs} />
       <GoogleReviewsCarousel />
-      <GetInTouch />
+      <GetInTouch courses={courseTitles}/>
     </>
   );
 };

@@ -2,6 +2,7 @@ import React from "react";
 import Breadcrumbs from "@/components/site/Breadcrumbs";
 import CourseOverview from "@/components/site/CourseDetails";
 import { notFound } from "next/navigation";
+import { getCoursesForSelect } from "@/app/action/get-courses";
 
 async function getCourse(slug) {
   const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/course/${slug}`, {
@@ -16,6 +17,7 @@ async function getCourse(slug) {
 const Page = async({ params }) => {
   const { slug } = await params;
   const course = await getCourse(slug);
+  const courseList = await getCoursesForSelect();
 
   if (!course) {
     notFound();
@@ -32,7 +34,7 @@ const Page = async({ params }) => {
       />
 
       {/* Pass the fetched data to your overview component */}
-      <CourseOverview {...course} />
+      <CourseOverview {...course} courseList={courseList}/>
     </div>
   );
 };

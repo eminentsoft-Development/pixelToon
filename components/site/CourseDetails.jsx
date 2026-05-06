@@ -16,6 +16,7 @@ export default function CourseOverview({
   curriculum,
   bonus,
   projects,
+  courseList
 }) {
   const [openFaq, setOpenFaq] = useState(null);
 
@@ -303,13 +304,13 @@ export default function CourseOverview({
 
             {/* Mobile form */}
             <div className="mobile-form mb-16">
-              <EnquiryForm />
+              <EnquiryForm courseList={courseList.data} currentCourse={title}/>
             </div>
           </main>
 
           {/* ── STICKY SIDEBAR ── */}
           <aside className="sidebar-col">
-            <EnquiryForm />
+            <EnquiryForm courseList={courseList.data} currentCourse={title}/>
           </aside>
         </div>
       </div>
