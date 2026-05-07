@@ -275,8 +275,8 @@ const HeroSection = () => {
 
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                     {[
-                      { img: "/multimedia-courses-in-kerala-1024x683-1.jpg" },
-                      { img: "/65518.jpg" },
+                      { img: "/featured-1.webp" },
+                      { img: "/featured-2.webp" },
                       {
                         img: "/WhatsApp-Image-2025-12-17-at-3.52.58-PM-2.jpeg",
                       },

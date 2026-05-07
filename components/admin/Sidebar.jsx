@@ -8,7 +8,8 @@ import {
   X,
   Layers,
   FileText,
-  ChevronDown, // Added this
+  ChevronDown,
+  Trophy, // Added this
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -36,6 +37,11 @@ const navItems = [
       { name: "All Blogs", href: "/admin/blogs" },
       { name: "Add Blogs", href: "/admin/blogs/add" },
     ],
+  },
+  {
+    name: "Success Stories",
+    icon: Trophy,
+    href: "/admin/success-stories",
   },
   {
     name: "Gallery",

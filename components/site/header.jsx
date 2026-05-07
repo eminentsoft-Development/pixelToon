@@ -84,6 +84,13 @@ const Navbar = ({ courses }) => {
     },
     {
       id: 6,
+      title: "Success Stories",
+      path: "/success-stories",
+      newTab: false,
+      subMenu: false,
+    },
+    {
+      id: 7,
       title: "Contact",
       path: "/contact-us",
       newTab: false,
@@ -142,12 +149,12 @@ const Navbar = ({ courses }) => {
             <nav className="hidden lg:flex">
               <NavigationMenu>
                 <NavigationMenuList className="flex items-center gap-3 font-normal text-sm">
-                  {NavbarmenuData.map((item) => {
+                  {NavbarmenuData.map((item, i) => {
                     if (item.subMenu) {
                       return item.subMenuType === "mega" ? (
                         <MegaDropdown
                           isScrolled={isScrolled}
-                          key={item.id}
+                          key={i}
                           title={item.title}
                           path={item.path}
                           menuChildren={item.children}
@@ -155,7 +162,7 @@ const Navbar = ({ courses }) => {
                       ) : (
                         <Dropdown
                           isScrolled={isScrolled}
-                          key={item.id}
+                          key={i}
                           title={item.title}
                           path={item.path}
                           menuChildren={item.children}
@@ -165,7 +172,7 @@ const Navbar = ({ courses }) => {
 
                     return (
                       <li
-                        key={item.id}
+                        key={i}
                         className={`px-2 py-1 rounded-md ${isScrolled ? "text-black" : "text-black"} hover:bg-gray-100  hover:text-primary transition-colors text-[13px] uppercase font-extrabold tracking-wide `}
                       >
                         <Link
