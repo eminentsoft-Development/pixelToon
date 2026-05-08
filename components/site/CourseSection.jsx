@@ -77,8 +77,7 @@ export default function CourseSection({ courses = [] }) {
                 className="pl-4 basis-[85%] md:basis-1/2 lg:basis-1/4"
               >
                 <div className="p-1 h-full">
-                  {/* Ensure CourseCard handles its own image optimization */}
-                  <CourseCard {...course} />
+                  <CourseCard {...course} index={index}/>
                 </div>
               </CarouselItem>
             ))}

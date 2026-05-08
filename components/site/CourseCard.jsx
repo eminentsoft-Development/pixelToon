@@ -3,67 +3,101 @@
 import React from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { Button } from "../ui/button";
 import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 
-const CourseCard = ({ images, title, slug, description, index }) => {
+const formatIndex = (index) => String(index + 1).padStart(2, "0");
+
+const CourseCard = ({ images, title, slug, description, tag, index }) => {
   return (
-    <Link href={`/courses/${slug}`}>
+    <Link href={`/courses/${slug}`} className="block">
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
-        transition={{ delay: index * 0.1 }}
+        transition={{ delay: index * 0.1, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         viewport={{ once: true }}
-        className="group cursor-pointer flex-shrink-0" // Added flex-shrink for scrolling
+        whileHover={{ y: -6 }}
+        className="group relative w-[320px] h-[500px] flex-shrink-0 rounded-[28px] overflow-hidden cursor-pointer"
+        style={{ background: "#111" }}
       >
-        <div className="relative aspect-[3/4] rounded-[2.5rem] overflow-hidden mb-6 shadow-xl">
-          <Image
-            src={
-              images?.[0]?.url ||
-              "https://images.unsplash.com/photo-1542038784456-1ea8e935640e?q=80&w=800"
-            }
-            alt={"Digital Photography"}
-            fill
-            className="object-cover transition-transform duration-700 group-hover:scale-110"
-          />
+        {/* Image */}
+        <Image
+          src={
+            images?.[0]?.url ||
+            "https://images.unsplash.com/photo-1542038784456-1ea8e935640e?q=80&w=800"
+          }
+          alt={title}
+          fill
+          className="object-cover transition-transform duration-700 ease-[cubic-bezier(.22,1,.36,1)] group-hover:scale-[1.08]"
+        />
 
-          {/* Darker gradient on hover to make description readable */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity" />
+        {/* Overlay */}
+        <div
+          className="absolute inset-0 transition-opacity duration-400"
+          style={{
+            background:
+              "linear-gradient(160deg, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.18) 50%, rgba(0,0,0,0.82) 100%)",
+          }}
+        />
 
-          <div className="absolute top-6 left-6">
-            {/* <span className="bg-white/10 backdrop-blur-md border border-white/20 text-white text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full">
-            {category}
-          </span> */}
+        {/* Top: index + title */}
+        <div className="absolute top-6 left-6 right-6">
+          <div className="flex flex-col w-fit">
+            <span
+              className="text-white leading-none"
+              style={{
+                fontFamily: "'Bebas Neue', sans-serif",
+                fontSize: 54,
+                letterSpacing: 2,
+              }}
+            >
+              {formatIndex(index)}
+            </span>
+            <span className="block w-8 h-[3px] rounded-full bg-white/60 mt-0.5 ml-0.5" />
           </div>
+          <h3 className="mt-2.5 text-white text-[18px] font-medium  tracking-wider leading-snug max-w-[220px]">
+            {title}
+          </h3>
+        </div>
 
-          {/* Bottom Content */}
-          <div className="absolute bottom-8 left-4 right-4 text-white">
-            <h3 className="text-xl font-bold leading-tight uppercase group-hover:text-yellow-400 transition-colors">
-              {title}
-            </h3>
+        {/* Bottom: tag + description + CTA */}
+        <div
+          className="absolute bottom-0 left-0 right-0 p-6 flex flex-col gap-3.5"
+          style={{
+            background: "linear-gradient(to top, rgba(0,0,0,0.9) 60%, transparent)",
+          }}
+        >
+          {tag && (
+            <span className="w-fit text-[11px] font-medium uppercase tracking-[1.5px] text-white/55 border border-white/20 rounded-full px-2.5 py-0.5">
+              {tag}
+            </span>
+          )}
 
-            {/* Animated Description */}
-            <div className="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-all duration-500 ease-in-out">
-              <div className="overflow-hidden">
-                <p className="text-sm text-gray-300 mt-2 leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 line-clamp-2">
-                  {description}
-                </p>
-              </div>
-            </div>
+          {description && (
+            <p className="text-[13px] font-light text-white/65 leading-relaxed line-clamp-2 m-0">
+              {description}
+            </p>
+          )}
 
-            <div className="grid grid-rows-[0fr] mt-2 group-hover:grid-rows-[1fr] transition-all duration-500 ease-in-out">
-              <div className="overflow-hidden">
-                {/* <Link href={`/courses/${slug}`}> */}
-                  <Button
-                    className={
-                      "w-full py-6 bg-white mt-2 rounded-full font-bold text-black text-base tracking-wider hover:bg-primary hover:text-white"
-                    }
-                  >
-                    Explore More
-                  </Button>
-                {/* </Link> */}
-              </div>
-            </div>
+          <div className="flex items-center justify-between">
+            <span className="text-[11px] font-medium uppercase tracking-[2px] text-white/50">
+              View course
+            </span>
+
+            {/* Arrow button */}
+            <motion.div
+              whileHover={{ scale: 1.08 }}
+              whileTap={{ scale: 0.94 }}
+              className="w-[42px] h-[42px] rounded-full flex items-center justify-center transition-colors duration-250"
+              style={{
+                border: "1.5px solid rgba(255,255,255,0.4)",
+                background: "rgba(255,255,255,0.08)",
+                backdropFilter: "blur(6px)",
+              }}
+              aria-label="View course overview"
+            >
+              <ArrowRight size={17} color="white" />
+            </motion.div>
           </div>
         </div>
       </motion.div>
