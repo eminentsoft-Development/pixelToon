@@ -18,7 +18,6 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
 
 export default function SuccessStoriesManager() {
   const [images, setImages] = useState([]);

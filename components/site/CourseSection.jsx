@@ -66,15 +66,15 @@ export default function CourseSection({ courses = [] }) {
           opts={{
             align: "start",
             loop: true,
-            skipSnaps: false, // Performance: Better touch behavior on mobile
-            dragFree: false,   // Performance: Keeps layout stable
+            skipSnaps: false,
+            dragFree: false,  
           }}
         >
           <CarouselContent className="-ml-4">
             {featuredCourses.map((course, index) => (
               <CarouselItem
-                key={course.id || index}
-                className="pl-4 basis-[85%] md:basis-1/2 lg:basis-1/4"
+                key={index}
+                className="pl-4 basis-[90%] md:basis-1/2 lg:basis-1/4"
               >
                 <div className="p-1 h-full">
                   <CourseCard {...course} index={index}/>

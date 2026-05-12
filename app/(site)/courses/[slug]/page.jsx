@@ -5,20 +5,24 @@ import { notFound } from "next/navigation";
 import { getCoursesForSelect } from "@/app/action/get-courses";
 
 async function getCourse(slug) {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/course/${slug}`, {
-    // This now works correctly to cache the data on the server
-    // next: { revalidate: 3600 } 
-  });
-  
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_SITE_URL}/api/course/${slug}`,
+    {
+      next: { revalidate: 60 },
+    },
+  );
+
   if (!res.ok) return null;
   return res.json();
 }
 
-const Page = async({ params }) => {
+const Page = async ({ params }) => {
   const { slug } = await params;
-  const course = await getCourse(slug);
-  const courseList = await getCoursesForSelect();
+  const coursePromise = getCourse(slug);
+  const listPromise = getCoursesForSelect();
 
+  const [course, courseList] = await Promise.all([coursePromise, listPromise]);
+  
   if (!course) {
     notFound();
   }
@@ -34,7 +38,7 @@ const Page = async({ params }) => {
       />
 
       {/* Pass the fetched data to your overview component */}
-      <CourseOverview {...course} courseList={courseList}/>
+      <CourseOverview {...course} courseList={courseList} />
     </div>
   );
 };
