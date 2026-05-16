@@ -4,36 +4,31 @@ import { useEffect, useState, useCallback, useMemo } from "react";
 import { motion } from "framer-motion";
 import { ReviewCard } from "./ReviewCard";
 
+// ✅ Constants at module scope
+const CARD_WIDTH = 380;
+const GAP = 24;
+const AUTO_PLAY_INTERVAL = 4000;
+
+// ✅ Spring config extracted — tween is more predictable than spring for carousels
+const SLIDE_TRANSITION = { type: "tween", ease: "easeInOut", duration: 0.5 };
+
 export default function GoogleReviewsCarousel() {
   const [reviews, setReviews] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
-  
-  const [isMobile, setIsMobile] = useState(() => {
-    if (typeof window !== "undefined") {
-      return window.innerWidth < 768;
-    }
-    return false;
-  });
+  const [isMobile, setIsMobile] = useState(false);
 
-  const CARD_WIDTH = 380;
-  const GAP = 24;
-  const AUTO_PLAY_INTERVAL = 4000;
-
-  const tripleReviews = useMemo(() => {
-    if (reviews.length === 0) return [];
-    return [...reviews, ...reviews, ...reviews];
-  }, [reviews]);
-
-  const handleResize = useCallback(() => {
-    setIsMobile(window.innerWidth < 768);
-  }, []);
-
+  // ✅ Debounced resize — avoids re-render storm during window drag
   useEffect(() => {
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, [handleResize]);
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check(); // set on mount
+
+    let timer;
+    const debounced = () => { clearTimeout(timer); timer = setTimeout(check, 150); };
+    window.addEventListener("resize", debounced);
+    return () => { window.removeEventListener("resize", debounced); clearTimeout(timer); };
+  }, []);
 
   useEffect(() => {
     let isMounted = true;
@@ -45,30 +40,28 @@ export default function GoogleReviewsCarousel() {
         }
         if (isMounted) setIsLoading(false);
       })
-      .catch(() => {
-        if (isMounted) setIsLoading(false);
-      });
-    
+      .catch(() => { if (isMounted) setIsLoading(false); });
     return () => { isMounted = false; };
   }, []);
 
   useEffect(() => {
     if (isPaused || reviews.length === 0) return;
-
-    const interval = setInterval(() => {
-      setCurrentIndex((prev) => prev + 1);
-    }, AUTO_PLAY_INTERVAL);
-
+    const interval = setInterval(() => setCurrentIndex((p) => p + 1), AUTO_PLAY_INTERVAL);
     return () => clearInterval(interval);
   }, [isPaused, reviews.length]);
 
-  const xOffset = useMemo(() => {
-    if (reviews.length === 0) return "0px";
-    const displayIndex = (currentIndex % reviews.length) + reviews.length;
-    return isMobile
-      ? `calc(-${displayIndex} * (100% + ${GAP}px))`
-      : `calc(-${displayIndex} * (${CARD_WIDTH}px + ${GAP}px))`;
-  }, [currentIndex, reviews.length, isMobile]);
+  const tripleReviews = useMemo(() => {
+    if (reviews.length === 0) return [];
+    return [...reviews, ...reviews, ...reviews];
+  }, [reviews]);
+
+  // ✅ xOffset computed directly — no useMemo needed for simple arithmetic
+  const displayIndex = reviews.length > 0
+    ? (currentIndex % reviews.length) + reviews.length
+    : 0;
+  const xOffset = isMobile
+    ? `calc(-${displayIndex} * (100% + ${GAP}px))`
+    : `calc(-${displayIndex} * (${CARD_WIDTH}px + ${GAP}px))`;
 
   if (isLoading || reviews.length === 0) return null;
 
@@ -78,16 +71,12 @@ export default function GoogleReviewsCarousel() {
         <div>
           <div className="inline-flex items-center gap-2 bg-white px-3 py-1 rounded-full border border-gray-100 shadow-sm mb-4">
             <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500" />
             </span>
-            <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">
-              Live Feedback
-            </span>
+            <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Live Feedback</span>
           </div>
-          <h2 className="text-3xl md:text-5xl font-black text-gray-900 tracking-tight">
-            Google Reviews
-          </h2>
+          <h2 className="text-3xl md:text-5xl font-black text-gray-900 tracking-tight">Google Reviews</h2>
         </div>
       </div>
 
@@ -100,12 +89,7 @@ export default function GoogleReviewsCarousel() {
           <motion.div
             className="grid grid-flow-col auto-cols-[100%] md:auto-cols-[380px] gap-6"
             animate={{ x: xOffset }}
-            transition={{
-              type: "spring",
-              stiffness: 45,
-              damping: 14,
-              mass: 1
-            }}
+            transition={SLIDE_TRANSITION} // ✅ tween — no spring overshoot
           >
             {tripleReviews.map((review, index) => (
               <div key={`${review.id}-${index}`} className="w-full">

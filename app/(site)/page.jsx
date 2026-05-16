@@ -1,4 +1,4 @@
-import React from "react";
+import { Suspense } from "react";
 import AboutSection from "@/components/site/AboutSection";
 import CourseSection from "@/components/site/CourseSection";
 import GetInTouch from "@/components/site/GetInTouch";
@@ -12,22 +12,35 @@ import { getFullCourses } from "@/lib/get-courses";
 import GoogleReviewsCarousel from "@/components/site/GoogleReviewsCarousel";
 
 const Home = async () => {
-  const { blogs } = await getBlogs(1, 9);
-  const { courses } = await getFullCourses(1, 12);
+  const [{ blogs }, { courses }] = await Promise.all([
+    getBlogs(1, 9),
+    getFullCourses(1, 12),
+  ]);
 
-  const courseTitles = courses.map((course) => course.title);
+  const courseTitles = courses.map((c) => c.title);
 
   return (
     <>
+      {/* Above the fold — render immediately */}
       <HeroSection />
       <AboutSection />
       <CourseSection courses={courses} />
       <LevelUpSection />
       <WhyJoinPixeltoonz />
-      <Testimonials />
-      <LatestBlogs blogs={blogs} />
-      <GoogleReviewsCarousel />
-      <GetInTouch courses={courseTitles}/>
+
+      {/* Below the fold — streamed in as they resolve */}
+      <Suspense fallback={null}>
+        <Testimonials />
+      </Suspense>
+      <Suspense fallback={null}>
+        <LatestBlogs blogs={blogs} />
+      </Suspense>
+      <Suspense fallback={null}>
+        <GoogleReviewsCarousel />
+      </Suspense>
+      <Suspense fallback={null}>
+        <GetInTouch courses={courseTitles} />
+      </Suspense>
     </>
   );
 };

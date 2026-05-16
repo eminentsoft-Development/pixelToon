@@ -7,54 +7,57 @@ import * as z from "zod";
 import { motion } from "framer-motion";
 import { Phone, Mail, MapPin, Send, Loader2 } from "lucide-react";
 import { toast } from "sonner";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 
-// 1. Define Validation Schema
 const formSchema = z.object({
   fullname: z.string().min(2, "Name must be at least 2 characters."),
-  phone: z
-    .string()
-    .regex(
-      /^(\+91[\-\s]?)?[6-9]\d{9}$/,
-      "Enter a valid Indian phone number (with or without +91)",
-    ),
+  phone: z.string().regex(/^(\+91[\-\s]?)?[6-9]\d{9}$/, "Enter a valid Indian phone number (with or without +91)"),
   course: z.string().min(1, "Please select a course."),
   message: z.string().min(10, "Message must be at least 10 characters."),
 });
 
+// ✅ All variants/viewport at module scope
+const headingVariants = {
+  hidden: { opacity: 0, y: -20 },
+  visible: { opacity: 1, y: 0 },
+};
+const paraVariants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1 },
+};
+const cardVariants = {
+  hidden: { opacity: 0, y: 40 },
+  visible: { opacity: 1, y: 0 },
+};
+const viewport = { once: true };
+
+// ✅ ContactMethod accepts iconComponent instead of cloneElement
+function ContactMethod({ Icon, title, detail }) {
+  return (
+    <div className="flex items-start gap-5 group">
+      <div className="p-3 rounded-2xl bg-white/5 text-primary group-hover:bg-yellow-400 group-hover:text-black transition-all duration-300">
+        <Icon size={22} />
+      </div>
+      <div>
+        <p className="text-xs uppercase tracking-widest text-neutral-500 font-bold mb-1">{title}</p>
+        <p className="text-base font-medium">{detail}</p>
+      </div>
+    </div>
+  );
+}
+
 export default function PixelContact({ courses }) {
-  // 2. Initialize Form
   const form = useForm({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      fullname: "",
-      phone: "",
-      course: "",
-      message: "",
-    },
+    defaultValues: { fullname: "", phone: "", course: "", message: "" },
   });
 
   const isLoading = form.formState.isSubmitting;
 
-  // Handle Submit
   async function onSubmit(values) {
     try {
       const response = await fetch("/api/contact", {
@@ -62,193 +65,121 @@ export default function PixelContact({ courses }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(values),
       });
-
       if (response.ok) {
         toast.success("Message sent successfully!");
         form.reset();
       }
     } catch (error) {
-      console.error(error.errors);
+      console.error(error);
       toast.error("Something went wrong. Please try again.");
     }
   }
 
   return (
     <section className="relative min-h-screen bg-[#F8F9FA] flex flex-col items-center py-20 px-4 overflow-hidden">
-      {/* Background Decor */}
       <div className="absolute top-0 left-0 w-full h-[50vh] bg-[#E3F2FD]/50 -z-10 rounded-b-[100px]" />
 
       <div className="max-w-6xl w-full text-center mb-16">
         <motion.h2
-          initial={{ opacity: 0, y: -20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          variants={headingVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewport}
           className="text-4xl md:text-6xl font-black text-neutral-900 mb-6 tracking-tight"
         >
           Get In <span className="text-primary">Touch</span>
         </motion.h2>
         <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
+          variants={paraVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewport}
           className="text-neutral-500 max-w-2xl mx-auto text-lg leading-relaxed"
         >
-          Ready to elevate your creative career? Reach out and let&apos;s build
-          something extraordinary together.
+          Ready to elevate your creative career? Reach out and let&apos;s build something extraordinary together.
         </motion.p>
       </div>
 
       <div className="md:container">
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          className="bg-white rounded-[40px] shadow-2xl shadow-neutral-200/50 flex flex-col lg:flex-row w-full overflow-hidden  md:p-6"
+          variants={cardVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewport}
+          className="bg-white rounded-[40px] shadow-2xl shadow-neutral-200/50 flex flex-col lg:flex-row w-full overflow-hidden md:p-6"
         >
-          {/* Left Side: Contact Info */}
           <div className="lg:w-[40%] bg-neutral-900 rounded-[32px] p-8 md:p-12 relative overflow-hidden flex flex-col justify-between text-white">
             <div className="relative z-10">
               <h3 className="text-3xl font-bold mb-6">Contact Information</h3>
-              <p className="text-neutral-400 mb-12">
-                Fill out the form and our team will get back to you within 24
-                hours.
-              </p>
-
+              <p className="text-neutral-400 mb-12">Fill out the form and our team will get back to you within 24 hours.</p>
               <div className="space-y-10">
-                <ContactMethod
-                  icon={<Phone />}
-                  title="Call Us"
-                  detail="+91 9745678780"
-                />
-                <ContactMethod
-                  icon={<Mail />}
-                  title="Email Us"
-                  detail="pixeltoonzacademy@gmail.com"
-                />
-                <ContactMethod
-                  icon={<MapPin />}
-                  title="Visit Us"
-                  detail="Pixeltoonz Academy, 1st Floor 65, 3028-A, Azad Rd, near PC Road, Kaloor, Kochi, Ernakulam, Kerala 682017"
-                />
+                {/* ✅ Pass Icon component directly — no cloneElement */}
+                <ContactMethod Icon={Phone} title="Call Us" detail="+91 9745678780" />
+                <ContactMethod Icon={Mail} title="Email Us" detail="pixeltoonzacademy@gmail.com" />
+                <ContactMethod Icon={MapPin} title="Visit Us" detail="Pixeltoonz Academy, 1st Floor 65, 3028-A, Azad Rd, near PC Road, Kaloor, Kochi, Ernakulam, Kerala 682017" />
               </div>
             </div>
-
-            {/* Abstract background shape */}
             <div className="absolute -bottom-16 -right-16 w-64 h-64 bg-yellow-400/10 rounded-full blur-3xl" />
           </div>
 
-          {/* Right Side: Form */}
           <div className="lg:w-[60%] p-6 md:p-14">
             <Form {...form}>
-              <form
-                onSubmit={form.handleSubmit(onSubmit)}
-                className="space-y-8"
-              >
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  <FormField
-                    control={form.control}
-                    name="fullname"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="uppercase text-xs font-bold tracking-widest text-neutral-500">
-                          Full Name
-                        </FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder="John Doe"
-                            className="border-0 border-b rounded-none px-0 focus-visible:ring-0 focus-visible:border-yellow-500 transition-all bg-transparent"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="phone"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="uppercase text-xs font-bold tracking-widest text-neutral-500">
-                          Phone Number
-                        </FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder="+91 9525173764"
-                            className="border-0 border-b rounded-none px-0 focus-visible:ring-0 focus-visible:border-yellow-500 transition-all bg-transparent"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-
-                <FormField
-                  control={form.control}
-                  name="course"
-                  render={({ field }) => (
-                    <FormItem className="space-y-3">
-                      <FormLabel className="uppercase text-xs font-bold tracking-[0.2em] text-neutral-500">
-                        Select Course
-                      </FormLabel>
-
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger className="h-14 rounded-2xl border border-neutral-200 bg-white px-5 shadow-sm transition-all duration-300 hover:border-primary focus:ring-2 focus:ring-primary/20 focus:border-primary">
-                            <SelectValue placeholder="Choose your interested course" />
-                          </SelectTrigger>
-                        </FormControl>
-
-                        <SelectContent className="rounded-2xl border border-neutral-200 bg-white shadow-2xl max-h-72 overflow-y-auto">
-                          {courses?.map((course, index) => (
-                            <SelectItem
-                              key={index}
-                              value={course}
-                              className="cursor-pointer rounded-xl mx-2 my-1 px-4 py-3 text-sm font-medium transition-all duration-200 focus:bg-primary focus:text-black"
-                            >
-                              {course}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="message"
-                  render={({ field }) => (
+                  <FormField control={form.control} name="fullname" render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="uppercase text-xs font-bold tracking-widest text-neutral-500 italic ">
-                        Message
-                      </FormLabel>
+                      <FormLabel className="uppercase text-xs font-bold tracking-widest text-neutral-500">Full Name</FormLabel>
                       <FormControl>
-                        <Textarea
-                          placeholder="Tell us about your project..."
-                          className="border-0 border-b rounded-none px-0 focus-visible:ring-0 focus-visible:border-yellow-500 transition-all bg-transparent min-h-[100px] resize-none"
-                          {...field}
-                        />
+                        <Input placeholder="John Doe" className="border-0 border-b rounded-none px-0 focus-visible:ring-0 focus-visible:border-yellow-500 transition-all bg-transparent" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
-                  )}
-                />
+                  )} />
+                  <FormField control={form.control} name="phone" render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="uppercase text-xs font-bold tracking-widest text-neutral-500">Phone Number</FormLabel>
+                      <FormControl>
+                        <Input placeholder="+91 9525173764" className="border-0 border-b rounded-none px-0 focus-visible:ring-0 focus-visible:border-yellow-500 transition-all bg-transparent" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )} />
+                </div>
 
-                <Button
-                  type="submit"
-                  disabled={isLoading}
-                  className="w-full md:w-auto bg-primary hover:bg-neutral-900 text-black hover:text-white font-bold py-6 px-10 rounded-2xl transition-all duration-300 group shadow-xl shadow-yellow-400/20"
-                >
-                  {isLoading ? (
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  ) : (
-                    <Send className="mr-2 h-4 w-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-                  )}
+                <FormField control={form.control} name="course" render={({ field }) => (
+                  <FormItem className="space-y-3">
+                    <FormLabel className="uppercase text-xs font-bold tracking-[0.2em] text-neutral-500">Select Course</FormLabel>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <FormControl>
+                        <SelectTrigger className="h-14 rounded-2xl border border-neutral-200 bg-white px-5 shadow-sm transition-all duration-300 hover:border-primary focus:ring-2 focus:ring-primary/20 focus:border-primary">
+                          <SelectValue placeholder="Choose your interested course" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent className="rounded-2xl border border-neutral-200 bg-white shadow-2xl max-h-72 overflow-y-auto">
+                        {courses?.map((course) => (
+                          // ✅ Stable key — course name is unique
+                          <SelectItem key={course} value={course} className="cursor-pointer rounded-xl mx-2 my-1 px-4 py-3 text-sm font-medium transition-all duration-200 focus:bg-primary focus:text-black">
+                            {course}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )} />
+
+                <FormField control={form.control} name="message" render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="uppercase text-xs font-bold tracking-widest text-neutral-500 italic">Message</FormLabel>
+                    <FormControl>
+                      <Textarea placeholder="Tell us about your project..." className="border-0 border-b rounded-none px-0 focus-visible:ring-0 focus-visible:border-yellow-500 transition-all bg-transparent min-h-[100px] resize-none" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )} />
+
+                <Button type="submit" disabled={isLoading} className="w-full md:w-auto bg-primary hover:bg-neutral-900 text-black hover:text-white font-bold py-6 px-10 rounded-2xl transition-all duration-300 group shadow-xl shadow-yellow-400/20">
+                  {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Send className="mr-2 h-4 w-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />}
                   {isLoading ? "Sending..." : "Send Message"}
                 </Button>
               </form>
@@ -257,22 +188,5 @@ export default function PixelContact({ courses }) {
         </motion.div>
       </div>
     </section>
-  );
-}
-
-// Helper Component for Contact Items
-function ContactMethod({ icon, title, detail }) {
-  return (
-    <div className="flex items-start gap-5 group">
-      <div className="p-3 rounded-2xl bg-white/5 text-primary group-hover:bg-yellow-400 group-hover:text-black transition-all duration-300">
-        {React.cloneElement(icon, { size: 22 })}
-      </div>
-      <div>
-        <p className="text-xs uppercase tracking-widest text-neutral-500 font-bold mb-1">
-          {title}
-        </p>
-        <p className="text-base font-medium">{detail}</p>
-      </div>
-    </div>
   );
 }

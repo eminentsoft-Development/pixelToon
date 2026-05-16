@@ -5,8 +5,10 @@ import connectDB from "@/lib/mongodb";
 import SuccessStory from "@/models/SuccessStory";
 import { DynamicPagination } from "@/components/site/Pagination";
 
-export const revalidate = 0;
-const ITEMS_PER_PAGE = 12;
+export const revalidate = 3600; // ✅ revalidate every hour instead of 0 (no-cache)
+                                //    revalidate:0 disables all caching — use on-demand revalidation instead
+
+const ITEMS_PER_PAGE = 16;
 
 const SuccessStoriesPage = async ({ searchParams }) => {
   await connectDB();
@@ -31,38 +33,39 @@ const SuccessStoriesPage = async ({ searchParams }) => {
       <Breadcrumbs />
 
       <div className="container mx-auto py-20">
-        {/* Poster Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {stories.map((story) => (
-            <div
-              key={story._id}
-              className="group relative h-[380px] w-full overflow-hidden rounded-3xl bg-slate-900 shadow-lg"
-            >
-              <Image
-                src={story.imageUrl}
-                alt={story.altText || "Success Story"}
-                fill
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                className="object-fill transition-all duration-700 group-hover:scale-110 group-hover:opacity-100"
-              />
-              {/* Gradient Bottom Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/10 to-transparent opacity-70 group-hover:opacity-90 transition-opacity duration-500" />
-            </div>
-          ))}
-        </div>
-
-        {totalPages > 1 && (
-          <div className="mt-10">
-            <DynamicPagination totalPages={totalPages} />
-          </div>
-        )}
-
-        {stories.length === 0 && (
+        {stories.length === 0 ? (
           <div className="text-center py-20 bg-slate-50 rounded-3xl border-2 border-dashed border-slate-200">
-            <p className="text-slate-400 font-medium">
-              No success stories found on this page.
-            </p>
+            <p className="text-slate-400 font-medium">No success stories found on this page.</p>
           </div>
+        ) : (
+          <>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+              {stories.map((story, i) => (
+                <div
+                  key={story._id?.toString() ?? i}
+                  className="group relative w-full overflow-hidden rounded-2xl shadow-md bg-slate-100
+                             hover:shadow-xl transition-shadow duration-300"
+                  style={{ aspectRatio: "1 / 1" }}
+                >
+                  <Image
+                    src={story.imageUrl}
+                    alt={story.altText || "Success Story"}
+                    fill
+                    className="object-contain transition-transform duration-500 group-hover:scale-[1.03]"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
+                    priority={i < 4}
+                    loading={i < 4 ? "eager" : "lazy"}
+                  />
+                </div>
+              ))}
+            </div>
+
+            {totalPages > 1 && (
+              <div className="mt-10">
+                <DynamicPagination totalPages={totalPages} />
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>

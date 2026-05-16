@@ -1,10 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Plus, Loader2, Award, Trash2, Image as ImageIcon } from "lucide-react";
 import ImageUpload from "@/components/admin/ImageUpload";
+import CustomPagination from "@/components/admin/CustomPagination";
 import { toast } from "sonner";
 import Image from "next/image";
+import { useRouter, useSearchParams } from "next/navigation";
 
 // Shadcn UI Imports
 import {
@@ -20,16 +22,23 @@ import {
 } from "@/components/ui/alert-dialog";
 
 export default function SuccessStoriesManager() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const pageFromUrl = Number(searchParams.get("page")) || 1;
+
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(pageFromUrl);
+  const [totalPages, setTotalPages] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [tempUpload, setTempUpload] = useState([]);
   const [isSaving, setIsSaving] = useState(false);
 
-  // 1. Fetch Posters from DB
-  const fetchPosters = async () => {
+  // 1. Fetch Posters from DB (paginated)
+  const fetchPosters = useCallback(async () => {
     try {
-      const res = await fetch("/api/success-stories");
+      setLoading(true);
+      const res = await fetch(`/api/success-stories?page=${currentPage}&limit=12`);
       const json = await res.json();
       if (json.success) {
         setImages(
@@ -37,19 +46,20 @@ export default function SuccessStoriesManager() {
             url: item.imageUrl,
             alt: item.altText || "",
             id: item._id,
-          })),
+          }))
         );
+        setTotalPages(json.meta?.totalPages || 1);
       }
     } catch (error) {
       toast.error("Failed to load posters");
     } finally {
       setLoading(false);
     }
-  };
+  }, [currentPage]);
 
   useEffect(() => {
     fetchPosters();
-  }, []);
+  }, [fetchPosters]);
 
   // 2. Handle Bulk Save from Modal
   const handleFinalSave = async () => {
@@ -89,7 +99,7 @@ export default function SuccessStoriesManager() {
       });
       if (res.ok) {
         toast.success("Poster removed permanently");
-        setImages((prev) => prev.filter((img) => img.id !== id));
+        fetchPosters(); // Refresh current page (handles edge case of last item on a page)
       } else {
         toast.error("Failed to delete from server");
       }
@@ -97,13 +107,6 @@ export default function SuccessStoriesManager() {
       toast.error("An error occurred during deletion");
     }
   };
-
-  if (loading)
-    return (
-      <div className="flex h-96 items-center justify-center">
-        <Loader2 className="animate-spin text-indigo-500" size={32} />
-      </div>
-    );
 
   return (
     <div className="py-6 mx-auto space-y-8">
@@ -127,7 +130,14 @@ export default function SuccessStoriesManager() {
       </div>
 
       {/* Grid List View */}
-      {images.length > 0 ? (
+      {loading ? (
+        <div className="flex h-96 items-center justify-center">
+          <div className="flex flex-col items-center gap-3">
+            <Loader2 className="animate-spin text-indigo-500" size={32} />
+            <p className="text-slate-400 text-sm">Loading posters...</p>
+          </div>
+        </div>
+      ) : images.length > 0 ? (
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {images.map((img) => (
             <div
@@ -179,6 +189,18 @@ export default function SuccessStoriesManager() {
             No posters found. Click &quot;Add New Poster&quot; to begin.
           </p>
         </div>
+      )}
+
+      {/* Pagination */}
+      {!loading && (
+        <CustomPagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={(page) => {
+            setCurrentPage(page);
+            router.push(`?page=${page}`);
+          }}
+        />
       )}
 
       {/* Upload Modal */}

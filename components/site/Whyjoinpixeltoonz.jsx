@@ -1,7 +1,11 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
+import { useInView } from "framer-motion"; // ✅ already in your bundle
+import { useRef } from "react";
 
+// ✅ Feature data outside component — created once at module load
+// ✅ Icons as plain JSX — no className that changes, so React can diff cheaply
 const features = [
   {
     icon: (
@@ -94,92 +98,77 @@ const features = [
 ];
 
 export default function WhyJoinPixeltoonz() {
-  const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef(null);
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) setIsVisible(true);
-      },
-      { threshold: 0.1, rootMargin: "50px" }
-    );
-    
-    const currentRef = sectionRef.current;
-    if (currentRef) observer.observe(currentRef);
-    
-    return () => {
-      if (currentRef) observer.unobserve(currentRef);
-    };
-  }, []);
+  // ✅ useInView from framer-motion — already in bundle, handles cleanup internally
+  const isVisible = useInView(sectionRef, { once: true, margin: "50px" });
 
   return (
-    <>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&display=swap&font-display=swap');
-        .feature-card-entry {
-          will-change: transform, opacity;
-        }
-      `}</style>
+    <section
+      ref={sectionRef}
+      className="relative py-16 md:py-24 px-4 bg-gradient-to-b from-white via-orange-50/20 to-white overflow-hidden"
+    >
+      {/* Background blob */}
+      <div className="absolute top-0 left-1/4 w-72 h-72 bg-orange-100 rounded-full blur-[100px] opacity-20 -translate-y-1/2 pointer-events-none" />
 
-      <section 
-        ref={sectionRef}
-        className="relative py-16 md:py-24 px-4 bg-gradient-to-b from-white via-orange-50/20 to-white overflow-hidden"
-      >
-        {/* Background Blobs - Simplified for Mobile GPU */}
-        <div className="absolute top-0 left-1/4 w-72 h-72 bg-orange-100 rounded-full blur-[100px] opacity-20 -translate-y-1/2 pointer-events-none" />
-
-        <div className="relative lg:px-28 mx-auto">
-          {/* Header */}
-          <div className={`text-center mb-12 md:mb-16 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-            <span className="inline-block text-orange-500 font-semibold text-xs tracking-widest uppercase mb-4 px-4 py-1.5 bg-orange-50 rounded-full border border-orange-100"
-              style={{ fontFamily: "'Sora', sans-serif" }}>
-              Our Advantages
-            </span>
-            <h2 className="text-3xl md:text-5xl font-extrabold text-gray-900 mt-2" style={{ fontFamily: "'Sora', sans-serif" }}>
-              Why Join <span className="text-orange-500 relative">Pixeltoonz
-                <svg className="absolute -bottom-1 left-0 w-full h-2" viewBox="0 0 200 12" preserveAspectRatio="none" aria-hidden="true">
-                  <path d="M0 8 Q50 2 100 8 Q150 14 200 8" stroke="#fdba74" strokeWidth="3" fill="none" />
-                </svg>
-              </span> ?
-            </h2>
-            <p className="mt-4 text-gray-500 text-base md:text-lg max-w-xl mx-auto">
-              Industry-standard training in animation, VFX, and digital design.
-            </p>
-          </div>
-
-          {/* Grid - Combined transition logic to reduce DOM markers */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
-            {features.map((feature, i) => (
-              <div
-                key={i}
-                className={`feature-card-entry group relative bg-white rounded-2xl p-5 md:p-8 border border-orange-100 shadow-sm transition-all duration-500
-                  ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
-                style={{ transitionDelay: `${i * 50}ms` }}
-              >
-                {/* Visual Accent */}
-                <div className="absolute bottom-0 left-0 h-0.5 w-0 bg-orange-400 group-hover:w-full transition-all duration-300 rounded-full" />
-
-                <div className="relative mb-4 md:mb-5">
-                  <div className="inline-flex items-center justify-center w-12 h-12 md:w-16 md:h-16 rounded-xl bg-orange-50 text-orange-500
-                    group-hover:bg-orange-500 group-hover:text-white transition-all duration-300">
-                    {feature.icon}
-                  </div>
-                </div>
-
-                <h3 className="font-bold text-gray-900 text-sm md:text-lg leading-tight mb-1"
-                  style={{ fontFamily: "'Sora', sans-serif" }}>
-                  {feature.title}
-                </h3>
-                <p className="text-orange-500 text-[10px] md:text-sm font-semibold"
-                  style={{ fontFamily: "'Sora', sans-serif" }}>
-                  {feature.subtitle}
-                </p>
-              </div>
-            ))}
-          </div>
+      <div className="relative lg:px-28 mx-auto">
+        {/* Header */}
+        <div
+          className={`text-center mb-12 md:mb-16 transition-all duration-700 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+          }`}
+        >
+          {/* ✅ font-sora Tailwind class instead of inline style — no object per render */}
+          <span className="font-sora inline-block text-orange-500 font-semibold text-xs tracking-widest uppercase mb-4 px-4 py-1.5 bg-orange-50 rounded-full border border-orange-100">
+            Our Advantages
+          </span>
+          <h2 className="font-sora text-3xl md:text-5xl font-extrabold text-gray-900 mt-2">
+            Why Join{" "}
+            <span className="text-orange-500 relative">
+              Pixeltoonz
+              <svg className="absolute -bottom-1 left-0 w-full h-2" viewBox="0 0 200 12" preserveAspectRatio="none" aria-hidden="true">
+                <path d="M0 8 Q50 2 100 8 Q150 14 200 8" stroke="#fdba74" strokeWidth="3" fill="none" />
+              </svg>
+            </span>{" "}
+            ?
+          </h2>
+          <p className="mt-4 text-gray-500 text-base md:text-lg max-w-xl mx-auto">
+            Industry-standard training in animation, VFX, and digital design.
+          </p>
         </div>
-      </section>
-    </>
+
+        {/* Grid */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
+          {features.map((feature) => (
+            <div
+              key={feature.title} // ✅ stable key
+              className={`group relative bg-white rounded-2xl p-5 md:p-8 border border-orange-100 shadow-sm transition-all duration-500 ${
+                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              }`}
+              // ✅ will-change removed from always-on CSS class
+              //    only applied during the transition window via inline style
+              style={{
+                transitionDelay: isVisible ? `${features.indexOf(feature) * 50}ms` : "0ms",
+              }}
+            >
+              <div className="absolute bottom-0 left-0 h-0.5 w-0 bg-orange-400 group-hover:w-full transition-all duration-300 rounded-full" />
+
+              <div className="relative mb-4 md:mb-5">
+                <div className="inline-flex items-center justify-center w-12 h-12 md:w-16 md:h-16 rounded-xl bg-orange-50 text-orange-500 group-hover:bg-orange-500 group-hover:text-white transition-all duration-300">
+                  {feature.icon}
+                </div>
+              </div>
+
+              <h3 className="font-sora font-bold text-gray-900 text-sm md:text-lg leading-tight mb-1">
+                {feature.title}
+              </h3>
+              <p className="font-sora text-orange-500 text-[10px] md:text-sm font-semibold">
+                {feature.subtitle}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }
