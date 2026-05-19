@@ -11,6 +11,17 @@ import LatestBlogs from "@/components/site/LatestBlogs";
 import { getFullCourses } from "@/lib/get-courses";
 import GoogleReviewsCarousel from "@/components/site/GoogleReviewsCarousel";
 
+
+export async function generateMetadata() {
+  return {
+    title: "Photography Courses in Kochi | VFX, Animation &amp; Graphic Design",
+    description: "Photography Courses in Kochi offer expert training in VFX, animation, and graphic design. Master your skills with our comprehensive courses and elevate your creativity.",
+    alternates: {
+      canonical: "https://pixeltoonzacademy.com",
+    }
+  }
+}
+
 const Home = async () => {
   const [{ blogs }, { courses }] = await Promise.all([
     getBlogs(1, 9),

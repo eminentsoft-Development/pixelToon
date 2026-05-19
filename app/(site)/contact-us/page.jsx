@@ -150,6 +150,16 @@ const socials = [
   },
 ];
 
+export const metadata = {
+  title: "Best Graphic Design Course In Kerala | Contact US",
+  description:
+    "PixelToonz Academy offers the best graphic design course in Kerala. Elevate your skills with expert-led programs.",
+  keywords: [],
+  alternates: {
+    canonical: "https://pixeltoonzacademy.com/contact-us",
+  },
+};
+
 const Page = async () => {
   const courseList = await getCoursesForSelect();
 
@@ -242,7 +252,7 @@ const Page = async () => {
           </main>
 
           <aside className="sidebar-col">
-            <EnquiryForm courseList={courseList.data}/>
+            <EnquiryForm courseList={courseList.data} />
           </aside>
         </div>
       </div>

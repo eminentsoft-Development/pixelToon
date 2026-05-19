@@ -5,10 +5,20 @@ import connectDB from "@/lib/mongodb";
 import SuccessStory from "@/models/SuccessStory";
 import { DynamicPagination } from "@/components/site/Pagination";
 
-export const revalidate = 3600; // ✅ revalidate every hour instead of 0 (no-cache)
-                                //    revalidate:0 disables all caching — use on-demand revalidation instead
-
+export const revalidate = 3600; 
 const ITEMS_PER_PAGE = 16;
+
+export async function generateMetadata() {
+  return {
+    title: "Success Stories - Pixeltoonz Academy",
+    description:
+      "Discover inspiring success stories from our talented students at Pixeltoonz Academy, showcasing their creative journeys and achievements in the world of VFX, animation, and graphic design.",
+    alternates: {
+      canonical: "https://pixeltoonzacademy.com/success-stories",
+    },
+  };
+}
+
 
 const SuccessStoriesPage = async ({ searchParams }) => {
   await connectDB();

@@ -9,7 +9,6 @@ import {
   Video, Shapes,
 } from "lucide-react";
 
-// ✅ Moved outside component — created once, never recreated on re-render
 const makeFloatVariants = (delay = 0, yDelta = 15, rotateAngle = 0) => ({
   initial: { opacity: 0, scale: 0.9, rotate: rotateAngle },
   animate: {
@@ -25,7 +24,6 @@ const makeFloatVariants = (delay = 0, yDelta = 15, rotateAngle = 0) => ({
   },
 });
 
-// ✅ Pre-computed variants — zero allocation during render
 const cardVariants = {
   topLeft:     makeFloatVariants(0,   -20, -12),
   topRight:    makeFloatVariants(0.5,  20,  12),
@@ -42,7 +40,6 @@ const iconVariants = {
   shapesIcon:      makeFloatVariants(1.4, -10,  25),
 };
 
-// ✅ Static course images defined outside — no new array on each render
 const COURSE_IMAGES = [
   "/featured-1.webp",
   "/featured-2.webp",
@@ -52,19 +49,15 @@ const COURSE_IMAGES = [
   "/9.jpeg",
 ];
 
-// ✅ Static menu items outside component
 const MENU_ITEMS = ["About Us", "Vision", "Leadership", "Programs", "Courses", "Rankings", "Accreditation"];
 
-// ✅ Memoized course card — prevents re-renders if parent updates
 const CourseCard = memo(({ src, index }) => (
   <div className="relative group h-36 rounded-[16px] bg-white border border-gray-100 flex flex-col justify-end p-5 overflow-hidden hover:border-[#f07822]/30 hover:shadow-xl transition-all cursor-pointer">
     <Image
       src={src}
       alt="Course thumbnail"
       fill
-      // ✅ sizes tells browser exact width — avoids downloading full-res on mobile
       sizes="(max-width: 768px) 100vw, 33vw"
-      // ✅ first 2 cards above fold → eager; rest lazy
       loading={index < 2 ? "eager" : "lazy"}
       className="object-cover group-hover:scale-105 transition-transform duration-300"
     />
@@ -74,7 +67,6 @@ const CourseCard = memo(({ src, index }) => (
 CourseCard.displayName = "CourseCard";
 
 const HeroSection = () => {
-  // ✅ Respects user's OS "Reduce Motion" accessibility setting
   const prefersReducedMotion = useReducedMotion();
 
   return (
@@ -95,7 +87,6 @@ const HeroSection = () => {
               alt="Adobe Premiere Pro"
               width={56}
               height={56}
-              // ✅ decorative icon — defer loading, it's below fold
               loading="lazy"
               className="object-contain opacity-70"
             />
@@ -137,7 +128,6 @@ const HeroSection = () => {
               className="absolute top-[6%] left-[2%] w-[450px] h-[320px] rounded-[45px] p-[15px] bg-white/25 backdrop-blur-md border border-white/30 shadow-2xl z-0 hidden xl:flex">
               <div className="relative w-full h-full rounded-[35px] overflow-hidden bg-black">
                 <Image src="/floating-img-1.jpg" alt="Creative Media" fill
-                  // ✅ above fold + large → priority load
                   priority
                   sizes="450px"
                   className="object-cover" />
@@ -149,7 +139,6 @@ const HeroSection = () => {
               <div className="relative w-full h-full rounded-[35px] overflow-hidden bg-[#1a1125]">
                 <Image src="/vfx-and-animation-courses-in-kerala.jpg" alt="VFX and Animation Courses"
                   fill
-                  // ✅ above fold → priority
                   priority
                   sizes="450px"
                   className="object-cover" />

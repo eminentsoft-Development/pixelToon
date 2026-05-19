@@ -6,6 +6,16 @@ import { getBlogs } from "@/lib/get-blogs";
 
 const ITEMS_PER_PAGE = 9;
 
+export const metadata = {
+  title: "Best Graphic Design Course In Kerala | Blog",
+  description:
+    "Best graphic design education in Kerala on our blog. Unleash your creativity with expert guidance, hands-on tutorials, and industry insights.",
+  keywords: [],
+  alternates: {
+    canonical: "https://pixeltoonzacademy.com/blogs",
+  },
+};
+
 const Page = async ({ searchParams }) => {
   const currentPage = Number(searchParams.page) || 1;
 

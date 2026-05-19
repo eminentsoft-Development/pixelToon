@@ -16,6 +16,21 @@ async function getCourse(slug) {
   return res.json();
 }
 
+export async function generateMetadata({ params }) {
+  const { slug } = await params;
+  const course = await getCourse(slug);
+
+  if (!course) return {};
+
+  return {
+    title: course?.metaTitle,
+    description: course?.metaDescription,
+    alternates: {
+      canonical: course?.canonicalUrl || `https://pixeltoonzacademy.com/courses/${slug}`,
+    },
+  };
+}
+
 const Page = async ({ params }) => {
   const { slug } = await params;
   const coursePromise = getCourse(slug);

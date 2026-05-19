@@ -6,6 +6,17 @@ import { getFullCourses } from "../../../lib/get-courses";
 
 const ITEMS_PER_PAGE = 12;
 
+
+export const metadata = {
+  title: "Multimedia Courses In Kerala | Graphic Design course",
+  description:
+    "Pixeltoonz is one among the top educational institution in Kerala, providing the best multimedia courses in Animation, VFX, 3D Design.",
+  keywords: [],
+  alternates: {
+    canonical: "https://pixeltoonzacademy.com/courses",
+  },
+};
+
 const CourseListing = async ({ searchParams }) => {
   const params = await searchParams;
 
