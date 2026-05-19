@@ -24,14 +24,14 @@ export default function AddBlogPage() {
 
       if (!response.ok) {
         const err = await response.json().catch(() => ({}));
-        throw new Error(err?.message || "Failed to blog course");
+        throw new Error(err?.message || "Failed to create blog");
       }
 
       toast.success("Blog created successfully!", {
         description: "The blog is now saved and ready to publish.",
       });
 
-      router.push("/admin/courses");
+      router.push("/admin/blogs");
       router.refresh();
     } catch (error) {
       toast.error("Something went wrong", {

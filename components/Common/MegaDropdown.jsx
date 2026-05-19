@@ -37,7 +37,7 @@ export function MegaDropdown({ title, path, menuChildren, isScrolled }) {
               href={item.path}
               className="group rounded-lg px-2 py-2 transition-all hover:bg-primary/5"
             >
-              <p className="text-sm font-bold mb-1 line-clamp-1">
+              <p className="text-sm font-bold mb-1 ">
                 {item.title}
               </p>
 

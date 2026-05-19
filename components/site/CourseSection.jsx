@@ -11,7 +11,6 @@ import {
 import CourseCard from "./CourseCard";
 import Link from "next/link";
 
-// ✅ Outside component — one object, never recreated
 const headerVariants = {
   hidden: { opacity: 0, y: 15 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.4 } },
@@ -50,7 +49,6 @@ export default function CourseSection({ courses = [] }) {
             </h2>
           </motion.div>
 
-          {/* ✅ CSS-only hover — no motion.button inside Link */}
           <div className="hidden lg:block">
             <Link
               href="/courses"
@@ -74,14 +72,12 @@ export default function CourseSection({ courses = [] }) {
         >
           <CarouselContent className="-ml-4">
             {featuredCourses.map((course, index) => (
-              // ✅ key by stable id, not array index
               <CarouselItem
                 key={course.slug ?? course._id ?? index}
                 className="pl-4 basis-[90%] md:basis-1/2 lg:basis-1/4"
               >
                 <div className="p-1 h-full">
-                  {/* ✅ Pass carouselIndex so card knows its visible position */}
-                  <CourseCard {...course} carouselIndex={index} />
+                  <CourseCard {...course} index={index} />
                 </div>
               </CarouselItem>
             ))}

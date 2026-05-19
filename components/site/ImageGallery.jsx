@@ -14,6 +14,7 @@ export default function ImageGallery({ images }) {
             src={images[0].url}
             alt={images[0].alt || "Preview"}
             fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 65vw, 800px"
             className="object-cover"
             priority
           />
@@ -27,6 +28,7 @@ export default function ImageGallery({ images }) {
                 src={images[activeIndex].url}
                 alt={images[activeIndex].alt || "Preview"}
                 fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
                 className="object-cover"
                 priority
               />
@@ -50,6 +52,7 @@ export default function ImageGallery({ images }) {
                   src={img.url}
                   alt={img.alt || "Thumbnail"}
                   fill
+                  sizes="(max-width: 768px) 25vw, (max-width: 1200px) 15vw, 200px"
                   className="object-cover"
                 />
               </div>

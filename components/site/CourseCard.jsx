@@ -8,7 +8,6 @@ import { ArrowRight } from "lucide-react";
 
 const formatIndex = (index) => String(index + 1).padStart(2, "0");
 
-// ✅ CSS-only hover on arrow — removes motion.div per card
 const overlayStyle = {
   background: "linear-gradient(160deg, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.18) 50%, rgba(0,0,0,0.82) 100%)",
 };
@@ -21,7 +20,6 @@ const arrowStyle = {
   backdropFilter: "blur(6px)",
 };
 
-// ✅ Moved outside — no reallocation per render
 const cardVariants = {
   hidden: { opacity: 0, y: 24 },
   visible: {
@@ -31,21 +29,16 @@ const cardVariants = {
   },
 };
 
-// ✅ Shared viewport config
 const viewport = { once: true };
 
-// ✅ memo — skip re-render if props unchanged (carousel re-renders on scroll)
-const CourseCard = memo(({ images, title, slug, description, tag, carouselIndex }) => {
+const CourseCard = memo(({ images, title, slug, description, tag, index }) => {
   return (
     <Link href={`/courses/${slug}`} className="block h-full">
       <motion.div
         variants={cardVariants}
         initial="hidden"
-        // ✅ whileInView removed — cards inside a carousel are always mounted
-        //    but may be off-screen; use animate="visible" with a small delay instead
         animate="visible"
-        // ✅ Capped delay at 0.3s max — prevents 0.8s+ waits for later items
-        transition={{ delay: Math.min(carouselIndex * 0.08, 0.3) }}
+        transition={{ delay: Math.min(index * 0.08, 0.3) }}
         whileHover={{ y: -6 }}
         className="group relative w-full h-[500px] flex-shrink-0 rounded-[28px] overflow-hidden cursor-pointer"
         style={{ background: "#111" }}
@@ -57,7 +50,7 @@ const CourseCard = memo(({ images, title, slug, description, tag, carouselIndex 
           }
           alt={title}
           fill
-          // ✅ sizes matching carousel basis — avoids full-res download on mobile
+          loading="lazy"
           sizes="(max-width: 768px) 90vw, (max-width: 1024px) 50vw, 25vw"
           className="object-cover transition-transform duration-700 ease-[cubic-bezier(.22,1,.36,1)] group-hover:scale-[1.08]"
         />
@@ -70,7 +63,7 @@ const CourseCard = memo(({ images, title, slug, description, tag, carouselIndex 
               className="text-white leading-none"
               style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 54, letterSpacing: 2 }}
             >
-              {formatIndex(carouselIndex)}
+              {formatIndex(index)}
             </span>
             <span className="block w-8 h-[3px] rounded-full bg-white/60 mt-0.5 ml-0.5" />
           </div>

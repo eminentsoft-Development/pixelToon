@@ -84,7 +84,7 @@ const BlogAdminPage = () => {
         <div>
           <h1 className="font-bold text-2xl">All Blogs</h1>
         </div>
-        <Link href="/admin/blogs/new">
+        <Link href="/admin/blogs/add">
           <Button className="bg-primary hover:opacity-90">
             <Plus className="w-4 h-4 mr-2" /> New Blog
           </Button>
