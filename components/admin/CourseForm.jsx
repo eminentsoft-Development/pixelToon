@@ -36,9 +36,9 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import RichTextEditor from "@/components/admin/RichTextEditor";
 import ImageUpload from "@/components/admin/ImageUpload";
 import { cn } from "@/lib/utils";
+import RichTextEditor from "../editor/RichTextEditor";
 
 // ─── Schema ──────────────────────────────────────────────────────────────────
 const formSchema = z.object({
@@ -358,6 +358,7 @@ const CourseForm = ({ onSubmit, loading, initialData }) => {
                       <RichTextEditor
                         content={field.value}
                         onChange={field.onChange}
+                        placeholder="Draft your module content here..."
                       />
                     </FormControl>
                     <FormMessage />

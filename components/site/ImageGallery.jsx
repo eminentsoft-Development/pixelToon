@@ -15,7 +15,7 @@ export default function ImageGallery({ images }) {
             alt={images[0].alt || "Preview"}
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 65vw, 800px"
-            className="object-cover"
+            className="object-center"
             priority
           />
         </div>

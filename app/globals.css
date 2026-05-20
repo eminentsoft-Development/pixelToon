@@ -17,6 +17,14 @@ body:has(.admin-layout-container) {
   height: 100vh;
 }
 
+/* editor css */
+
+.prose ol li::marker,
+.prose ul li::marker {
+  color: #000000; /* or #111827 for a softer black like text-gray-900 */
+}
+
+
 @layer components {
   .font-sans-dm {
     font-family: 'DM Sans', sans-serif;
