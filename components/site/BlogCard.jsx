@@ -21,11 +21,9 @@ const BlogCard = ({ index, title, slug, description, createdAt, images }) => {
   );
 
   return (
-    <Link href={`/blogs/${slug}`} className="block">
+    <Link href={`/${slug}`} className="block">
       <motion.div
         variants={cardVariants}
-        // ✅ animate instead of whileInView — BlogCard is inside Embla carousel
-        //    (same fix as CourseCard: off-screen carousel items never enter viewport)
         animate="visible"
         initial="hidden"
         transition={{ delay: Math.min(index * 0.1, 0.3) }} // ✅ cap delay at 0.3s

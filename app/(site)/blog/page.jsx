@@ -17,7 +17,9 @@ export const metadata = {
 };
 
 const Page = async ({ searchParams }) => {
-  const currentPage = Number(searchParams.page) || 1;
+  const params = await searchParams;
+
+  const currentPage = Number(params.page) || 1;
 
   const { blogs, totalPages } = await getBlogs(currentPage, ITEMS_PER_PAGE);
 

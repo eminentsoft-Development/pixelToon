@@ -59,26 +59,26 @@ const Navbar = ({ courses }) => {
       children: [
         {
           title: "Students Work",
-          path: "/gallery/students-work",
+          path: "/gallery",
         },
         {
           title: "Video Gallery",
-          path: "/gallery/video-gallery",
+          path: "/video-gallery",
         },
         {
           title: "Student Life & Events",
-          path: "/gallery/students-life-events",
+          path: "/studentslife",
         },
         {
           title: "Latest Events",
-          path: "/gallery/latest-events",
+          path: "/latest-events-new",
         },
       ],
     },
     {
       id: 5,
       title: "Blogs",
-      path: "/blogs",
+      path: "/blog",
       newTab: false,
       subMenu: false,
     },
