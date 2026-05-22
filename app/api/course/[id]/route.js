@@ -54,10 +54,9 @@ export async function PUT(req, { params }) {
       id,
       safeBody,
       {
-        new: true,          // return updated document
+        new: true,         
         runValidators: true,
-        lean: true,         // return plain JS object
-        // Only return fields needed to confirm the update
+        lean: true,        
         projection: {
           title:       1,
           slug:        1,

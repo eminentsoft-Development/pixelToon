@@ -16,7 +16,9 @@ export default function CourseOverview({
   curriculum,
   bonus,
   projects,
-  courseList
+  courseList,
+  opportunityItems,
+  opportunitiesDesc, // New Prop for the description
 }) {
   const [openFaq, setOpenFaq] = useState(null);
 
@@ -46,7 +48,7 @@ export default function CourseOverview({
               <ContentRenderer content={content} />
             </section>
 
-            {acquireItems.length > 0 && (
+            {acquireItems?.length > 0 && (
               <section className="mb-[72px] p-4 md:p-12 bg-[#13131a] border border-[#2a2a35] rounded-sm relative">
                 <span
                   className="absolute right-8 -top-5 text-[200px] text-[#c9a84c] opacity-[0.04] italic leading-none pointer-events-none select-none"
@@ -80,7 +82,7 @@ export default function CourseOverview({
             )}
 
             {/* whyThisCourse */}
-            {whyThisCourse.length > 0 && (
+            {whyThisCourse?.length > 0 && (
               <section className="mb-[72px]">
                 <p className="font-sans-dm text-[10px] tracking-[4px] uppercase text-primary mb-3.5">
                   Why This Course
@@ -101,6 +103,34 @@ export default function CourseOverview({
                     </li>
                   ))}
                 </ul>
+              </section>
+            )}
+
+            {/* OPPORTUNITIES (NEW SECTION) */}
+            {opportunityItems?.length > 0 && (
+              <section className="mb-[72px]">
+                <p className="font-sans-dm text-[10px] tracking-[4px] uppercase text-primary mb-3.5">
+                  Career Pathways
+                </p>
+                <h2 className="text-[2rem] italic text-textColor mb-4 leading-[1.2]">
+                  This course opens opportunities in:
+                </h2>
+                {opportunitiesDesc && (
+                  <p className="font-sans-dm text-[0.95rem] leading-[1.6] text-textColor/80 font-light mb-8 max-w-3xl">
+                    {opportunitiesDesc}
+                  </p>
+                )}
+                <div className="flex flex-wrap gap-3">
+                  {opportunityItems.map((item, i) => (
+                    <div
+                      key={i}
+                      className="px-5 py-2.5 border border-primary/30 rounded-full font-sans-dm text-[0.88rem] text-textColor font-light hover:bg-[rgba(201,168,76,0.05)] hover:border-primary transition-all duration-300 cursor-default flex items-center gap-2"
+                    >
+                      <span className="w-1.5 h-1.5 rounded-full bg-primary/70 block"></span>
+                      {item?.value || item}
+                    </div>
+                  ))}
+                </div>
               </section>
             )}
 
@@ -182,7 +212,7 @@ export default function CourseOverview({
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {bonus.map((bonus, i) => (
+                  {bonus.map((bonusItem, i) => (
                     <div
                       key={i}
                       className="p-5 bg-white/[0.03] border border-white/5 rounded-md hover:bg-white/[0.05] transition-all"
@@ -191,7 +221,7 @@ export default function CourseOverview({
                         ✦
                       </div>
                       <h4 className="text-[#f0ede6] text-[0.88rem] font-sans-dm leading-snug">
-                        {bonus.value}
+                        {bonusItem.value}
                       </h4>
                     </div>
                   ))}
@@ -254,7 +284,6 @@ export default function CourseOverview({
                 <button className="px-12 py-3.5 bg-primary text-[#0a0a0f] font-sans-dm font-semibold text-[0.85rem] tracking-[1.5px] uppercase rounded-[2px] border-0 cursor-pointer transition-all duration-200 hover:bg-[#e8c97a] hover:-translate-y-0.5">
                   Enrol Now
                 </button>
-                {/* <button className="px-9 py-3.5 bg-transparent text-[#f0ede6] font-sans-dm font-medium text-[0.85rem] tracking-[1.5px] uppercase border border-primary rounded-[2px] cursor-pointer transition-all duration-200 hover:border-[#c9a84c] hover:text-[#c9a84c]">Download Syllabus</button> */}
               </div>
             </section>
 
@@ -304,13 +333,13 @@ export default function CourseOverview({
 
             {/* Mobile form */}
             <div className="mobile-form mb-16">
-              <EnquiryForm courseList={courseList.data} currentCourse={title}/>
+              <EnquiryForm courseList={courseList.data} currentCourse={title} />
             </div>
           </main>
 
           {/* ── STICKY SIDEBAR ── */}
           <aside className="sidebar-col">
-            <EnquiryForm courseList={courseList.data} currentCourse={title}/>
+            <EnquiryForm courseList={courseList.data} currentCourse={title} />
           </aside>
         </div>
       </div>

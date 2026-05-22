@@ -10,7 +10,6 @@ import Navbar from "@/components/site/header";
 const NotFound = () => {
   return (
     <>
-      <Navbar />
       <div className="min-h-screen w-full pt-[120px] lg:pt-[90px] bg-gradient-to-br from-[#F09410] to-[#BC430D] relative overflow-hidden flex items-center justify-center px-4">
         {/* Abstract Background Decoration (Matching your Breadcrumbs) */}
         <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
@@ -84,7 +83,6 @@ const NotFound = () => {
           </motion.p>
         </div>
       </div>
-      <Footer />
     </>
   );
 };

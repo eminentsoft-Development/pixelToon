@@ -15,6 +15,7 @@ const CourseSchema = new mongoose.Schema(
     // Arrays for dynamic fields
     whyThisCourse: [{ value: { type: String } }],
     acquireItems: [{ value: { type: String } }],
+    opportunityItems: [{ value: { type: String } }],
     curriculum: [{ value: { type: String } }],
     bonus: [{ value: { type: String } }],
     projects: [{ value: { type: String } }],

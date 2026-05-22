@@ -26,18 +26,33 @@ export async function generateMetadata({ params }) {
     title: course?.metaTitle,
     description: course?.metaDescription,
     alternates: {
-      canonical: course?.canonicalUrl || `https://pixeltoonzacademy.com/courses/${slug}`,
+      canonical:
+        course?.canonicalUrl || `https://pixeltoonzacademy.com/courses/${slug}`,
     },
   };
 }
 
 const Page = async ({ params }) => {
+  const sampleOpportunitiesData = {
+    opportunitiesDesc:
+      "Graduates of this program are highly sought after by top creative agencies and tech companies worldwide. Upon successful completion, you will be well-equipped to transition into the following high-growth roles:",
+    opportunities: [
+      { value: "Senior UI/UX Designer" },
+      { value: "Digital Product Designer" },
+      { value: "Frontend Web Developer" },
+      { value: "Interactive Art Director" },
+      { value: "Visual Designer" },
+      { value: "Webflow Expert" },
+      { value: "Creative Technologist" },
+    ],
+  };
+
   const { slug } = await params;
   const coursePromise = getCourse(slug);
   const listPromise = getCoursesForSelect();
 
   const [course, courseList] = await Promise.all([coursePromise, listPromise]);
-  
+
   if (!course) {
     notFound();
   }
@@ -53,7 +68,10 @@ const Page = async ({ params }) => {
       />
 
       {/* Pass the fetched data to your overview component */}
-      <CourseOverview {...course} courseList={courseList} />
+      <CourseOverview
+        {...course}
+        courseList={courseList}
+      />
     </div>
   );
 };

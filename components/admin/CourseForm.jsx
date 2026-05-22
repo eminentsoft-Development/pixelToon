@@ -11,7 +11,6 @@ import {
   Trash2,
   Search,
   GraduationCap,
-  HelpCircle,
   CheckCircle,
   Star,
   Wand2,
@@ -55,6 +54,7 @@ const formSchema = z.object({
     .min(20, "Detailed curriculum must be at least 20 characters"),
   whyThisCourse: z.array(z.object({ value: z.string().optional() })),
   acquireItems: z.array(z.object({ value: z.string().optional() })),
+  opportunityItems: z.array(z.object({ value: z.string().optional() })),
   curriculum: z.array(z.object({ value: z.string().optional() })),
   bonus: z.array(z.object({ value: z.string().optional() })),
   projects: z.array(z.object({ value: z.string().optional() })),
@@ -146,6 +146,8 @@ const AddButton = ({ onClick, label }) => (
 
 // ─── CourseForm ───────────────────────────────────────────────────────────────
 const CourseForm = ({ onSubmit, loading, initialData }) => {
+
+  console.log("Initial form data:", initialData); // Debug log to check incoming data
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: initialData || {
@@ -154,11 +156,12 @@ const CourseForm = ({ onSubmit, loading, initialData }) => {
       description: "",
       images: [],
       content: "",
-      whyThisCourse: [{ value: "" }],
-      acquireItems: [{ value: "" }],
-      curriculum: [{ value: "" }],
-      bonus: [{ value: "" }],
-      projects: [{ value: "" }],
+      whyThisCourse: [],
+      acquireItems: [],
+      opportunityItems: [],
+      curriculum: [],
+      bonus: [],
+      projects: [],
       isPublished: false,
       isFeatured: false,
       metaTitle: "",
@@ -178,6 +181,12 @@ const CourseForm = ({ onSubmit, loading, initialData }) => {
     append: appendAcquire,
     remove: removeAcquire,
   } = useFieldArray({ control: form.control, name: "acquireItems" });
+
+  const {
+    fields: opportunityFields,
+    append: appendOpportunity,
+    remove: removeOpportunity,
+  } = useFieldArray({ control: form.control, name: "opportunityItems" });
 
   const {
     fields: curriculumFields,
@@ -394,6 +403,36 @@ const CourseForm = ({ onSubmit, loading, initialData }) => {
                   name={`acquireItems.${index}.value`}
                   placeholder="e.g. Mastery of Adobe Creative Suite"
                   onRemove={() => removeAcquire(index)}
+                />
+              ))}
+            </CardContent>
+          </Card>
+
+          <Card className="border border-slate-200 shadow-none rounded-xl overflow-hidden">
+            <SectionHeader
+              icon={GraduationCap}
+              iconColor="text-indigo-600"
+              title="This course opens opportunities"
+              action={
+                <AddButton
+                  onClick={() => appendOpportunity({ value: "" })}
+                  label="Add Opportunity"
+                />
+              }
+            />
+            <CardContent className="space-y-3 pt-0">
+              {opportunityFields.length === 0 && (
+                <p className="text-xs text-slate-400 text-center py-3">
+                  No opportunities added yet.
+                </p>
+              )}
+              {opportunityFields.map((field, index) => (
+                <DynamicFieldRow
+                  key={field.id}
+                  control={form.control}
+                  name={`opportunityItems.${index}.value`}
+                  placeholder="e.g. Senior UI/UX Designer"
+                  onRemove={() => removeOpportunity(index)}
                 />
               ))}
             </CardContent>
