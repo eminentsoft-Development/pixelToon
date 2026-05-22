@@ -41,12 +41,12 @@ const iconVariants = {
 };
 
 const COURSE_IMAGES = [
-  "/featured-1.webp",
-  "/featured-2.webp",
-  "/WhatsApp-Image-2025-12-17-at-3.52.58-PM-2.jpeg",
-  "/WhatsApp-Image-2025-12-17-at-3.52.57-PM.jpeg",
-  "/4.jpeg",
-  "/9.jpeg",
+  "/home/featured-1.webp",
+  "/home/featured-2.webp",
+  "/home/image3.webp",
+  "/home/image4.webp",
+  "/home/image1.webp",
+  "/home/image2.webp",
 ];
 
 const MENU_ITEMS = ["About Us", "Vision", "Leadership", "Programs", "Courses", "Rankings", "Accreditation"];
@@ -127,7 +127,7 @@ const HeroSection = () => {
             <motion.div variants={cardVariants.topLeft} initial="initial" animate="animate"
               className="absolute top-[6%] left-[2%] w-[450px] h-[320px] rounded-[45px] p-[15px] bg-white/25 backdrop-blur-md border border-white/30 shadow-2xl z-0 hidden xl:flex">
               <div className="relative w-full h-full rounded-[35px] overflow-hidden bg-black">
-                <Image src="/floating-img-1.jpg" alt="Creative Media" fill
+                <Image src="/home/floating-img-1.webp" alt="Creative Media" fill
                   priority
                   sizes="450px"
                   className="object-cover" />
@@ -137,7 +137,7 @@ const HeroSection = () => {
             <motion.div variants={cardVariants.topRight} initial="initial" animate="animate"
               className="absolute top-[8%] right-[2%] w-[450px] h-[320px] rounded-[45px] p-[15px] bg-white/25 backdrop-blur-md border border-white/30 shadow-2xl z-0 hidden xl:flex">
               <div className="relative w-full h-full rounded-[35px] overflow-hidden bg-[#1a1125]">
-                <Image src="/vfx-and-animation-courses-in-kerala.jpg" alt="VFX and Animation Courses"
+                <Image src="/home/vfx-and-animation-courses-in-kerala.webp" alt="VFX and Animation Courses"
                   fill
                   priority
                   sizes="450px"
@@ -148,7 +148,7 @@ const HeroSection = () => {
             <motion.div variants={cardVariants.bottomLeft} initial="initial" animate="animate"
               className="absolute bottom-[5%] left-[1%] w-[450px] h-[320px] rounded-[45px] p-[15px] bg-white/25 backdrop-blur-md border border-white/30 shadow-xl z-0 hidden xl:flex items-center justify-center">
               <div className="relative w-full h-full rounded-[35px] overflow-hidden bg-[#1a1125]">
-                <Image src="/floating-img-2.jpg" alt="Creative Course" fill
+                <Image src="/home/floating-img-2.webp" alt="Creative Course" fill
                   sizes="450px"
                   loading="lazy"
                   className="object-cover" />
@@ -158,7 +158,7 @@ const HeroSection = () => {
             <motion.div variants={cardVariants.bottomRight} initial="initial" animate="animate"
               className="absolute bottom-[2%] right-[1%] w-[450px] h-[320px] rounded-[45px] p-[15px] bg-white/25 backdrop-blur-md border border-white/30 shadow-xl z-0 hidden xl:flex items-center justify-center">
               <div className="relative w-full h-full rounded-[35px] overflow-hidden bg-[#1a1125]">
-                <Image src="/floating-img-3.jpg" alt="Creative Course" fill
+                <Image src="/home/floating-img-3.webp" alt="Creative Course" fill
                   sizes="450px"
                   loading="lazy"
                   className="object-cover" />

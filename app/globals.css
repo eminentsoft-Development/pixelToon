@@ -1,15 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-
 html,
 body {
   max-width: 100vw;
-  /* overflow: hidden; */
-  font-family: 'DM Sans', sans-serif;
+  scroll-behavior: smooth;
+  font-family: "DM Sans", sans-serif;
 }
 
 body:has(.admin-layout-container) {
@@ -24,16 +23,17 @@ body:has(.admin-layout-container) {
   color: #000000; /* or #111827 for a softer black like text-gray-900 */
 }
 
-
 @layer components {
   .font-sans-dm {
-    font-family: 'DM Sans', sans-serif;
+    font-family: "DM Sans", sans-serif;
   }
 
   .faq-body {
     overflow: hidden;
     max-height: 0;
-    transition: max-height 0.35s ease, padding-bottom 0.35s ease;
+    transition:
+      max-height 0.35s ease,
+      padding-bottom 0.35s ease;
   }
 
   .faq-body.open {

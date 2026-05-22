@@ -37,8 +37,12 @@ import { Separator } from "@/components/ui/separator";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import ImageUpload from "@/components/admin/ImageUpload";
 import { cn } from "@/lib/utils";
-import RichTextEditor from "../editor/RichTextEditor";
 
+import dynamic from 'next/dynamic';
+const RichTextEditor = dynamic(() => import('@/components/editor/RichTextEditor'), {
+  ssr: false, // Editors usually rely on browser APIs, so disable SSR
+  loading: () => <p>Loading editor...</p>
+});
 // ─── Schema ──────────────────────────────────────────────────────────────────
 const formSchema = z.object({
   title: z.string().min(5, "Course title must be at least 5 characters"),
