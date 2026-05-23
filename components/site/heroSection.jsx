@@ -57,8 +57,8 @@ const CourseCard = memo(({ src, index }) => (
       src={src}
       alt="Course thumbnail"
       fill
-      sizes="(max-width: 768px) 100vw, 33vw"
-      loading={index < 2 ? "eager" : "lazy"}
+      sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 25vw, 260px"
+      priority={index < 3}
       className="object-cover group-hover:scale-105 transition-transform duration-300"
     />
     <div className="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition" />
@@ -127,9 +127,9 @@ const HeroSection = () => {
             <motion.div variants={cardVariants.topLeft} initial="initial" animate="animate"
               className="absolute top-[6%] left-[2%] w-[450px] h-[320px] rounded-[45px] p-[15px] bg-white/25 backdrop-blur-md border border-white/30 shadow-2xl z-0 hidden xl:flex">
               <div className="relative w-full h-full rounded-[35px] overflow-hidden bg-black">
-                <Image src="/home/floating-img-1.webp" alt="Creative Media" fill
+                <Image src="/home/floating-img-1.webp" alt="Creative Media Production" fill
                   priority
-                  sizes="450px"
+                  sizes="420px"
                   className="object-cover" />
               </div>
             </motion.div>
@@ -140,7 +140,7 @@ const HeroSection = () => {
                 <Image src="/home/vfx-and-animation-courses-in-kerala.webp" alt="VFX and Animation Courses"
                   fill
                   priority
-                  sizes="450px"
+                  sizes="420px"
                   className="object-cover" />
               </div>
             </motion.div>
@@ -148,8 +148,8 @@ const HeroSection = () => {
             <motion.div variants={cardVariants.bottomLeft} initial="initial" animate="animate"
               className="absolute bottom-[5%] left-[1%] w-[450px] h-[320px] rounded-[45px] p-[15px] bg-white/25 backdrop-blur-md border border-white/30 shadow-xl z-0 hidden xl:flex items-center justify-center">
               <div className="relative w-full h-full rounded-[35px] overflow-hidden bg-[#1a1125]">
-                <Image src="/home/floating-img-2.webp" alt="Creative Course" fill
-                  sizes="450px"
+                <Image src="/home/floating-img-2.webp" alt="Creative Design Course Work" fill
+                  sizes="420px"
                   loading="lazy"
                   className="object-cover" />
               </div>
@@ -158,8 +158,8 @@ const HeroSection = () => {
             <motion.div variants={cardVariants.bottomRight} initial="initial" animate="animate"
               className="absolute bottom-[2%] right-[1%] w-[450px] h-[320px] rounded-[45px] p-[15px] bg-white/25 backdrop-blur-md border border-white/30 shadow-xl z-0 hidden xl:flex items-center justify-center">
               <div className="relative w-full h-full rounded-[35px] overflow-hidden bg-[#1a1125]">
-                <Image src="/home/floating-img-3.webp" alt="Creative Course" fill
-                  sizes="450px"
+                <Image src="/home/floating-img-3.webp" alt="Student Visual Project Portfolio" fill
+                  sizes="420px"
                   loading="lazy"
                   className="object-cover" />
               </div>
@@ -194,7 +194,7 @@ const HeroSection = () => {
                 <ul className="space-y-4">
                   {MENU_ITEMS.map((item) => (
                     <li key={item} className="flex items-center gap-3 text-gray-600 hover:text-[#f07822] cursor-pointer text-[13px] font-bold group">
-                      <span className="text-[8px] text-[#f07822] group-hover:translate-x-1 transition-transform">▶</span>
+                      <span className="text-[8px] text-[#f07822] group-hover:translate-x-1 transition-transform" aria-hidden="true">▶</span>
                       {item}
                     </li>
                   ))}
@@ -211,14 +211,23 @@ const HeroSection = () => {
                   Learn Today<br />
                   <span className="text-[#f07822]">Earn Tomorrow</span>
                 </h1>
+                
                 <div className="absolute -bottom-7 flex items-center bg-[#080808] border border-white/10 rounded-full w-64 md:w-96 px-6 justify-evenly py-3 gap-4 md:gap-10 lg:gap-14 shadow-[0_20px_50px_rgba(0,0,0,0.5)] z-20">
-                  <User size={20} className="text-gray-400 hover:text-white cursor-pointer" />
-                  <FileText size={20} className="text-gray-400 hover:text-white cursor-pointer" />
-                  <Sparkles size={20} className="text-[#f07822]" />
-                  <Settings size={20} className="text-gray-400 hover:text-white cursor-pointer" />
-                  <div className="w-10 h-10 rounded-full bg-[#f07822] flex items-center justify-center text-white cursor-pointer hover:scale-110 transition-all shadow-lg shadow-[#f07822]/40">
-                    <ChevronRight size={22} strokeWidth={3} />
+                  <button aria-label="View Profile" className="text-gray-400 hover:text-white transition-colors">
+                    <User size={20} />
+                  </button>
+                  <button aria-label="Documentation" className="text-gray-400 hover:text-white transition-colors">
+                    <FileText size={20} />
+                  </button>
+                  <div aria-hidden="true">
+                    <Sparkles size={20} className="text-[#f07822]" />
                   </div>
+                  <button aria-label="Settings" className="text-gray-400 hover:text-white transition-colors">
+                    <Settings size={20} />
+                  </button>
+                  <button aria-label="Next Page" className="w-10 h-10 rounded-full bg-[#f07822] flex items-center justify-center text-white cursor-pointer hover:scale-110 transition-all shadow-lg shadow-[#f07822]/40">
+                    <ChevronRight size={22} strokeWidth={3} />
+                  </button>
                 </div>
               </div>
 

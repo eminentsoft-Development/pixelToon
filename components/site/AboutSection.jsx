@@ -58,7 +58,7 @@ const AboutSection = () => {
               <ScrollReveal delay={100} direction="up" className="space-y-3 md:space-y-4">
                 <div className="relative h-48 md:h-64 rounded-2xl md:rounded-3xl overflow-hidden shadow-md bg-gray-100">
                   <Image
-                    src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?q=70&w=600&auto=format&fit=crop"
+                    src="/home/about-section-1.avif"
                     alt="Photography course"
                     fill
                     sizes="(max-width: 768px) 45vw, 25vw"
@@ -67,7 +67,7 @@ const AboutSection = () => {
                 </div>
                 <div className="relative h-56 md:h-80 rounded-2xl md:rounded-3xl overflow-hidden shadow-md bg-gray-100">
                   <Image
-                    src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=70&w=600&auto=format&fit=crop"
+                    src="/home/about-section-2.avif"
                     alt="VFX course"
                     fill
                     sizes="(max-width: 768px) 45vw, 25vw"
@@ -80,7 +80,7 @@ const AboutSection = () => {
               <ScrollReveal delay={200} direction="down" className="space-y-3 md:space-y-4 pt-8 md:pt-12">
                 <div className="relative h-56 md:h-80 rounded-2xl md:rounded-3xl overflow-hidden shadow-md border-2 md:border-4 border-yellow-400 bg-gray-100">
                   <Image
-                    src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=70&w=600&auto=format&fit=crop"
+                    src="/home/about-section-3.avif"
                     alt="Film editing course"
                     fill
                     sizes="(max-width: 768px) 45vw, 25vw"
@@ -89,7 +89,7 @@ const AboutSection = () => {
                 </div>
                 <div className="relative h-48 md:h-64 rounded-2xl md:rounded-3xl overflow-hidden shadow-md bg-gray-100">
                   <Image
-                    src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=70&w=600&auto=format&fit=crop"
+                    src="/home/about-section-4.avif"
                     alt="Animation course"
                     fill
                     sizes="(max-width: 768px) 45vw, 25vw"

@@ -3,8 +3,6 @@ import ScrollReveal from "./ScrollReveal";
 import ReviewsSlider from "./ReviewsSlider";
 
 export default async function GoogleReviews() {
-  // Fetch data on the server! 
-  // Next.js will cache this and revalidate every hour (3600 seconds)
   let reviews = [];
   try {
     const res = await fetch("https://featurable.com/api/v2/widgets/af9ec977-25fe-4086-bbbc-01f1dd08c1c4", {

@@ -1,26 +1,13 @@
-import NextBundleAnalyzer from '@next/bundle-analyzer';
-
+import NextBundleAnalyzer from "@next/bundle-analyzer";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
+    formats: ["image/avif", "image/webp"],
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "images.unsplash.com",
-      },
-      {
-        protocol: "https",
-        hostname: "www.stedcouncil.com",
-        pathname: "/**",
-      },
-      {
-        protocol: "https",
         hostname: "lh3.googleusercontent.com",
-      },
-      {
-        protocol: "https",
-        hostname: "i.pravatar.cc",
       },
       {
         protocol: "https",
@@ -34,19 +21,12 @@ const nextConfig = {
         protocol: "https",
         hostname: "utfs.io",
       },
-      {
-        protocol: "https",
-        hostname: "i.ytimg.com",
-      },
     ],
   },
 };
 
-
 const withBundleAnalyzer = NextBundleAnalyzer({
   enabled: process.env.ANALYZE === "true",
 });
-
-
 
 export default withBundleAnalyzer(nextConfig);

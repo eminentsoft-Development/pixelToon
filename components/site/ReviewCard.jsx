@@ -4,7 +4,6 @@ import { Star, Quote } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 
-// ✅ Static array — no Array(5) allocation per render
 const STARS = [0, 1, 2, 3, 4];
 
 export const ReviewCard = ({ review, setIsPaused, isActive }) => {
@@ -14,8 +13,6 @@ export const ReviewCard = ({ review, setIsPaused, isActive }) => {
   const CHAR_LIMIT = 200;
   const shouldShowReadMore = text && text.length > CHAR_LIMIT;
 
-  // ✅ Removed imgSrc state — no onError handler was connected, making it dead state
-  // ✅ Removed useEffect — moved setIsPaused call directly into click handler
   const handleToggleExpand = (e) => {
     e.stopPropagation();
     const next = !isExpanded;
@@ -38,7 +35,6 @@ export const ReviewCard = ({ review, setIsPaused, isActive }) => {
           </div>
           <div>
             <h4 className="font-bold text-gray-900 text-base leading-tight">{author.name}</h4>
-            {/* ✅ Static STARS array */}
             <div className="flex gap-0.5 mt-1">
               {STARS.map((i) => (
                 <Star key={i} size={12} className={i < rating.value ? "fill-yellow-400 text-yellow-400" : "text-gray-200"} />

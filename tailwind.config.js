@@ -63,10 +63,6 @@ const config = {
       },
       fontFamily: {
         inter: ['var(--font-inter)', 'sans-serif'],
-        poppins: ['var(--font-poppins)', 'sans-serif'],
-        sora: ['var(--font-sora)', 'sans-serif'],
-        cormorant: ['var(--font-cormorant)', 'serif'],
-        outfit: ['var(--font-outfit)', 'sans-serif'],
       },
     },
   },

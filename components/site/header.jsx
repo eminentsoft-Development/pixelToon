@@ -139,6 +139,7 @@ const Navbar = ({ courses }) => {
                 src="/logo_.png"
                 width={350}
                 height={80}
+                priority
                 alt="PixelToonz logo"
                 sizes="350px"
                 className="w-44 md:w-52"

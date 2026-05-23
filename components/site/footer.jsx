@@ -3,8 +3,6 @@ import Image from "next/image";
 import {
   Facebook,
   Instagram,
-  Linkedin,
-  Twitter,
   Mail,
   Phone,
   MapPin,
@@ -16,17 +14,17 @@ const Footer = () => {
 
   return (
     <footer className="bg-[#131313] text-gray-300 pt-16 pb-8">
-      <div className="container ">
+      <div className="container mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
           {/* Column 1: Brand & About */}
           <div className="space-y-6">
-            <Link href="/">
+            <Link href="/" aria-label="Pixeltoonz Home">
               <Image
                 src="/logo_white.png"
-                alt="Logo"
+                alt="Pixeltoonz Academy Logo"
                 width={200}
                 height={60}
-                className="brightness-0 invert" // Keeps logo white on dark bg
+                className="brightness-0 invert object-contain"
               />
             </Link>
             <p className="text-sm leading-relaxed">
@@ -34,21 +32,25 @@ const Footer = () => {
               Graphics & 3D, Ui/Ux, Photography, Film Editing, VFX, 
               Animation
             </p>
+            {/* Accessibility Fix: Added discernible aria-labels to all pure icon navigation links */}
             <div className="flex gap-4">
               <Link
                 href="https://www.facebook.com/pixeltoonz"
+                aria-label="Follow us on Facebook"
                 className="hover:text-primary transition-colors"
               >
                 <Facebook size={20} />
               </Link>
               <Link
                 href="https://www.instagram.com/pixeltoonz/?igshid=1b7pgky2g3bi4"
+                aria-label="Follow us on Instagram"
                 className="hover:text-primary transition-colors"
               >
                 <Instagram size={20} />
               </Link>
               <Link
                 href="https://www.youtube.com/channel/UCIKz0ZYOA54p-86TL-eXkAg"
+                aria-label="Subscribe to our YouTube channel"
                 className="hover:text-primary transition-colors"
               >
                 <Youtube size={24} />
@@ -80,7 +82,7 @@ const Footer = () => {
                   href="/cources"
                   className="hover:text-white transition-colors"
                 >
-                  Our Cources
+                  Our Courses
                 </Link>
               </li>
               <li>
@@ -158,7 +160,7 @@ const Footer = () => {
             </h4>
             <ul className="space-y-4 text-sm">
               <li className="flex items-start gap-3">
-                <MapPin size={18} className="text-primary shrink-0" />
+                <MapPin size={18} className="text-primary shrink-0 mt-0.5" />
                 <span>
                   Pixeltoonz Academy, 1st Floor 65, 3028-A, Azad Rd, near PC
                   Road, Kaloor, Kochi, Ernakulam, Kerala 682017
@@ -166,11 +168,11 @@ const Footer = () => {
               </li>
               <li className="flex items-center gap-3">
                 <Phone size={18} className="text-primary shrink-0" />
-                <span>+91 9745678780</span>
+                <a href="tel:+919745678780" className="hover:underline">+91 9745678780</a>
               </li>
               <li className="flex items-center gap-3">
                 <Mail size={18} className="text-primary shrink-0" />
-                <span>pixeltoonzacademy@gmail.com</span>
+                <a href="mailto:pixeltoonzacademy@gmail.com" className="hover:underline">pixeltoonzacademy@gmail.com</a>
               </li>
             </ul>
           </div>
@@ -180,10 +182,10 @@ const Footer = () => {
         <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs">
           <p>© {currentYear} Pixeltoonz Academy. All rights reserved.</p>
           <div className="flex gap-6">
-            <Link href="" className="hover:text-white transition-colors">
+            <Link href="/privacy" className="hover:text-white transition-colors">
               Privacy Policy
             </Link>
-            <Link href="" className="hover:text-white transition-colors">
+            <Link href="/terms" className="hover:text-white transition-colors">
               Terms of Service
             </Link>
           </div>
