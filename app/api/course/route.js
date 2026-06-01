@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
-import dbConnect from "@/lib/mongodb";
 import Course from "@/models/Course";
+import connectDB from "@/lib/mongodb";
 
 export async function POST(req) {
   try {
-    await dbConnect();
+    await connectDB();
     const body = await req.json();
 
     // Verify slug exists in body before saving
@@ -30,22 +30,30 @@ export async function POST(req) {
 
 export async function GET(req) {
   try {
-    await dbConnect();
-    const { searchParams } = new URL(req.url);
+    await connectDB();
+const { searchParams } = new URL(req.url);
     
-    // Pagination parameters
+    // 1. Pagination parameters
     const page = parseInt(searchParams.get("page")) || 1;
     const limit = parseInt(searchParams.get("limit")) || 10;
     const skip = (page - 1) * limit;
 
-    // Filters
+    // 2. Build the Filters object
     const query = {};
-    if (searchParams.get("published") === "true") query.isPublished = true;
-    if (searchParams.get("q")) {
-      query.title = { $regex: searchParams.get("q"), $options: "i" };
+    
+    // Handle Search (matches the 'search' param from frontend)
+    const searchQuery = searchParams.get("search");
+    if (searchQuery) {
+      query.title = { $regex: searchQuery, $options: "i" }; // Case-insensitive search
     }
 
-    // Execute count and find in parallel
+    // Handle Status (matches the 'status' param from frontend)
+    const statusQuery = searchParams.get("status");
+    if (statusQuery === "published") {
+      query.isPublished = true;
+    } else if (statusQuery === "draft") {
+      query.isPublished = false;
+    } 
     const [courses, totalCourses] = await Promise.all([
       Course.find(query)
         .sort({ createdAt: -1 })
@@ -62,6 +70,7 @@ export async function GET(req) {
       totalItems: totalCourses,
     });
   } catch (error) {
-    return NextResponse.json({ error: "Fetch failed" }, { status: 500 });
+    console.error("Course fetch error:", error);
+    return NextResponse.json({ error: "Failed to fetch courses" }, { status: 500 });
   }
 }

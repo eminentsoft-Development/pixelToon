@@ -37,7 +37,7 @@ export default function CourseOverview({
             {/* <section className="">
               <ImageGallery images={images} />
             </section> */}
-            <section className="relative pt-12 pb-6 border-b border-[#58585c] mb-16">
+            <section className="relative pt-12  border-b border-gray-300 mb-14">
               <h1 className="text-[clamp(2.4rem,5vw,4rem)] w-[85%] italic leading-[1.1] text-[#131313] mb-6 tracking-tight">
                 {title}
               </h1>

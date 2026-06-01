@@ -4,7 +4,6 @@ import NextBundleAnalyzer from "@next/bundle-analyzer";
 const nextConfig = {
   async redirects() {
     return [
-      // Core Course Redirects (Moving from Root to /courses/)
       {
         source: "/integrated-diploma-in-graphics-3d",
         destination: "/courses/integrated-diploma-in-graphics-3d",
@@ -41,6 +40,16 @@ const nextConfig = {
         permanent: true,
       },
       {
+        source: "/ai-filmmaking",
+        destination: "/courses/ai-filmmaking",
+        permanent: true,
+      },
+      {
+        source: "/diploma-in-content-creation-program",
+        destination: "/courses/diploma-in-content-creation-program",
+        permanent: true,
+      },
+      {
         source: "/ui-ux-course",
         destination: "/courses/ui-ux-course",
         permanent: true,
@@ -64,6 +73,12 @@ const nextConfig = {
         source: "/integrated-diploma-in-digital-marketing-with-ai-tools",
         destination:
           "/courses/integrated-diploma-in-digital-marketing-with-ai-tools",
+        permanent: true,
+      },
+      {
+        source: "/diploma-in-ai-cinematics-virtual-production",
+        destination:
+          "/courses/diploma-in-ai-cinematics-virtual-production",
         permanent: true,
       },
 

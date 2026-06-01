@@ -34,7 +34,7 @@ const CourseListing = async ({ searchParams }) => {
         {/* Header Section */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
           <div>
-            <h1 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tighter mb-4 uppercase">
+            <h1 className="text-4xl md:text-5xl font-black font-sans text-slate-900 tracking-tighter mb-4 uppercase">
               Explore <span className="text-[#BC430D]">Programs</span>
             </h1>
             <p className="text-slate-500 max-w-md font-medium">

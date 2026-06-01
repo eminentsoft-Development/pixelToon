@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { toast } from "sonner";
 import CourseForm from "@/components/admin/CourseForm";
@@ -9,43 +9,50 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 const EditCoursePage = () => {
-  const [loading, setLoading] = useState(false);
-  const [initialData, setInitialData] = useState(null);
-  const [fetching, setFetching] = useState(true);
-
   const router = useRouter();
   const params = useParams();
 
-  // Memoize fetch to prevent unnecessary effect triggers
-  const fetchCourse = useCallback(async (id, signal) => {
-    try {
-      const response = await fetch(`/api/course/${id}`, { signal });
-      if (!response.ok) throw new Error("Course not found");
+  // Clear, simple state names
+  const [initialData, setInitialData] = useState(null);
+  const [isFetching, setIsFetching] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-      const data = await response.json();
-      setInitialData(data);
-    } catch (error) {
-      if (error.name !== "AbortError") {
-        toast.error("Could not load course details");
-        router.push("/admin/courses");
-      }
-    } finally {
-      setFetching(false);
-    }
-  }, [router]);
-
+  // 1. Fetch course data when the page loads
   useEffect(() => {
     const controller = new AbortController();
-    
+
+    const fetchCourse = async () => {
+      try {
+        const response = await fetch(`/api/course/${params.id}`, { 
+          signal: controller.signal 
+        });
+        
+        if (!response.ok) throw new Error("Course not found");
+
+        const data = await response.json();
+        setInitialData(data);
+      } catch (error) {
+        if (error.name !== "AbortError") {
+          toast.error("Could not load course details");
+        }
+      } finally {
+        // Fix: Only stop the loading screen if the fetch wasn't cancelled
+        if (!controller.signal.aborted) {
+          setIsFetching(false);
+        }
+      }
+    };
+
     if (params?.id) {
-      fetchCourse(params.id, controller.signal);
+      fetchCourse();
     }
 
-    return () => controller.abort(); // Cleanup on unmount
-  }, [params?.id, fetchCourse]);
+    return () => controller.abort(); // Cleanup if user leaves page early
+  }, [params?.id]);
 
+  // 2. Handle form save
   const onSubmit = async (values) => {
-    setLoading(true);
+    setIsSubmitting(true);
     try {
       const response = await fetch(`/api/course/${params.id}`, {
         method: "PUT",
@@ -53,22 +60,20 @@ const EditCoursePage = () => {
         body: JSON.stringify(values),
       });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Failed to update course");
-      }
+      if (!response.ok) throw new Error("Failed to update course");
 
       toast.success("Course updated successfully!");
       router.push("/admin/courses");
-      router.refresh(); // Forces server components to fetch fresh data
+      router.refresh();
     } catch (error) {
       toast.error(error.message || "Error updating course");
     } finally {
-      setLoading(false);
+      setIsSubmitting(false);
     }
   };
 
-  if (fetching) {
+  // 3. Loading Screen
+  if (isFetching) {
     return (
       <div className="min-h-[60vh] flex flex-col items-center justify-center gap-4">
         <Loader2 className="h-10 w-10 animate-spin text-slate-400" />
@@ -77,17 +82,20 @@ const EditCoursePage = () => {
     );
   }
 
-  // Handle case where fetch finished but no data was found
+  // 4. Error Screen (if fetch fails)
   if (!initialData) {
     return (
       <div className="min-h-[60vh] flex flex-col items-center justify-center gap-2">
         <AlertCircle className="h-10 w-10 text-destructive" />
         <p className="text-slate-500">Course not found.</p>
-        <Link href="/admin/courses" className="text-blue-500 underline text-sm">Back to courses</Link>
+        <Link href="/admin/courses" className="text-blue-500 underline text-sm">
+          Back to courses
+        </Link>
       </div>
     );
   }
 
+  // 5. Main Form Screen
   return (
     <div className="min-h-screen pb-20">
       <div className="bg-white border-b mb-14 border-slate-200">
@@ -120,7 +128,7 @@ const EditCoursePage = () => {
       <div className="max-w-7xl mx-auto px-4">
         <CourseForm
           onSubmit={onSubmit}
-          loading={loading}
+          loading={isSubmitting}
           initialData={initialData}
         />
       </div>

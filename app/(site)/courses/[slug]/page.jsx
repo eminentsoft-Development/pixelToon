@@ -33,19 +33,6 @@ export async function generateMetadata({ params }) {
 }
 
 const Page = async ({ params }) => {
-  const sampleOpportunitiesData = {
-    opportunitiesDesc:
-      "Graduates of this program are highly sought after by top creative agencies and tech companies worldwide. Upon successful completion, you will be well-equipped to transition into the following high-growth roles:",
-    opportunities: [
-      { value: "Senior UI/UX Designer" },
-      { value: "Digital Product Designer" },
-      { value: "Frontend Web Developer" },
-      { value: "Interactive Art Director" },
-      { value: "Visual Designer" },
-      { value: "Webflow Expert" },
-      { value: "Creative Technologist" },
-    ],
-  };
 
   const { slug } = await params;
   const coursePromise = getCourse(slug);

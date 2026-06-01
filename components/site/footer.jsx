@@ -9,7 +9,7 @@ import {
   Youtube,
 } from "lucide-react";
 
-const Footer = () => {
+const Footer = ({ courses = [] }) => {
   const currentYear = new Date().getFullYear();
 
   return (
@@ -61,7 +61,7 @@ const Footer = () => {
           {/* Column 2: Quick Links */}
           <div>
             <h4 className="text-white font-bold mb-6 uppercase tracking-wider text-sm">
-              Navigation
+              Quick Links
             </h4>
             <ul className="space-y-4 text-sm">
               <li>
@@ -71,7 +71,7 @@ const Footer = () => {
               </li>
               <li>
                 <Link
-                  href="/about"
+                  href="/about-us"
                   className="hover:text-white transition-colors"
                 >
                   About Us
@@ -79,7 +79,7 @@ const Footer = () => {
               </li>
               <li>
                 <Link
-                  href="/cources"
+                  href="/courses"
                   className="hover:text-white transition-colors"
                 >
                   Our Courses
@@ -95,7 +95,7 @@ const Footer = () => {
               </li>
               <li>
                 <Link
-                  href="/blogs"
+                  href="/blog"
                   className="hover:text-white transition-colors"
                 >
                   Blogs
@@ -105,51 +105,28 @@ const Footer = () => {
           </div>
 
           {/* Column 3: Services/Legal */}
-          <div>
+         <div>
             <h4 className="text-white font-bold mb-6 uppercase tracking-wider text-sm">
-              Services
+              Our Courses
             </h4>
             <ul className="space-y-4 text-sm">
-              <li>
-                <Link
-                  href="/courses/diploma-in-graphic-design"
-                  className="hover:text-white transition-colors"
-                >
-                  Diploma in graphic design
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/courses/diploma-in-photography-courses"
-                  className="hover:text-white transition-colors"
-                >
-                  Diploma in photography courses
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/courses/diploma-in-film-editing"
-                  className="hover:text-white transition-colors"
-                >
-                  Diploma in film editing
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/courses/integrated-diploma-in-graphics-and-3d"
-                  className="hover:text-white transition-colors"
-                >
-                  Diploma in graphics and 3d
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/courses/ai-film-making-course"
-                  className="hover:text-white transition-colors"
-                >
-                  Ai film making course
-                </Link>
-              </li>
+              {courses.length > 0 ? (
+                courses.slice(0, 5).map((course, index) => (
+                  <li key={index}>
+                    <Link
+                      href={course.path}
+                      className="hover:text-white transition-colors capitalize"
+                    >
+                      {course.title}
+                    </Link>
+                  </li>
+                ))
+              ) : (
+                // Fallback in case the database is down or empty
+                <li>
+                  <span className="text-gray-500">Courses updating soon...</span>
+                </li>
+              )}
             </ul>
           </div>
 

@@ -31,6 +31,7 @@ export async function POST(request) {
   }
 }
 
+
 export async function GET(request) {
   try {
     await connectDB();
@@ -41,17 +42,34 @@ export async function GET(request) {
     const limit = parseInt(searchParams.get("limit")) || 10;
     const skip = (page - 1) * limit;
 
-    // 2. Fetch blogs and total count in parallel for better performance
+    // 2. Build the query object for filtering
+    const query = {};
+    
+    // Search Filter
+    const search = searchParams.get("search");
+    if (search) {
+      query.title = { $regex: search, $options: "i" };
+    }
+
+    // Status Filter
+    const status = searchParams.get("status");
+    if (status === "published") {
+      query.isPublished = true;
+    } else if (status === "draft") {
+      query.isPublished = false;
+    }
+
+    // 3. Fetch blogs and total count in parallel using the constructed query
     const [blogs, totalBlogs] = await Promise.all([
-      Blog.find()
+      Blog.find(query)
         .sort({ createdAt: -1 })
         .skip(skip)
         .limit(limit)
         .lean(),
-      Blog.countDocuments(),
+      Blog.countDocuments(query), // IMPORTANT: Pass the query here too so pagination count is accurate!
     ]);
 
-    // 3. Return the data along with pagination metadata
+    // 4. Return the data
     return NextResponse.json({
       blogs,
       totalPages: Math.ceil(totalBlogs / limit),

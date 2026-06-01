@@ -38,11 +38,14 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import ImageUpload from "@/components/admin/ImageUpload";
 import { cn } from "@/lib/utils";
 
-import dynamic from 'next/dynamic';
-const RichTextEditor = dynamic(() => import('@/components/editor/RichTextEditor'), {
-  ssr: false, // Editors usually rely on browser APIs, so disable SSR
-  loading: () => <p>Loading editor...</p>
-});
+import dynamic from "next/dynamic";
+const RichTextEditor = dynamic(
+  () => import("@/components/editor/RichTextEditor"),
+  {
+    ssr: false, // Editors usually rely on browser APIs, so disable SSR
+    loading: () => <p>Loading editor...</p>,
+  },
+);
 // ─── Schema ──────────────────────────────────────────────────────────────────
 const formSchema = z.object({
   title: z.string().min(5, "Course title must be at least 5 characters"),
@@ -150,7 +153,6 @@ const AddButton = ({ onClick, label }) => (
 
 // ─── CourseForm ───────────────────────────────────────────────────────────────
 const CourseForm = ({ onSubmit, loading, initialData }) => {
-
   console.log("Initial form data:", initialData); // Debug log to check incoming data
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -298,6 +300,18 @@ const CourseForm = ({ onSubmit, loading, initialData }) => {
                             "h-10 text-sm font-mono",
                           )}
                           {...field}
+                          // Add this custom onChange handler:
+                          onChange={(e) => {
+                            const newSlug = e.target.value;
+                            field.onChange(e); // Updates the slug field
+
+                            // Auto-fill the canonical URL
+                            form.setValue(
+                              "canonicalUrl",
+                              `https://pixeltoonzacademy.com/courses/${newSlug}`,
+                              { shouldValidate: true, shouldDirty: true },
+                            );
+                          }}
                         />
                       </FormControl>
                       <FormMessage />
@@ -605,6 +619,7 @@ const CourseForm = ({ onSubmit, loading, initialData }) => {
                     </FormLabel>
                     <FormControl>
                       <Input
+                        placeholder="Full Link - https://pixeltoonzacademy.com/courses/your-course-slug"
                         className={inputCn(
                           fieldState.error,
                           "h-10 text-sm font-mono",
@@ -692,7 +707,7 @@ const CourseForm = ({ onSubmit, loading, initialData }) => {
                         <Checkbox
                           checked={field.value}
                           onCheckedChange={field.onChange}
-                          className="border-slate-300 data-[state=checked]:bg-slate-800 data-[state=checked]:border-slate-800"
+                          className="border-slate-300  data-[state=checked]:border-slate-800"
                         />
                       </FormControl>
                       <div className="space-y-0.5 leading-none">
