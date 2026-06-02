@@ -7,7 +7,7 @@ export async function generateMetadata() {
     title: "Latest Events New - Pixeltoonz",
     description: "Our latest events have been filled with creativity, learning, and vibrant energy across a range of exciting themes.",
     alternates: {
-      canonical: "https://pixeltoonzacademy.com/gallery/latest-events",
+      canonical: "https://www.pixeltoonzacademy.com/latest-events-new",
     }
   }
 }

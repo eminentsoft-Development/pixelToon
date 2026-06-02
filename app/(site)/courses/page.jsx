@@ -13,7 +13,7 @@ export const metadata = {
     "Pixeltoonz is one among the top educational institution in Kerala, providing the best multimedia courses in Animation, VFX, 3D Design.",
   keywords: [],
   alternates: {
-    canonical: "https://pixeltoonzacademy.com/courses",
+    canonical: "https://www.pixeltoonzacademy.com/courses",
   },
 };
 

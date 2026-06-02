@@ -12,7 +12,7 @@ export const metadata = {
     "Best graphic design education in Kerala on our blog. Unleash your creativity with expert guidance, hands-on tutorials, and industry insights.",
   keywords: [],
   alternates: {
-    canonical: "https://pixeltoonzacademy.com/blogs",
+    canonical: "https://www.pixeltoonzacademy.com/blogs",
   },
 };
 

@@ -36,6 +36,7 @@ export default async function sitemap() {
       "/courses",
       "/contact-us",
       "/blog",
+      "/faq",
       "/franchise-supports",
       "/gallery",
       "/latest-events-new",

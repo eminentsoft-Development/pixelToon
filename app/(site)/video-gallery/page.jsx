@@ -6,7 +6,7 @@ export const metadata = {
   description:
     "Watch the latest VFX, animation, and film editing showreels created by Pixeltoonz students.",
   alternates: {
-    canonical: "https://pixeltoonzacademy.com/gallery/video-gallery",
+    canonical: "https://www.pixeltoonzacademy.com/video-gallery",
   },
 };
 

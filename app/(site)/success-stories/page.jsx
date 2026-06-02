@@ -14,7 +14,7 @@ export async function generateMetadata() {
     description:
       "Discover inspiring success stories from our talented students at Pixeltoonz Academy, showcasing their creative journeys and achievements in the world of VFX, animation, and graphic design.",
     alternates: {
-      canonical: "https://pixeltoonzacademy.com/success-stories",
+      canonical: "https://www.pixeltoonzacademy.com/success-stories",
     },
   };
 }

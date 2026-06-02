@@ -5,7 +5,7 @@ export async function generateMetadata() {
     title: "Gallery - Pixeltoonz",
     description: "",
     alternates: {
-      canonical: "https://pixeltoonzacademy.com/gallery/students-work",
+      canonical: "https://www.pixeltoonzacademy.com/gallery",
     }
   }
 }

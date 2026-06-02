@@ -156,7 +156,7 @@ export const metadata = {
     "PixelToonz Academy offers the best graphic design course in Kerala. Elevate your skills with expert-led programs.",
   keywords: [],
   alternates: {
-    canonical: "https://pixeltoonzacademy.com/contact-us",
+    canonical: "https://www.pixeltoonzacademy.com/contact-us",
   },
 };
 

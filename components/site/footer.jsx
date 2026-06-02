@@ -101,6 +101,14 @@ const Footer = ({ courses = [] }) => {
                   Blogs
                 </Link>
               </li>
+              <li>
+                <Link
+                  href="/faq"
+                  className="hover:text-white transition-colors"
+                >
+                  Faqs
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -111,7 +119,7 @@ const Footer = ({ courses = [] }) => {
             </h4>
             <ul className="space-y-4 text-sm">
               {courses.length > 0 ? (
-                courses.slice(0, 5).map((course, index) => (
+                courses.slice(0, 6).map((course, index) => (
                   <li key={index}>
                     <Link
                       href={course.path}
@@ -159,10 +167,10 @@ const Footer = ({ courses = [] }) => {
         <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs">
           <p>© {currentYear} Pixeltoonz Academy. All rights reserved.</p>
           <div className="flex gap-6">
-            <Link href="/privacy" className="hover:text-white transition-colors">
+            <Link href="#" className="hover:text-white transition-colors">
               Privacy Policy
             </Link>
-            <Link href="/terms" className="hover:text-white transition-colors">
+            <Link href="#" className="hover:text-white transition-colors">
               Terms of Service
             </Link>
           </div>

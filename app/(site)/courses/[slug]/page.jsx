@@ -27,7 +27,7 @@ export async function generateMetadata({ params }) {
     description: course?.metaDescription,
     alternates: {
       canonical:
-        course?.canonicalUrl || `https://pixeltoonzacademy.com/courses/${slug}`,
+        course?.canonicalUrl || `https://www.pixeltoonzacademy.com/courses/${slug}`,
     },
   };
 }

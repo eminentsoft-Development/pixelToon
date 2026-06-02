@@ -6,7 +6,7 @@ export const metadata = {
     "The best photography and graphic design courses in Kerala. Learn from experienced professionals and take your skills to the next level.",
   keywords: [],
   alternates: {
-    canonical: "https://pixeltoonzacademy.com/about-us",
+    canonical: "https://www.pixeltoonzacademy.com/about-us",
   },
 };
 

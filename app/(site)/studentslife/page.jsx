@@ -4,11 +4,11 @@ import SimpleGalleryClient from "@/components/site/StudentEventClient";
 
 export async function generateMetadata() {
   return {
-    title: "Latest Events - Pixeltoonz Academy",
+    title: "Student - Pixeltoonz",
     description:
-      "Our latest events and vibrant energy across a range of exciting themes.",
+      "OUR PROJECT DISCOVER OUR MOVIES 9.5 RATING 120 MIN Pixeltoonz Gallery Welcome to the Pixeltoonz Academy Events &amp; Student Life gallery! Here, we showcase the vibrant atmosphere that defines our creative community.",
     alternates: {
-      canonical: "https://pixeltoonzacademy.com/gallery/students-life-events",
+      canonical: "https://www.pixeltoonzacademy.com/studentslife",
     },
   };
 }
