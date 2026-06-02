@@ -22,8 +22,8 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
-import RichTextEditor from "@/components/admin/RichTextEditor";
 import ImageUpload from "@/components/admin/ImageUpload";
+import RichTextEditor from "../editor/RichTextEditor";
 
 const formSchema = z.object({
   title: z.string().min(5, "Title must be at least 5 characters"),

@@ -36,12 +36,12 @@ export default function CourseOverview({
             {/* IMAGES */}
             {/* <section className="">
               <ImageGallery images={images} />
-            </section> */}
+            </section> 
             <section className="relative pt-12  border-b border-gray-300 mb-14">
               <h1 className="text-[clamp(2.4rem,5vw,4rem)] w-[85%] italic leading-[1.1] text-[#131313] mb-6 tracking-tight">
                 {title}
               </h1>
-            </section>
+            </section>*/}
 
             {/* DESCRIPTION */}
             <section className="mb-[72px]">

@@ -19,7 +19,7 @@ export async function generateMetadata({ params }) {
     title: post.metaTitle || post.title,
     description: post.metaDescription || post.description,
     alternates: {
-      canonical: post.canonicalUrl || `https://www.pixeltoonzacademy.com/blog/${slug}`,
+      canonical: post.canonicalUrl || `https://www.pixeltoonzacademy.com/${slug}`,
     },
     openGraph: {
       title: post.metaTitle || post.title,

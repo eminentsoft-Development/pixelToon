@@ -4,6 +4,7 @@ import NextBundleAnalyzer from "@next/bundle-analyzer";
 const nextConfig = {
   async redirects() {
     return [
+      // url replacement redirection
       {
         source: "/integrated-diploma-in-graphics-3d",
         destination: "/courses/integrated-diploma-in-graphics-3d",
@@ -91,6 +92,52 @@ const nextConfig = {
       {
         source: "/diploma-in-multimedia",
         destination: "/courses/multimedia",
+        permanent: true,
+      },
+      // Trailing slash redirection
+      {
+        source: "/contact-us/",
+        destination: "/contact-us",
+        permanent: true,
+      },
+      {
+        source: "/about-us/",
+        destination: "/about-us",
+        permanent: true,
+      },
+      {
+        source: "/faq/",
+        destination: "/faq",
+        permanent: true,
+      },
+      {
+        source: "/courses/",
+        destination: "/courses",
+        permanent: true,
+      },
+      {
+        source: "/blog/",
+        destination: "/blog",
+        permanent: true,
+      },
+      {
+        source: "/gallery/",
+        destination: "/gallery",
+        permanent: true,
+      },
+      {
+        source: "/video-gallery/",
+        destination: "/video-gallery",
+        permanent: true,
+      },
+      {
+        source: "/studentslife/",
+        destination: "/studentslife",
+        permanent: true,
+      },
+      {
+        source: "/latest-events-new/",
+        destination: "/latest-events-new",
         permanent: true,
       },
     ];
