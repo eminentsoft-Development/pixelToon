@@ -22,7 +22,7 @@ export default function LatestBlogs({ blogs = [] }) {
 
           <ScrollReveal delay={100} direction="up">
             <Link
-              href="/blogs"
+              href="/blog"
               prefetch={false}
               className="flex items-center gap-2 bg-neutral-900 text-white px-7 py-3 rounded-full
                          font-bold hover:bg-yellow-500 hover:text-black transition-colors

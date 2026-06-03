@@ -87,7 +87,7 @@ const Footer = ({ courses = [] }) => {
               </li>
               <li>
                 <Link
-                  href="/contact"
+                  href="/contact-us"
                   className="hover:text-white transition-colors"
                 >
                   Contact

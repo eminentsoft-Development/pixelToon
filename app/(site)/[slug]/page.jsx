@@ -6,8 +6,6 @@ import Blog from "@/models/Blog";
 import Image from "next/image";
 import ContentRenderer from "@/components/site/ContentRenderer";
 
-
-
 export async function generateMetadata({ params }) {
   const { slug } = await params;
   await connectDB();
@@ -19,7 +17,8 @@ export async function generateMetadata({ params }) {
     title: post.metaTitle || post.title,
     description: post.metaDescription || post.description,
     alternates: {
-      canonical: post.canonicalUrl || `https://www.pixeltoonzacademy.com/${slug}`,
+      canonical:
+        post.canonicalUrl || `https://www.pixeltoonzacademy.com/${slug}`,
     },
     openGraph: {
       title: post.metaTitle || post.title,
@@ -48,16 +47,16 @@ export default async function SingleBlogPost({ params }) {
   }
 
   return (
-   
     <div className="min-h-screen text-black">
-      <Breadcrumbs />
+      <Breadcrumbs
+        items={[{ label: "Blogs", href: "/blog" }, { label: post.title }]}
+      />
       <div className="container py-10">
         <div className="page-layout">
           <main className="main-col">
-
             <section className="relative w-full h-[300px] md:h-[550px] overflow-hidden rounded-xl border border-gray-300">
-              <Image 
-                src={post.images?.[0]?.url || "/default-blog-image.jpg"} 
+              <Image
+                src={post.images?.[0]?.url || "/default-blog-image.jpg"}
                 alt={post.images?.[0]?.alt || post.title}
                 fill
                 priority // Tells Next.js to load this immediately
@@ -72,9 +71,9 @@ export default async function SingleBlogPost({ params }) {
                 {post.title}
               </h1>
             </section>
-            
+
             <section className="mb-[72px]">
-               <ContentRenderer content={post.content} />
+              <ContentRenderer content={post.content} />
             </section>
             <div className="mobile-form mb-16">
               <EnquiryForm />

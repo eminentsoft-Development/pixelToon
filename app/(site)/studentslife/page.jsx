@@ -22,7 +22,9 @@ export default async function EventsPage() {
 
   return (
     <div className="min-h-screen bg-neutral-50">
-      <Breadcrumbs />
+      <Breadcrumbs
+        items={[{ label: "Student Life" }]}
+      />
       <main className="container py-14">
         <SimpleGalleryClient images={items} />
       </main>
