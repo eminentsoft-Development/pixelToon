@@ -4,10 +4,20 @@ import React, { memo } from "react";
 import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
 import {
-  Home, Library, User, FileText, Sparkles,
-  Settings, ChevronRight, Camera, Code2, Film,
-  Video, Shapes,
+  Home,
+  Library,
+  User,
+  FileText,
+  Sparkles,
+  Settings,
+  ChevronRight,
+  Camera,
+  Code2,
+  Film,
+  Video,
+  Shapes,
 } from "lucide-react";
+import Link from "next/link";
 
 const makeFloatVariants = (delay = 0, yDelta = 15, rotateAngle = 0) => ({
   initial: { opacity: 0, scale: 0.9, rotate: rotateAngle },
@@ -25,19 +35,19 @@ const makeFloatVariants = (delay = 0, yDelta = 15, rotateAngle = 0) => ({
 });
 
 const cardVariants = {
-  topLeft:     makeFloatVariants(0,   -20, -12),
-  topRight:    makeFloatVariants(0.5,  20,  12),
-  bottomLeft:  makeFloatVariants(1,   -15,   6),
-  bottomRight: makeFloatVariants(1.5,  15,  -6),
+  topLeft: makeFloatVariants(0, -20, -12),
+  topRight: makeFloatVariants(0.5, 20, 12),
+  bottomLeft: makeFloatVariants(1, -15, 6),
+  bottomRight: makeFloatVariants(1.5, 15, -6),
 };
 
 const iconVariants = {
-  premiereProIcon: makeFloatVariants(1.8,  10, -20),
-  filmIcon:        makeFloatVariants(2.2, -15,  15),
-  cameraIcon:      makeFloatVariants(2.2, -15,  15),
-  code2Icon:       makeFloatVariants(1.4, -10,  25),
-  videoIcon:       makeFloatVariants(1.4, -10,  25),
-  shapesIcon:      makeFloatVariants(1.4, -10,  25),
+  premiereProIcon: makeFloatVariants(1.8, 10, -20),
+  filmIcon: makeFloatVariants(2.2, -15, 15),
+  cameraIcon: makeFloatVariants(2.2, -15, 15),
+  code2Icon: makeFloatVariants(1.4, -10, 25),
+  videoIcon: makeFloatVariants(1.4, -10, 25),
+  shapesIcon: makeFloatVariants(1.4, -10, 25),
 };
 
 const COURSE_IMAGES = [
@@ -49,7 +59,14 @@ const COURSE_IMAGES = [
   "/home/image2.webp",
 ];
 
-const MENU_ITEMS = ["About Us", "Vision", "Leadership", "Programs", "Courses", "Rankings", "Accreditation"];
+const MENU_ITEMS = [
+  { name: "About Us", link: "/about-us" },
+  { name: "Vision", link: "/about-us" },
+  { name: "Mission", link: "/about-us" },
+  { name: "Courses", link: "/courses" },
+  { name: "Moments", link: "/studentslife" },
+  { name: "Highlights", link: "/latest-events-new" },
+];
 
 const CourseCard = memo(({ src, index }) => (
   <div className="relative group h-36 rounded-[16px] bg-white border border-gray-100 flex flex-col justify-end p-5 overflow-hidden hover:border-[#f07822]/30 hover:shadow-xl transition-all cursor-pointer">
@@ -92,76 +109,126 @@ const HeroSection = () => {
             />
           </motion.div>
 
-          <motion.div variants={iconVariants.filmIcon} initial="initial" animate="animate"
-            className="absolute top-[86%] left-[8%] p-4 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 text-white/80 shadow-xl">
+          <motion.div
+            variants={iconVariants.filmIcon}
+            initial="initial"
+            animate="animate"
+            className="absolute top-[86%] left-[8%] p-4 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 text-white/80 shadow-xl"
+          >
             <Film size={30} strokeWidth={1.2} />
           </motion.div>
 
-          <motion.div variants={iconVariants.cameraIcon} initial="initial" animate="animate"
-            className="absolute top-[20%] right-[33%] p-4 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 text-white/80 shadow-xl">
+          <motion.div
+            variants={iconVariants.cameraIcon}
+            initial="initial"
+            animate="animate"
+            className="absolute top-[20%] right-[33%] p-4 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 text-white/80 shadow-xl"
+          >
             <Camera size={30} strokeWidth={1.2} />
           </motion.div>
 
-          <motion.div variants={iconVariants.code2Icon} initial="initial" animate="animate"
-            className="absolute top-[28%] left-[33%] p-4 bg-white/10 backdrop-blur-md rounded-full border border-white/20 text-white shadow-xl">
+          <motion.div
+            variants={iconVariants.code2Icon}
+            initial="initial"
+            animate="animate"
+            className="absolute top-[28%] left-[33%] p-4 bg-white/10 backdrop-blur-md rounded-full border border-white/20 text-white shadow-xl"
+          >
             <Code2 size={28} strokeWidth={1.5} />
           </motion.div>
 
-          <motion.div variants={iconVariants.videoIcon} initial="initial" animate="animate"
-            className="absolute bottom-[-62%] left-[60%] p-4 bg-white/10 backdrop-blur-md rounded-full border border-white/20 text-white shadow-xl">
+          <motion.div
+            variants={iconVariants.videoIcon}
+            initial="initial"
+            animate="animate"
+            className="absolute bottom-[-62%] left-[60%] p-4 bg-white/10 backdrop-blur-md rounded-full border border-white/20 text-white shadow-xl"
+          >
             <Video size={28} strokeWidth={1.5} />
           </motion.div>
 
-          <motion.div variants={iconVariants.shapesIcon} initial="initial" animate="animate"
-            className="absolute bottom-[-55%] left-[33%] p-4 bg-white/10 backdrop-blur-md rounded-full border border-white/20 text-white shadow-xl">
+          <motion.div
+            variants={iconVariants.shapesIcon}
+            initial="initial"
+            animate="animate"
+            className="absolute bottom-[-55%] left-[33%] p-4 bg-white/10 backdrop-blur-md rounded-full border border-white/20 text-white shadow-xl"
+          >
             <Shapes size={28} strokeWidth={1.5} />
           </motion.div>
         </div>
       )}
 
       <div className="relative min-h-[1200px] flex flex-col items-center justify-center w-full font-sans overflow-hidden">
-
         {/* Floating Image Cards */}
         {!prefersReducedMotion && (
           <>
-            <motion.div variants={cardVariants.topLeft} initial="initial" animate="animate"
-              className="absolute top-[6%] left-[2%] w-[450px] h-[320px] rounded-[45px] p-[15px] bg-white/25 backdrop-blur-md border border-white/30 shadow-2xl z-0 hidden xl:flex">
+            <motion.div
+              variants={cardVariants.topLeft}
+              initial="initial"
+              animate="animate"
+              className="absolute top-[6%] left-[2%] w-[450px] h-[320px] rounded-[45px] p-[15px] bg-white/25 backdrop-blur-md border border-white/30 shadow-2xl z-0 hidden xl:flex"
+            >
               <div className="relative w-full h-full rounded-[35px] overflow-hidden bg-black">
-                <Image src="/home/floating-img-1.webp" alt="Creative Media Production" fill
-                  priority
-                  sizes="420px"
-                  className="object-cover" />
-              </div>
-            </motion.div>
-
-            <motion.div variants={cardVariants.topRight} initial="initial" animate="animate"
-              className="absolute top-[8%] right-[2%] w-[450px] h-[320px] rounded-[45px] p-[15px] bg-white/25 backdrop-blur-md border border-white/30 shadow-2xl z-0 hidden xl:flex">
-              <div className="relative w-full h-full rounded-[35px] overflow-hidden bg-[#1a1125]">
-                <Image src="/home/vfx-and-animation-courses-in-kerala.webp" alt="VFX and Animation Courses"
+                <Image
+                  src="/home/floating-img-1.webp"
+                  alt="Creative Media Production"
                   fill
                   priority
                   sizes="420px"
-                  className="object-cover" />
+                  className="object-cover"
+                />
               </div>
             </motion.div>
 
-            <motion.div variants={cardVariants.bottomLeft} initial="initial" animate="animate"
-              className="absolute bottom-[5%] left-[1%] w-[450px] h-[320px] rounded-[45px] p-[15px] bg-white/25 backdrop-blur-md border border-white/30 shadow-xl z-0 hidden xl:flex items-center justify-center">
+            <motion.div
+              variants={cardVariants.topRight}
+              initial="initial"
+              animate="animate"
+              className="absolute top-[8%] right-[2%] w-[450px] h-[320px] rounded-[45px] p-[15px] bg-white/25 backdrop-blur-md border border-white/30 shadow-2xl z-0 hidden xl:flex"
+            >
               <div className="relative w-full h-full rounded-[35px] overflow-hidden bg-[#1a1125]">
-                <Image src="/home/floating-img-2.webp" alt="Creative Design Course Work" fill
+                <Image
+                  src="/home/vfx-and-animation-courses-in-kerala.webp"
+                  alt="VFX and Animation Courses"
+                  fill
+                  priority
                   sizes="420px"
-                  loading="lazy"
-                  className="object-cover" />
+                  className="object-cover"
+                />
               </div>
             </motion.div>
 
-            <motion.div variants={cardVariants.bottomRight} initial="initial" animate="animate"
-              className="absolute bottom-[2%] right-[1%] w-[450px] h-[320px] rounded-[45px] p-[15px] bg-white/25 backdrop-blur-md border border-white/30 shadow-xl z-0 hidden xl:flex items-center justify-center">
+            <motion.div
+              variants={cardVariants.bottomLeft}
+              initial="initial"
+              animate="animate"
+              className="absolute bottom-[5%] left-[1%] w-[450px] h-[320px] rounded-[45px] p-[15px] bg-white/25 backdrop-blur-md border border-white/30 shadow-xl z-0 hidden xl:flex items-center justify-center"
+            >
               <div className="relative w-full h-full rounded-[35px] overflow-hidden bg-[#1a1125]">
-                <Image src="/home/floating-img-3.webp" alt="Student Visual Project Portfolio" fill
+                <Image
+                  src="/home/floating-img-2.webp"
+                  alt="Creative Design Course Work"
+                  fill
                   sizes="420px"
                   loading="lazy"
-                  className="object-cover" />
+                  className="object-cover"
+                />
+              </div>
+            </motion.div>
+
+            <motion.div
+              variants={cardVariants.bottomRight}
+              initial="initial"
+              animate="animate"
+              className="absolute bottom-[2%] right-[1%] w-[450px] h-[320px] rounded-[45px] p-[15px] bg-white/25 backdrop-blur-md border border-white/30 shadow-xl z-0 hidden xl:flex items-center justify-center"
+            >
+              <div className="relative w-full h-full rounded-[35px] overflow-hidden bg-[#1a1125]">
+                <Image
+                  src="/home/floating-img-3.webp"
+                  alt="Student Visual Project Portfolio"
+                  fill
+                  sizes="420px"
+                  loading="lazy"
+                  className="object-cover"
+                />
               </div>
             </motion.div>
           </>
@@ -170,32 +237,46 @@ const HeroSection = () => {
         {/* Central UI Card */}
         <div className="relative z-10 mb-6 w-full max-w-5xl rounded-[50px] p-[18px] bg-white/25 backdrop-blur-xl border border-white/30 shadow-[0_40px_100px_-20px_rgba(0,0,0,0.2)] overflow-hidden">
           <div className="grid grid-cols-12 min-h-[700px] rounded-[40px] overflow-hidden bg-white/80">
-
             <aside className="col-span-12 lg:col-span-3 bg-gray-50 p-6 flex flex-col gap-5 border-r border-gray-100">
               <div className="bg-black text-white rounded-[35px] p-5 shadow-2xl">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-9 h-9 rounded-full bg-[#f07822] flex items-center justify-center font-black text-sm text-white">
                     S
                   </div>
-                  <span className="text-[11px] font-black uppercase tracking-widest">Student Portal</span>
+                  <span className="text-[11px] font-black uppercase tracking-widest">
+                    Student Portal
+                  </span>
                 </div>
                 <nav className="space-y-5">
                   <div className="flex items-center gap-4 text-[#f07822] font-black cursor-pointer">
                     <Home size={20} /> <span className="text-sm">Home</span>
                   </div>
                   <div className="flex items-center gap-4 text-gray-500 cursor-pointer hover:text-white transition-colors">
-                    <Library size={20} /> <span className="text-sm">Library</span>
+                    <Library size={20} />{" "}
+                    <span className="text-sm">Library</span>
                   </div>
                 </nav>
               </div>
 
               <div className="flex-1 bg-white/60 rounded-[35px] p-7 border border-gray-100 shadow-sm">
-                <h3 className="text-[10px] font-black uppercase tracking-[0.25em] text-gray-400 mb-6">Explore Menu</h3>
+                <h3 className="text-[10px] font-black uppercase tracking-[0.25em] text-gray-400 mb-6">
+                  Explore Menu
+                </h3>
                 <ul className="space-y-4">
                   {MENU_ITEMS.map((item) => (
-                    <li key={item} className="flex items-center gap-3 text-gray-600 hover:text-[#f07822] cursor-pointer text-[13px] font-bold group">
-                      <span className="text-[8px] text-[#f07822] group-hover:translate-x-1 transition-transform" aria-hidden="true">▶</span>
-                      {item}
+                    <li key={item.name}>
+                      <Link
+                        href={item.link}
+                        className="flex items-center gap-3 text-gray-600 hover:text-[#f07822] cursor-pointer text-[13px] font-bold group"
+                      >
+                        <span
+                          className="text-[8px] text-[#f07822] group-hover:translate-x-1 transition-transform"
+                          aria-hidden="true"
+                        >
+                          ▶
+                        </span>
+                        {item.name}
+                      </Link>
                     </li>
                   ))}
                 </ul>
@@ -208,24 +289,37 @@ const HeroSection = () => {
                   <div className="absolute -top-24 -right-24 w-64 h-64 bg-[#f07822]/20 blur-[100px] rounded-full" />
                 </div>
                 <h1 className="relative z-10 text-3xl md:text-5xl font-black text-white text-center uppercase tracking-tighter">
-                  Learn Today<br />
+                  Learn Today
+                  <br />
                   <span className="text-[#f07822]">Earn Tomorrow</span>
                 </h1>
-                
+
                 <div className="absolute -bottom-7 flex items-center bg-[#080808] border border-white/10 rounded-full w-64 md:w-96 px-6 justify-evenly py-3 gap-4 md:gap-10 lg:gap-14 shadow-[0_20px_50px_rgba(0,0,0,0.5)] z-20">
-                  <button aria-label="View Profile" className="text-gray-400 hover:text-white transition-colors">
+                  <button
+                    aria-label="View Profile"
+                    className="text-gray-400 hover:text-white transition-colors"
+                  >
                     <User size={20} />
                   </button>
-                  <button aria-label="Documentation" className="text-gray-400 hover:text-white transition-colors">
+                  <button
+                    aria-label="Documentation"
+                    className="text-gray-400 hover:text-white transition-colors"
+                  >
                     <FileText size={20} />
                   </button>
                   <div aria-hidden="true">
                     <Sparkles size={20} className="text-[#f07822]" />
                   </div>
-                  <button aria-label="Settings" className="text-gray-400 hover:text-white transition-colors">
+                  <button
+                    aria-label="Settings"
+                    className="text-gray-400 hover:text-white transition-colors"
+                  >
                     <Settings size={20} />
                   </button>
-                  <button aria-label="Next Page" className="w-10 h-10 rounded-full bg-[#f07822] flex items-center justify-center text-white cursor-pointer hover:scale-110 transition-all shadow-lg shadow-[#f07822]/40">
+                  <button
+                    aria-label="Next Page"
+                    className="w-10 h-10 rounded-full bg-[#f07822] flex items-center justify-center text-white cursor-pointer hover:scale-110 transition-all shadow-lg shadow-[#f07822]/40"
+                  >
                     <ChevronRight size={22} strokeWidth={3} />
                   </button>
                 </div>
@@ -233,7 +327,9 @@ const HeroSection = () => {
 
               <div className="relative z-10">
                 <div className="flex justify-between items-end mb-8 px-2">
-                  <h2 className="text-lg md:text-2xl font-black uppercase tracking-tight leading-none">Featured Courses</h2>
+                  <h2 className="text-lg md:text-2xl font-black uppercase tracking-tight leading-none">
+                    Featured Courses
+                  </h2>
                   <span className="text-[11px] font-bold text-[#f07822] uppercase tracking-widest cursor-pointer border-b-2 border-[#f07822] pb-0.5 transition-all">
                     View All
                   </span>

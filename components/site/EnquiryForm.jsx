@@ -80,7 +80,6 @@ export function EnquiryForm({ courseList = [], currentCourse }) {
 
           <input
             type="text"
-            placeholder="John Doe"
             value={form.fullname}
             onChange={(e) => handleChange("fullname", e.target.value)}
             className="w-full px-4 py-3 bg-white/[0.03] border border-[#2a2a35] rounded-[2px] text-[#f0ede6] font-sans-dm text-[0.88rem] outline-none transition-all duration-200 focus:border-[#c9a84c] focus:bg-[rgba(201,168,76,0.03)] placeholder-[#8a8578]/50"
@@ -95,7 +94,6 @@ export function EnquiryForm({ courseList = [], currentCourse }) {
 
           <input
             type="tel"
-            placeholder="+91 98765 43210"
             value={form.phone}
             onChange={(e) => handleChange("phone", e.target.value)}
             className="w-full px-4 py-3 bg-white/[0.03] border border-[#2a2a35] rounded-[2px] text-[#f0ede6] font-sans-dm text-[0.88rem] outline-none transition-all duration-200 focus:border-[#c9a84c] focus:bg-[rgba(201,168,76,0.03)] placeholder-[#8a8578]/50"
@@ -137,7 +135,6 @@ export function EnquiryForm({ courseList = [], currentCourse }) {
           </label>
 
           <textarea
-            placeholder="Tell us about your goals..."
             value={form.message}
             onChange={(e) => handleChange("message", e.target.value)}
             rows={4}

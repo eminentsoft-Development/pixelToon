@@ -76,7 +76,7 @@ export default function AdminLogin() {
       {/* Left Side: Brand Imagery & Narrative */}
       <div className="hidden lg:block relative bg-dark-forest overflow-hidden">
         <Image
-          src="/admin/admin-portal.webp"
+          src="/admin-portal.webp"
           alt="Revolnix Heritage"
           fill
           className="object-cover"
