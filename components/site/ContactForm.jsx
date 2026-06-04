@@ -52,7 +52,7 @@ export default function ContactForm({ courses }) {
             <FormItem>
               <FormLabel className="uppercase text-xs font-bold tracking-widest text-neutral-500">Full Name</FormLabel>
               <FormControl>
-                <Input placeholder="John Doe" className="border-0 border-b rounded-none px-0 focus-visible:ring-0 focus-visible:border-yellow-500 transition-all bg-transparent" {...field} />
+                <Input className="border-0 border-b rounded-none px-0 focus-visible:ring-0 focus-visible:border-yellow-500 transition-all bg-transparent" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -61,7 +61,7 @@ export default function ContactForm({ courses }) {
             <FormItem>
               <FormLabel className="uppercase text-xs font-bold tracking-widest text-neutral-500">Phone Number</FormLabel>
               <FormControl>
-                <Input placeholder="+91 9525173764" className="border-0 border-b rounded-none px-0 focus-visible:ring-0 focus-visible:border-yellow-500 transition-all bg-transparent" {...field} />
+                <Input className="border-0 border-b rounded-none px-0 focus-visible:ring-0 focus-visible:border-yellow-500 transition-all bg-transparent" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -93,7 +93,7 @@ export default function ContactForm({ courses }) {
           <FormItem>
             <FormLabel className="uppercase text-xs font-bold tracking-widest text-neutral-500 italic">Message</FormLabel>
             <FormControl>
-              <Textarea placeholder="Tell us about your project..." className="border-0 border-b rounded-none px-0 focus-visible:ring-0 focus-visible:border-yellow-500 transition-all bg-transparent min-h-[100px] resize-none" {...field} />
+              <Textarea className="border-0 border-b rounded-none px-0 focus-visible:ring-0 focus-visible:border-yellow-500 transition-all bg-transparent min-h-[100px] resize-none" {...field} />
             </FormControl>
             <FormMessage />
           </FormItem>

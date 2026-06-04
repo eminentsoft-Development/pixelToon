@@ -5,6 +5,7 @@ import Breadcrumbs from "@/components/site/Breadcrumbs";
 import Blog from "@/models/Blog";
 import Image from "next/image";
 import ContentRenderer from "@/components/site/ContentRenderer";
+import { getCoursesForSelect } from "@/app/action/get-courses";
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
@@ -37,6 +38,7 @@ export async function generateMetadata({ params }) {
 
 export default async function SingleBlogPost({ params }) {
   const { slug } = await params;
+  const courses = await getCoursesForSelect();
 
   await connectDB();
 
@@ -76,12 +78,12 @@ export default async function SingleBlogPost({ params }) {
               <ContentRenderer content={post.content} />
             </section>
             <div className="mobile-form mb-16">
-              <EnquiryForm />
+              <EnquiryForm courseList={courses.data}/>
             </div>
           </main>
 
           <aside className="sidebar-col">
-            <EnquiryForm />
+            <EnquiryForm courseList={courses.data}/>
           </aside>
         </div>
       </div>

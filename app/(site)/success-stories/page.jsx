@@ -55,13 +55,13 @@ const SuccessStoriesPage = async ({ searchParams }) => {
                   key={story._id?.toString() ?? i}
                   className="group relative w-full overflow-hidden rounded-2xl shadow-md bg-slate-100
                              hover:shadow-xl transition-shadow duration-300"
-                  style={{ aspectRatio: "1 / 1" }}
+                  style={{ aspectRatio: "2 / 2.1" }}
                 >
                   <Image
                     src={story.imageUrl}
                     alt={story.altText || "Success Story"}
                     fill
-                    className="object-contain transition-transform duration-500 group-hover:scale-[1.03]"
+                    className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
                     priority={i < 4}
                     loading={i < 4 ? "eager" : "lazy"}

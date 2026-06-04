@@ -10,6 +10,7 @@ import LatestBlogs from "@/components/site/LatestBlogs";
 import { getFullCourses } from "@/lib/get-courses";
 import GoogleReviews from "@/components/site/GoogleReviews";
 import GetInTouch from "@/components/site/GetInTouch";
+import { getCoursesForSelect } from "../action/get-courses";
 
 export async function generateMetadata() {
   return {
@@ -24,12 +25,12 @@ export async function generateMetadata() {
 
 const Home = async () => {
   // Parallel data fetching for maximum speed
-  const [{ blogs }, { courses }] = await Promise.all([
+  const [{ blogs }, { courses }, courseList ] = await Promise.all([
     getBlogs(1, 9),
     getFullCourses(1, 12),
+    getCoursesForSelect(),
   ]);
 
-  const courseTitles = courses.map((c) => c.title);
 
   return (
     <>
@@ -46,7 +47,7 @@ const Home = async () => {
         <GoogleReviews />
       </Suspense>
 
-      <GetInTouch courses={courseTitles} />
+      <GetInTouch courses={courseList?.data} />
     </>
   );
 };
