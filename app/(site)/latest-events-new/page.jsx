@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { getEventsAction } from "@/app/action/event.actions";
 import EventsAlbum from "@/components/site/EventListing";
 import { Suspense } from "react";
