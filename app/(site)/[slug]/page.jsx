@@ -61,6 +61,7 @@ export default async function SingleBlogPost({ params }) {
                 src={post.images?.[0]?.url || "/default-blog-image.jpg"}
                 alt={post.images?.[0]?.alt || post.title}
                 fill
+                unoptimized
                 priority // Tells Next.js to load this immediately
                 className="object-cover transition-transform duration-500 hover:scale-105"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 66vw"

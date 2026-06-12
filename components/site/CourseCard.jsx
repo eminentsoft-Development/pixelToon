@@ -50,6 +50,7 @@ const CourseCard = memo(({ images, title, slug, description, tag, index }) => {
           }
           alt={title}
           fill
+          unoptimized
           loading="lazy"
           sizes="(max-width: 768px) 90vw, (max-width: 1024px) 50vw, 25vw"
           className="object-cover transition-transform duration-700 ease-[cubic-bezier(.22,1,.36,1)] group-hover:scale-[1.08]"

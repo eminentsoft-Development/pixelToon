@@ -34,6 +34,7 @@ const BlogCard = ({ index, title, slug, description, createdAt, images }) => {
             src={images?.[0]?.url || "/our-vision.jpg"}
             alt={images?.[0]?.alt || title}
             fill
+            unoptimized
             loading="lazy"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 33vw"
             className="object-cover transition-transform duration-700 group-hover:scale-110"

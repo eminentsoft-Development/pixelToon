@@ -21,6 +21,7 @@ export default function SimpleGalleryClient({ images }) {
               alt={item.title || "Gallery image"}
               width={600}
               height={800}
+              unoptimized
               sizes="(max-width: 768px) 100vw, 33vw"
               className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105"
               priority={index < 4}
@@ -39,6 +40,7 @@ export default function SimpleGalleryClient({ images }) {
               src={selectedImage}
               alt="Enlarged view"
               fill
+              unoptimized
               className="object-contain"
               quality={100}
             />
