@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { fetchVideoGallery } from "@/app/action/video";
 import VideoGalleryClient from "@/components/site/VideoGalleryClient";
 
