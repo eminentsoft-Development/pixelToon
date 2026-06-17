@@ -88,7 +88,7 @@ export default function GalleryClient() {
                   fill
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   className="object-cover transition-transform duration-500 group-hover:scale-105"
-                  quality={90}
+                  unoptimized={true}
                   priority={index < 4} // Improves LCP for the first few images
                 />
               </div>

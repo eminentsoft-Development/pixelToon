@@ -78,8 +78,7 @@ const nextConfig = {
       },
       {
         source: "/diploma-in-ai-cinematics-virtual-production",
-        destination:
-          "/courses/diploma-in-ai-cinematics-virtual-production",
+        destination: "/courses/diploma-in-ai-cinematics-virtual-production",
         permanent: true,
       },
 
@@ -144,6 +143,7 @@ const nextConfig = {
   },
   images: {
     formats: ["image/avif", "image/webp"],
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: "https",
