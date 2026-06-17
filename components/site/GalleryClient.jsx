@@ -9,34 +9,37 @@ export default function GalleryClient() {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
-  
+
   const itemsCountRef = useRef(0);
   const sentinelRef = useRef(null);
 
-  const loadImages = useCallback(
-    async (isInitial = false) => {
-      const skip = isInitial ? 0 : itemsCountRef.current;
-      
-      try {
-        const newItems = await fetchGalleryItems({ category: "students-work", skip });
-        
-        if (isInitial) {
-          setItems(newItems);
-          itemsCountRef.current = newItems.length;
-        } else {
-          setItems((prev) => [...prev, ...newItems]);
-          itemsCountRef.current += newItems.length;
-        }
+  const loadImages = useCallback(async (isInitial = false) => {
+    const skip = isInitial ? 0 : itemsCountRef.current;
+    // Fetch fewer items per batch (e.g., 9 instead of 12) to speed up response time
+    const limit = 9;
 
-        setHasMore(newItems.length >= 12);
-      } catch (err) {
-        console.error("Fetch Error:", err);
-      } finally {
-        setLoading(false);
+    try {
+      const newItems = await fetchGalleryItems({
+        category: "students-work",
+        skip,
+        limit,
+      });
+
+      if (isInitial) {
+        setItems(newItems);
+        itemsCountRef.current = newItems.length;
+      } else {
+        setItems((prev) => [...prev, ...newItems]);
+        itemsCountRef.current += newItems.length;
       }
-    },
-    [] 
-  );
+
+      setHasMore(newItems.length >= limit);
+    } catch (err) {
+      console.error("Fetch Error:", err);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
   // ─── INITIAL LOAD ───────────────────────────────────────────────────
   useEffect(() => {
@@ -53,12 +56,12 @@ export default function GalleryClient() {
           loadImages(false);
         }
       },
-      { rootMargin: "600px" } // Keeps the load feeling "ahead" of the scroll
+      { rootMargin: "600px" },
     );
 
     const currentSentinel = sentinelRef.current;
     if (currentSentinel) observer.observe(currentSentinel);
-    
+
     return () => {
       if (currentSentinel) observer.unobserve(currentSentinel);
     };
@@ -69,17 +72,17 @@ export default function GalleryClient() {
       <Breadcrumbs />
 
       <main className="container mx-auto py-10">
-        {/* MASONRY LAYOUT: Maintained as per your preference */}
         <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
           {items.map((item, index) => (
-            <div 
-              key={`${item.id}-${index}`} 
+            <div
+              key={`${item.id}-${index}`}
               className="break-inside-avoid group relative rounded-xl overflow-hidden bg-neutral-200 shadow-sm"
             >
-              <div 
+              <div
                 className="relative w-full"
-                style={{ 
-                  aspectRatio: index % 3 === 0 ? '3/4' : index % 2 === 0 ? '1/1' : '4/5' 
+                style={{
+                  aspectRatio:
+                    index % 3 === 0 ? "3/4" : index % 2 === 0 ? "1/1" : "4/5",
                 }}
               >
                 <Image
@@ -89,7 +92,7 @@ export default function GalleryClient() {
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   className="object-cover transition-transform duration-500 group-hover:scale-105"
                   unoptimized={true}
-                  priority={index < 4} // Improves LCP for the first few images
+                  priority={index < 3}
                 />
               </div>
             </div>
@@ -97,7 +100,10 @@ export default function GalleryClient() {
         </div>
 
         {/* LOADING INDICATOR / SENTINEL */}
-        <div ref={sentinelRef} className="h-40 flex items-center justify-center">
+        <div
+          ref={sentinelRef}
+          className="h-40 flex items-center justify-center"
+        >
           {loading && (
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500" />
           )}
