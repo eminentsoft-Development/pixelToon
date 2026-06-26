@@ -24,7 +24,8 @@ export const metadata = {
     "Learn Graphic Design, Animation & VFX, Video Editing, Videography, and Content Creation at Pixeltoonz with industry training and 100% placement support.",
   keywords: [],
   alternates: {
-    canonical: "https://www.pixeltoonzacademy.com/build-creative-skills-with-100-percent-placement-support",
+    canonical:
+      "https://www.pixeltoonzacademy.com/build-creative-skills-with-100-percent-placement-support",
   },
 };
 
@@ -293,13 +294,25 @@ export default async function CreativeHero() {
                 houses, tech companies, and even as independent professionals.
               </p>
             </div>
-            <ServiceEnquiry
-              btnName={"Enquire Now"}
-              serviceName={"course.title"}
-              classname={
-                "hover:bg-[#BC430D] bg-gray-900 px-16 py-4 rounded-xl text-white font-bold transition-colors text-base"
-              }
-            />
+            <div className="flex flex-col md:flex-row gap-3">
+              <ServiceEnquiry
+                btnName={"Enquire Now"}
+                serviceName={"course.title"}
+                classname={
+                  "hover:bg-[#BC430D] bg-gray-900 px-16 py-4 rounded-xl text-white font-bold transition-colors text-base"
+                }
+              />
+              <Link
+                href="https://wa.me/919745678780?text=Hi!%20I'm%20interested%20in%20your%20services.%20Could%20you%20please%20provide%20more%20details%3F"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-12 tracking-widest flex items-center justify-center gap-2 py-3.5 rounded-xl bg-green-500 text-white font-black text-base hover:scale-[1.02] transition-all duration-300 w-full sm:w-auto text-center"
+              >
+                <FaWhatsapp className="text-3xl text-white" />
+                WhatsApp
+              </Link>
+            </div>
+
             {/* <div className="space-y-8 pt-4">
               <div className="flex gap-4 group">
                 <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-white border border-gray-200 shadow-sm flex items-center justify-center text-[#F09410] group-hover:bg-[#F09410] group-hover:text-white group-hover:border-[#F09410] transition-all duration-300">
@@ -524,7 +537,7 @@ export default async function CreativeHero() {
             ))}
           </div>
 
-          {/* Footer CTA Strip */}
+          {/* Footer CTA Strip 
           <div className="mt-16 bg-gray-100 border p-8 md:p-12 rounded-[2rem] flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
             <div>
               <h4 className="text-xl font-bold text-black mb-1">
@@ -541,6 +554,44 @@ export default async function CreativeHero() {
                 "w-full md:w-fit px-8 py-5 text-lg bg-gradient-to-r from-[#F09410] to-[#BC430D] rounded-xl text-white font-bold hover:scale-105 transition-transform duration-300"
               }
             />
+          </div>*/}
+        </div>
+      </section>
+
+      <section className="pb-20 container mx-auto">
+        <div className="relative z-10 flex flex-col xl:flex-row items-center justify-between gap-8 bg-gradient-to-r from-[#F09410] to-[#BC430D]  p-6 md:p-12 lg:p-16 rounded-3xl md:rounded-[2rem] border border-white/20 backdrop-blur-sm overflow-hidden shadow-2xl">
+          {/* Subtle background glow */}
+          <div className="absolute top-0 right-0 w-96 h-96 bg-[#F09410]/10 rounded-full blur-[100px] pointer-events-none -translate-y-1/2 translate-x-1/4"></div>
+
+          {/* Left Content */}
+          <div className="text-center xl:text-left max-w-2xl">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-white mb-4 leading-tight">
+              Ready to start your placement journey?
+            </h2>
+            <p className="text-white/90 text-[15px] sm:text-base font-medium leading-relaxed">
+              Our counselors are waiting to discuss your career goals.
+            </p>
+          </div>
+
+          {/* Right Content - Buttons */}
+          <div className="flex flex-col sm:flex-row items-center justify-center xl:justify-end gap-3 w-full xl:w-auto shrink-0">
+            <ServiceEnquiry
+              btnName={"Schedule Free Counseling"}
+              serviceName=""
+              classname={
+                "px-8 py-4 rounded-xl bg-white text-[#F09410] font-bold text-base hover:bg-gray-50 hover:shadow-lg hover:scale-[1.02] transition-all duration-300 w-full sm:w-auto text-center"
+              }
+            />
+
+            <Link
+              href="https://wa.me/919745678780?text=Hi!%20I'm%20interested%20in%20your%20services.%20Could%20you%20please%20provide%20more%20details%3F"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-12 tracking-widest flex items-center justify-center gap-2 py-3.5 rounded-xl bg-green-500 text-white font-black text-base hover:scale-[1.02] transition-all duration-300 w-full sm:w-auto text-center"
+            >
+              <FaWhatsapp className="text-3xl text-white" />
+              WhatsApp
+            </Link>
           </div>
         </div>
       </section>
@@ -650,7 +701,7 @@ export default async function CreativeHero() {
               href="https://wa.me/919745678780?text=Hi!%20I'm%20interested%20in%20your%20services.%20Could%20you%20please%20provide%20more%20details%3F"
               target="_blank"
               rel="noopener noreferrer"
-              className="px-12 tracking-widest flex items-center justify-center gap-2 py-4 rounded-xl bg-green-500 text-white font-bold text-base hover:scale-[1.02] transition-all duration-300 w-full sm:w-auto text-center"
+              className="px-12 tracking-widest flex items-center justify-center gap-2 py-3.5 rounded-xl bg-green-500 text-white font-black text-base hover:scale-[1.02] transition-all duration-300 w-full sm:w-auto text-center"
             >
               <FaWhatsapp className="text-3xl text-white" />
               WhatsApp

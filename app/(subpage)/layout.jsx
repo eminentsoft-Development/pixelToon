@@ -6,6 +6,7 @@ import ScrollUp from "@/components/Common/ScrollUp";
 import Footer from "@/components/site/footer";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import Script from "next/script";
+import FloatingContact from "@/components/site/FloatingContact";
 
 export const metadata = {
   verification: {
@@ -123,6 +124,7 @@ export default async function SiteLayout({ children }) {
       </Suspense>
       <main>{children}</main>
       <Footer courses={courses} />
+      <FloatingContact />
       <Toaster
         position="top-center"
         richColors

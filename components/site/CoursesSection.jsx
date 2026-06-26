@@ -7,7 +7,7 @@ import { ServiceEnquiry } from "./EnquiryPopup";
 
 const courses = [
   {
-    title: "Graphic Design Diploma",
+    title: "Graphic Design",
     description:
       "Brand identities, logo systems, marketing collateral, packaging designs, digital illustrations, and design systems that communicate powerfully.",
     skills: [
@@ -27,7 +27,7 @@ const courses = [
     ctaSecondary: "View Syllabus",
   },
   {
-    title: "Video Editing & videography Diploma",
+    title: "Video Editing & videography",
     description:
       "Professional cinematic videos, commercial content, social media videos, documentaries, YouTube content, and broadcast-quality productions.",
     skills: [
@@ -48,7 +48,7 @@ const courses = [
     ctaSecondary: "Watch Showreel",
   },
   {
-    title: "Animation & VFX Diploma",
+    title: "Animation & VFX",
     description:
       "3D characters, visual effects for films and advertising, character animations for games, motion graphics, and cinematic visual effects.",
     skills: [
