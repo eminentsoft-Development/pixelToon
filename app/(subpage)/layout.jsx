@@ -20,14 +20,14 @@ export default async function SiteLayout({ children }) {
     {
       id: 1,
       title: "Home",
-      path: "/",
+      path: "#",
       newTab: false,
       subMenu: false,
     },
     {
       id: 2,
       title: "About",
-      path: "/about-us",
+      path: "#",
       newTab: false,
       subMenu: false,
     },
@@ -45,7 +45,7 @@ export default async function SiteLayout({ children }) {
       title: "Gallery",
       path: "",
       newTab: false,
-      subMenu: true,
+      subMenu: false,
       subMenuType: "normal",
       children: [
         {
@@ -69,21 +69,21 @@ export default async function SiteLayout({ children }) {
     {
       id: 5,
       title: "Blogs",
-      path: "/blog",
+      path: "#",
       newTab: false,
       subMenu: false,
     },
     {
       id: 6,
       title: "Success Stories",
-      path: "/success-stories",
+      path: "#",
       newTab: false,
       subMenu: false,
     },
     {
       id: 7,
       title: "Contact",
-      path: "/contact-us",
+      path: "#",
       newTab: false,
       subMenu: false,
     },

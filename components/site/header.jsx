@@ -24,79 +24,8 @@ import { MegaDropdown } from "../Common/MegaDropdown";
 import Dropdown from "../Common/Dropdown";
 import { AnimatePresence, motion } from "framer-motion";
 
-const Navbar = ({ courses }) => {
-  const NavbarmenuData = [
-    {
-      id: 1,
-      title: "Home",
-      path: "/",
-      newTab: false,
-      subMenu: false,
-    },
-    {
-      id: 2,
-      title: "About",
-      path: "/about-us",
-      newTab: false,
-      subMenu: false,
-    },
-    {
-      id: 3,
-      title: "Courses",
-      path: "/courses",
-      newTab: false,
-      subMenu: true,
-      subMenuType: "mega",
-      children: courses,
-    },
-    {
-      id: 4,
-      title: "Gallery",
-      path: "",
-      newTab: false,
-      subMenu: true,
-      subMenuType: "normal",
-      children: [
-        {
-          title: "Students Work",
-          path: "/gallery",
-        },
-        {
-          title: "Video Gallery",
-          path: "/video-gallery",
-        },
-        {
-          title: "Student Life & Events",
-          path: "/studentslife",
-        },
-        {
-          title: "Latest Events",
-          path: "/latest-events-new",
-        },
-      ],
-    },
-    {
-      id: 5,
-      title: "Blogs",
-      path: "/blog",
-      newTab: false,
-      subMenu: false,
-    },
-    {
-      id: 6,
-      title: "Success Stories",
-      path: "/success-stories",
-      newTab: false,
-      subMenu: false,
-    },
-    {
-      id: 7,
-      title: "Contact",
-      path: "/contact-us",
-      newTab: false,
-      subMenu: false,
-    },
-  ];
+const Navbar = ({ NavbarmenuData }) => {
+  
   const currentPath = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
