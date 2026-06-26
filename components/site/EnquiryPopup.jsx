@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -32,9 +32,16 @@ const formSchema = z.object({
   message: z.string().optional(),
 });
 
-export function ServiceEnquiry({ btnName, classname }) {
+export function ServiceEnquiry({ btnName, classname, autoOpen = false }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    if (autoOpen) {
+      const timer = setTimeout(() => setIsOpen(true), 500); 
+      return () => clearTimeout(timer);
+    }
+  }, [autoOpen]);
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -208,7 +215,7 @@ export function ServiceEnquiry({ btnName, classname }) {
                 >
                   {isSubmitting ? (
                     <>
-                      <Loader2 /> Submiting...
+                      <Loader2 className="animate-spin mr-2" /> Submiting...
                     </>
                   ) : (
                     "Submit Enquiry"
