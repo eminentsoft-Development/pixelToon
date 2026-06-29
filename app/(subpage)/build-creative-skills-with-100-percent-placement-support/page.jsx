@@ -296,7 +296,7 @@ export default async function CreativeHero() {
             </div>
             <div className="flex flex-col md:flex-row gap-3">
               <ServiceEnquiry
-                btnName={"Enquire Now"}
+                btnName={"Make An Enquiry"}
                 serviceName={"course.title"}
                 classname={
                   "hover:bg-[#BC430D] bg-gray-900 px-16 py-4 rounded-xl text-white font-bold transition-colors text-base"
@@ -313,58 +313,7 @@ export default async function CreativeHero() {
               </Link>
             </div>
 
-            {/* <div className="space-y-8 pt-4">
-              <div className="flex gap-4 group">
-                <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-white border border-gray-200 shadow-sm flex items-center justify-center text-[#F09410] group-hover:bg-[#F09410] group-hover:text-white group-hover:border-[#F09410] transition-all duration-300">
-                  <GraduationCap className="w-6 h-6" />
-                </div>
-                <div>
-                  <h4 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-[#F09410] transition-colors">
-                    Learn From Industry Veterans
-                  </h4>
-                  <p className="text-gray-600 text-sm font-medium leading-relaxed">
-                    Our faculty aren&apos;t just instructors—they&apos;re
-                    seasoned professionals with decades of combined experience.
-                    They&apos;ve worked on Hollywood productions, AAA game
-                    titles, and award-winning Indian films and web series.
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex gap-4 group">
-                <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-white border border-gray-200 shadow-sm flex items-center justify-center text-[#F09410] group-hover:bg-[#F09410] group-hover:text-white group-hover:border-[#F09410] transition-all duration-300">
-                  <MonitorPlay className="w-6 h-6" />
-                </div>
-                <div>
-                  <h4 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-[#F09410] transition-colors">
-                    Train on Professional Equipment
-                  </h4>
-                  <p className="text-gray-600 text-sm font-medium leading-relaxed">
-                    Learn on the same advanced rendering systems, compositing
-                    stations, and editing bays that professional studios use.
-                    Our labs have the latest software and hardware systems that
-                    mimic the actual studio environment.
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex gap-4 group">
-                <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-white border border-gray-200 shadow-sm flex items-center justify-center text-[#F09410] group-hover:bg-[#F09410] group-hover:text-white group-hover:border-[#F09410] transition-all duration-300">
-                  <BriefcaseBusiness className="w-6 h-6" />
-                </div>
-                <div>
-                  <h4 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-[#F09410] transition-colors">
-                    Learn by Creating Real Projects
-                  </h4>
-                  <p className="text-gray-600 text-sm font-medium leading-relaxed">
-                    Forget theory-heavy lectures. You&apos;ll work on live
-                    briefs, deadline-driven projects, and portfolio pieces from
-                    day one. Build a professional portfolio while still
-                    training.
-                  </p>
-                </div>
-              </div>
-            </div> */}
+         
           </div>
         </div>
         <ScrollReveal delay={300} direction="up">
@@ -690,7 +639,7 @@ export default async function CreativeHero() {
           {/* Right Content - Buttons */}
           <div className="flex flex-col sm:flex-row items-center justify-center xl:justify-end gap-3 w-full xl:w-auto shrink-0">
             <ServiceEnquiry
-              btnName={"Apply for Admissions"}
+              btnName={"Schedule Free Counseling"}
               serviceName=""
               classname={
                 "px-8 py-4 rounded-xl bg-white text-[#F09410] font-bold text-base hover:bg-gray-50 hover:shadow-lg hover:scale-[1.02] transition-all duration-300 w-full sm:w-auto text-center"

@@ -162,7 +162,7 @@ const CourseCard = ({ course }) => {
         </button>
 
         <ServiceEnquiry
-          btnName={course.ctaPrimary}
+          btnName={"Make An Enquiry"}
           serviceName={course.title}
           classname={
             "hover:bg-[#BC430D] bg-gray-900 w-full py-4 rounded-xl text-white font-bold transition-colors text-sm"

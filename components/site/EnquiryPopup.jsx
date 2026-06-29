@@ -90,7 +90,7 @@ export function ServiceEnquiry({ btnName, classname, autoOpen = false }) {
           {/* Left Section - Image */}
           <div className="hidden md:block md:w-2/5 relative min-h-[500px]">
             <Image
-              src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=900"
+              src="/subpage.jfif"
               alt="Creative studio environment"
               fill
               sizes="(max-width: 768px) 0px, 400px"
