@@ -38,7 +38,7 @@ export function ServiceEnquiry({ btnName, classname, autoOpen = false }) {
 
   useEffect(() => {
     if (autoOpen) {
-      const timer = setTimeout(() => setIsOpen(true), 500); 
+      const timer = setTimeout(() => setIsOpen(true), 500);
       return () => clearTimeout(timer);
     }
   }, [autoOpen]);
@@ -61,8 +61,15 @@ export function ServiceEnquiry({ btnName, classname, autoOpen = false }) {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to submit");
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to submit");
       }
+
+      // Track successful submission
+      window.dataLayer?.push({
+        event: "form_submission",
+        form_name: "Enquiry Form",
+      });
 
       toast.success("Message sent successfully!");
 

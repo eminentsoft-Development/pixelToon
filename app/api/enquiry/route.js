@@ -3,6 +3,17 @@ import nodemailer from "nodemailer";
 
 export async function POST(request) {
   try {
+    const region = request.headers.get("x-vercel-ip-country-region");
+
+    if (region !== "KL") {
+      return new Response(
+        JSON.stringify({ error: "Service only available in Kerala." }),
+        {
+          status: 403,
+        },
+      );
+    }
+
     const body = await request.json();
     const { name, phone, email, message } = body;
 
