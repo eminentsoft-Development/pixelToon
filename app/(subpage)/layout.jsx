@@ -150,8 +150,9 @@ export default async function SiteLayout({ children }) {
       <AutoPopup />
       <Toaster
         position="top-center"
+        className="success-toast"
         richColors
-        toastOptions={{ duration: 5000 }}
+        toastOptions={{ duration: 7000 }}
       />
       {/* 2. Add Google Analytics here */}
       <GoogleAnalytics gaId="G-EF6RNWLDEK" />
