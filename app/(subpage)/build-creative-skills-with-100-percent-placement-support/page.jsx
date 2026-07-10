@@ -27,6 +27,12 @@ export const metadata = {
     canonical:
       "https://www.pixeltoonzacademy.com/build-creative-skills-with-100-percent-placement-support",
   },
+
+  icons: {
+    icon: [{ url: "/favicon.ico", sizes: "any" }],
+    shortcut: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
+  },
 };
 
 export default async function CreativeHero() {
@@ -312,8 +318,6 @@ export default async function CreativeHero() {
                 WhatsApp
               </Link>
             </div>
-
-         
           </div>
         </div>
         <ScrollReveal delay={300} direction="up">

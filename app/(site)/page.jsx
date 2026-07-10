@@ -20,17 +20,22 @@ export async function generateMetadata() {
     alternates: {
       canonical: "https://pixeltoonzacademy.com",
     },
+
+    icons: {
+      icon: [{ url: "/favicon.ico", sizes: "any" }],
+      shortcut: "/favicon.ico",
+      apple: "/apple-touch-icon.png",
+    },
   };
 }
 
 const Home = async () => {
   // Parallel data fetching for maximum speed
-  const [{ blogs }, { courses }, courseList ] = await Promise.all([
+  const [{ blogs }, { courses }, courseList] = await Promise.all([
     getBlogs(1, 9),
     getFullCourses(1, 12),
     getCoursesForSelect(),
   ]);
-
 
   return (
     <>
