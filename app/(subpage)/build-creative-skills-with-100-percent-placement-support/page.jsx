@@ -36,7 +36,8 @@ export const metadata = {
 };
 
 export default async function CreativeHero() {
-  const courseList = await getCoursesForSelect(1, 12);
+  // const [courseList, courses] = await promise.all([getCoursesForSelect(1, 12), getCoursesForSelect(),]);
+  const courseList = await getCoursesForSelect();
 
   return (
     <>

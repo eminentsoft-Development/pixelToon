@@ -168,7 +168,7 @@ const HeroSection = () => {
             >
               <div className="relative w-full h-full rounded-[35px] overflow-hidden bg-black">
                 <Image
-                  src="/home/floating-img-1.webp"
+                  src="/home/card3.png"
                   alt="Creative Media Production"
                   fill
                   priority
